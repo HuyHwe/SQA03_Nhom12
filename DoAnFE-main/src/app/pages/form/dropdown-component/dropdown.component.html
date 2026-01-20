@@ -1,0 +1,10 @@
+<div class="dropdown-wrapper" clickOutside (clickOutSide)="clickOutside()">
+    <div class="list-items global-text color-light-dart-1" id="style-nice-scroll">
+        <ul class="global-text" *ngIf="isDropdown">
+            <li class="item cursor-pointer" *ngFor="let item of items" (click)="onSelected(item)">
+                <i class="{{item.class_icon}}"></i>
+                <span class="global-text-medium-size color-light-dart-1">{{item.val}}</span>
+            </li>
+        </ul>
+    </div>
+</div>

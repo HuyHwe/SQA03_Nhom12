@@ -1,0 +1,49 @@
+/* KHÓA SCROLL TOÀN TRANG */
+:host {
+  display: block;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* CONTAINER CHÍNH */
+.management-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER CỐ ĐỊNH */
+.header-up-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #fff;
+  flex-shrink: 0;
+}
+
+/* BODY */
+.management-body {
+  flex: 1;
+  overflow: hidden; // ❌ không cho body scroll
+}
+
+/* MAIN WRAPPER */
+.management-container-main {
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+}
+
+/* SIDEBAR */
+.management-container-left {
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+/* CONTENT PHẢI – CHỈ NƠI NÀY SCROLL */
+.management-container-right {
+  flex: 1;
+  overflow-y: auto;   // ✅ SCROLL Ở ĐÂY
+  overflow-x: hidden;
+  padding-right: 8px;
+}

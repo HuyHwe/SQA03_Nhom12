@@ -1,0 +1,19 @@
+# Maven build container
+FROM maven:3.8.6-openjdk-11 AS maven_build
+WORKDIR /tmp/
+
+COPY /utils-service/src /tmp/utils-service/src
+COPY /utils-service/pom.xml /tmp/utils-service
+RUN mvn -f /tmp/utils-service/pom.xml clean install -Dmaven.test.skip=true
+
+COPY /configuration-service/src /tmp/configuration-service/src
+COPY /configuration-service/pom.xml /tmp/configuration-service
+RUN mvn -f /tmp/configuration-service/pom.xml clean package install:install-file -Dfile=/tmp/utils-service/target/utils-service-0.0.1-SNAPSHOT.jar -DgroupId=com.jober -DartifactId=utils-service -Dversion=0.0.1-SNAPSHOT -Dpackaging=jar -DgeneratePom=true -Dmaven.test.skip=true
+
+#pull base image
+FROM eclipse-temurin:11-jre-alpine
+COPY --from=maven_build /tmp/configuration-service/target/*.jar /app.jar
+EXPOSE 2007
+ENV JAVA_OPTS="-Xms3072m -Xmx4096m -XX:PermSize=512m -XX:MaxPermSize=1024m"
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -Dlog4j2.formatMsgNoLookups=true -jar /app.jar" ]
+

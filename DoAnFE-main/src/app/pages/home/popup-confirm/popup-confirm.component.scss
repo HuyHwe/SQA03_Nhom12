@@ -1,0 +1,34 @@
+.popup-container .modal-inner {
+  width: 25%;
+  height: auto;
+		@media (max-width: 900px){
+		width: 40%;
+		height: 40%;
+	}
+	@media (max-width: 500px){
+		width: 80% !important;
+		height: 40% !important;
+	}
+}
+.center-pos {
+  top: 30%;
+}
+.rounded-top {
+  border-radius: 10px 10px 0px 0px;
+}
+ 
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #eee;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gray);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gray);
+}

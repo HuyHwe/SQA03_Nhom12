@@ -1,0 +1,71 @@
+.page-top {
+    position: fixed;
+    z-index: 1;
+    //z-index: 904;
+    // height: 182px;
+    height: auto;
+    width: 100%;
+    min-width: 320px;
+}
+/* Mobile & tablet */
+@media (max-width: 1023px) {
+    .hide-on-mobile-tablet {
+        display: none;
+    }
+}
+
+/* Tablet */
+@media (min-width: 740px) and (max-width: 1023px) {
+    .hide-on-tablet {
+        display: none;
+    }
+}
+
+/* Mobile */
+@media (max-width: 739px) {
+    .hide-on-mobile {
+        display: none;
+    }
+}
+
+@media (max-width: 992px) {
+    .hide-on-mobile {
+        display: none;
+    }
+}
+:host {
+  --topcv-green: #00b14f;
+}
+
+/* ================= HEADER MENU HOVER ================= */
+
+/* Link thường */
+:host ::ng-deep .header-menu a:hover {
+  color: var(--topcv-green) !important;
+}
+
+/* Button dạng menu (Công cụ) */
+:host ::ng-deep .header-menu button:hover {
+  background-color: transparent !important;   /* ❗ QUAN TRỌNG */
+  color: var(--topcv-green) !important;
+}
+
+/* Icon mũi tên */
+:host ::ng-deep .header-menu button:hover svg,
+:host ::ng-deep .header-menu button:hover img {
+  filter: brightness(0) saturate(100%)
+    invert(43%) sepia(88%) saturate(406%)
+    hue-rotate(101deg) brightness(96%) contrast(92%);
+}
+
+/* Active link */
+:host ::ng-deep .header-menu .active-link {
+  color: var(--topcv-green) !important;
+  border-bottom: 2px solid var(--topcv-green);
+}
+
+/* ❌ TẮT toàn bộ hover background mặc định của Tailwind */
+:host ::ng-deep .header-menu button:hover,
+:host ::ng-deep .header-menu a:hover {
+  background: transparent !important;
+}

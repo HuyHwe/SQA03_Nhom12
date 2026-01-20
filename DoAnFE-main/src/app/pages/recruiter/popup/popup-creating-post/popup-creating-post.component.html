@@ -1,0 +1,22 @@
+<div class="popup-container" id="popup-creating-post">
+  <div class="modal-inner center-pos row">
+    <div class="modal">
+      <div class="inline-flex flex-col items-end gap-3 rounded-xl bg-white">
+        <div class="flex justify-end items-center px-3 py-2 gap-5 self-stretch"
+             style="background: var(--blue-text); border: 8px 8px 0px 0px;">
+          <div class="flex items-center gap-28 flex-1">
+            <div class="flex items-center gap-5">
+							<span class="font-body text-xl font-semibold not-italic" style="color: var(--white);">{{
+                "postRecruitmentLbl" | translate }}</span>
+            </div>
+          </div>
+          <button (click)="closePopup()"><img src="../../../../../assets/icons/close.svg" alt="icon-close">
+          </button>
+        </div>
+        <div class="flex justify-center w-full" *ngIf="freelancerId">
+          <app-recruitment-detail [jobDefaultId]="jobDefaultId" [isEditMode]="true" (validate)="afterCreateJobDone()"></app-recruitment-detail>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

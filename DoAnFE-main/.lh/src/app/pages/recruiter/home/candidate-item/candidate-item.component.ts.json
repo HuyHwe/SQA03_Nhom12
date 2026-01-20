@@ -1,0 +1,26 @@
+{
+    "sourceFile": "src/app/pages/recruiter/home/candidate-item/candidate-item.component.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1755575558445,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1755575900209,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,8 +37,11 @@\n     }\r\n     if(this.item.avatar) {\r\n       this.avatarUrl = `${this.item.avatar}`;\r\n     }\r\n+    else{\r\n+      this.avatarUrl = `${this.CDN_URI}/default-avatar.png`; \r\n+    }\r\n   }\r\n \r\n   workingType() {\r\n     let type = this.item.workingType ? this.item.workingType : 0;\r\n"
+                },
+                {
+                    "date": 1760410013577,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,9 +26,8 @@\n     if (!this.item) {\r\n       this.item = {\r\n         name: null,\r\n         province: null,\r\n-        district: null,\r\n         ward: null,\r\n         des: null,\r\n         workingType: null,\r\n         salary: null,\r\n"
+                }
+            ],
+            "date": 1755575558445,
+            "name": "Commit-0",
+            "content": "import {\r\n  Component,\r\n  OnInit,\r\n  Input,\r\n  Output,\r\n  EventEmitter,\r\n} from '@angular/core';\r\nimport { environment } from 'src/environments/environment';\r\n@Component({\r\n  selector: 'app-candidate-item',\r\n  templateUrl: './candidate-item.component.html',\r\n  styleUrls: ['./candidate-item.component.css'],\r\n})\r\nexport class CandidateItemComponent implements OnInit {\r\n  private readonly CDN_URI = `${environment.CDN_URI}`;\r\n  @Input() item: any;\r\n  @Output() viewDetail = new EventEmitter();\r\n  id = 1;\r\n  avatarUrl: string = \"../assets/icons/home.svg\";\r\n  constructor() {}\r\n  ngOnInit() {\r\n    this.id = this.item.id;\r\n    let date = new Date(this.item.expdate);\r\n    let dateString = String(date.getMonth() + 1).padStart(2, '0') + '/' + date.getFullYear();\r\n    this.item.expdate = dateString;\r\n    if (!this.item) {\r\n      this.item = {\r\n        name: null,\r\n        province: null,\r\n        district: null,\r\n        ward: null,\r\n        des: null,\r\n        workingType: null,\r\n        salary: null,\r\n        expDate: null,\r\n      };\r\n    }\r\n    if(this.item.avatar) {\r\n      this.avatarUrl = `${this.item.avatar}`;\r\n    }\r\n  }\r\n\r\n  workingType() {\r\n    let type = this.item.workingType ? this.item.workingType : 0;\r\n    if (type == 0) {\r\n    } else if (type == 0) {\r\n    }\r\n  }\r\n  viewDetailItem() {\r\n    this.viewDetail.emit(this.item);\r\n  }\r\n}\r\n"
+        }
+    ]
+}

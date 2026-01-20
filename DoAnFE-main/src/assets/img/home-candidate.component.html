@@ -1,0 +1,226 @@
+<div class="header-up-wrapper row">
+  <app-header-up></app-header-up>
+</div>
+<div class="rounded-bottom min-h-screen">
+  <div class="content font-common relative overflow-hidden pt-24">
+    <div
+      class="absolute w-[2300px] -z-10 h-[1005px] top-0 left-1/2 transform -translate-x-1/2 bg-light-pink rounded-b-full">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-7 col-xs-12 d-flex align-items-center justify-content-center">
+      <div>
+        <div class="position-relative">
+          <div>
+            <span class="text-6xl font-bold color-ink-text">Tìm việc <span
+                class="text-6xl font-bold text-link">KHÓ</span>
+            </span>
+          </div>
+          <div>
+            <span class="text-6xl font-bold color-light-orange-text">CÓ <span
+                class="text-6xl font-bold color-ink-text">FJob</span>
+            </span>
+          </div>
+          <img class="position-absolute question relative" src="../assets/icons/question-mark.svg" alt="slogan" />
+        </div>
+        <div class="searching-wrapper mt-4">
+          <form [formGroup]="searchForm">
+            <div *ngIf="isLoading; else searchContent" class="animate-pulse">
+              <div class="h-10 bg-gray-200 rounded w-full mb-2"></div>
+            </div>
+            <ng-template #searchContent>
+              <div
+                class="flex items-center border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 pr-2">
+                <div class="relative flex items-center">
+                  <app-selection class="block w-48 md:w-72 py-2 pl-1" [selectedItem]="selectedJob" [items]="jobsList"
+                    [pageMenu]="pageMenu" (onChangeSelected)="onSelectJob($event)"
+                    (refetchScrollMenu)="refetchScrollMenu($event)"></app-selection>
+                </div>
+                <div class="flex items-center ml-2">
+                  <div class="h-6 border-l border-gray-300 dark:border-gray-600"></div>
+                </div>
+                <div class="relative flex items-center">
+                  <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"></path>
+                      <circle cx="12" cy="9" r="2" fill="currentColor"></circle>
+                    </svg>
+                  </div>
+                  <app-selection-menu class="block w-32 md:w-48 py-2 pl-2 pr-2" [selectedItem]="selectedProvince"
+                    [items]="provinces" (onChangeSelected)="onProvinceSelected($event)"></app-selection-menu>
+                </div>
+                <button style="background-color: var(--blue-text);"
+                  class="rounded-lg flex py-2 px-4 items-center justify-center gap-2 text-white" (click)="onValidate()">
+                  <span class="items-center font-body font-semibold text-base text-white">
+                    <svg aria-hidden="true" class="w-5 h-5 text-white-500 dark:text-white-400" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                  </span>
+                </button>
+              </div>
+            </ng-template>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="jobDefaultSource">
+    <div class="mt-20">
+      <div class="flex justify-between items-center w-full max-w-[1200px] mx-auto">
+        <div class="flex-1 text-center">
+          <span class="font-body font-semibold text-4xl not-italic color-ink-text">Top ngành nghề nổi bật</span>
+        </div>
+        <div class="flex items-center gap-2 shrink-0 relative z-10">
+          <button type="button"
+            class="p-2 rounded-full border border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+            aria-label="Prev" (click)="onPrevCategory()" [disabled]="isCategoryPrevDisabled">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.5" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"></path>
+            </svg>
+          </button>
+          <span class="font-body font-semibold text-base">Trang {{ categoryRef.page + 1 }} / {{ categoryRef.totalPage
+            }}</span>
+          <button type="button"
+            class="p-2 rounded-full border border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+            aria-label="Next" (click)="onNextCategory()" [disabled]="isCategoryNextDisabled">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.5" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5 15.75 12l-7.5 7.5"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Gán template ref và truyền pageSize -->
+      <app-category #categoryRef="category" [dataSource]="jobDefaultSource" [pageSize]="10"></app-category>
+    </div>
+  </div>
+  <!-- <div *ngIf="authenticated">
+    <app-candidate-notification-chart></app-candidate-notification-chart>
+  </div> -->
+  <div class="mt-20">
+    <div class="flex justify-center">
+      <span class="font-body font-semibold text-4xl not-italic text-center justify-center text-black">{{
+        "suitableJobsLbl" | translate }}</span>
+    </div>
+    <div class="mt-14" *ngIf="dataSource; else loadingJobs">
+      <app-items-list #itemsListRef [dataSource]="dataSource" (changePage)="changePage($event)"
+        (onViewDetailItem)="showDetailItem($event)" (requestFill)="onRequestFill($event)"
+        [currentPage]="pageNum"></app-items-list>
+    </div>
+    <ng-template #loadingJobs>
+      <div class="animate-pulse">
+        <div class="h-20 bg-gray-200 rounded w-full mb-2"></div>
+        <div class="h-20 bg-gray-200 rounded w-full mb-2"></div>
+      </div>
+    </ng-template>
+  </div>
+  <!-- Section: Nhà tuyển dụng nổi bật -->
+  <div class="mt-20 featured-companies-section py-12" *ngIf="featuredCompanies && allCompanies">
+    <!-- Tiêu đề -->
+    <div class="text-center mb-12">
+      <h2 class="text-4xl font-bold text-blue-600 mb-2">Nhà tuyển dụng nổi bật</h2>
+    </div>
+
+    <!-- Hàng công ty TOP (hình chữ nhật) - 5 item tự động chuyển đổi -->
+    <div class="max-w-6xl mx-auto px-4 mb-12">
+      <div class="featured-companies-grid" [class.animate-slide]="isAnimating">
+        <div *ngFor="let company of featuredCompanies; let i = index" class="relative">
+          <div
+            class="top-company-card bg-white rounded-lg shadow-lg p-4 transition-all duration-500 ease-in-out cursor-pointer"
+            (click)="onCompanyClick(company)">
+            <!-- Logo công ty -->
+            <div class="flex flex-col items-center text-center">
+              <img [src]="company.avatar" [alt]="company.name" class="w-16 h-12 object-contain mb-3"
+                [ngClass]="{ 'stagger-up': i % 2 === 0, 'stagger-down': i % 2 !== 0 }"
+                (error)="onImageError($event, company)" />
+              <h3 class="font-semibold text-sm text-gray-800">{{ company.name }}</h3>
+              <p class="text-xs text-gray-500">{{ company.postCount }} việc làm</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Phần logo tròn chuyển động - rộng hết trang -->
+    <div class="full-width-marquee-wrapper">
+      <div class="full-width-marquee">
+        <!-- Tất cả công ty với logo tròn - kích cỡ to nhỏ xen lẫn -->
+        <div class="marquee-content" *ngFor="let company of allCompanies; let i = index">
+          <div class="company-logo-container cursor-pointer" [class]="getLogoSizeClass(i)"
+            (click)="onCompanyClick(company)">
+            <img [src]="company.avatar" [alt]="company.name" class="company-logo rounded-full"
+              [ngClass]="i % 2 === 0 ? 'stagger-up' : 'stagger-down'" (error)="onImageError($event, company)" />
+
+          </div>
+        </div>
+        <!-- Duplicate để tạo hiệu ứng lặp liên tục -->
+        <div class="marquee-content" *ngFor="let company of allCompanies; let i = index">
+          <div class="company-logo-container cursor-pointer" [class]="getLogoSizeClass(i)"
+            (click)="onCompanyClick(company)">
+            <img [src]="company.avatar" [alt]="company.name" class="company-logo rounded-full"
+              [ngClass]="i % 2 === 0 ? 'stagger-up' : 'stagger-down'" (error)="onImageError($event, company)" />
+
+          </div>
+        </div>
+        <!-- Thêm một lần nữa để đảm bảo không ngắt quãng -->
+        <div class="marquee-content" *ngFor="let company of allCompanies; let i = index">
+          <div class="company-logo-container cursor-pointer" [class]="getLogoSizeClass(i)"
+            (click)="onCompanyClick(company)">
+            <img [src]="company.avatar" [alt]="company.name" class="company-logo rounded-full"
+              [ngClass]="i % 2 === 0 ? 'stagger-up' : 'stagger-down'" (error)="onImageError($event, company)" />
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Market Overview Today Section -->
+    <div class="mt-20 bg-light-pink p-6 rounded-lg shadow-lg">
+      <h2 class="text-2xl font-bold mb-4">Thị trường việc làm hôm nay {{ today | date:'dd/MM/yyyy' }}</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Chart 1: Job Postings This Week -->
+        <div class="bg-white p-4 rounded-lg text-black">
+          <h3 class="text-lg font-semibold mb-2">Việc làm mẫu 24h gần nhất</h3>
+          <div class="h-64">
+            <canvas #jobPostingsChart></canvas>
+          </div>
+        </div>
+        <!-- Chart 2: Salary by Industry Today -->
+        <div class="bg-white p-4 rounded-lg text-black">
+          <h3 class="text-lg font-semibold mb-2">Nhiều tuyến đường theo</h3>
+          <div class="h-64">
+            <canvas #salaryByIndustryChart></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-between mt-4 text-sm">
+        <span>3.406 Việc làm mẫu 24h gần nhất</span>
+        <span>52.468 Việc làm tuyến</span>
+        <span>17.578 Công ty tuyến</span>
+      </div>
+    </div>
+    <!-- Blog Section -->
+    <div class="mt-20 p-6 bg-gray-100">
+      <h2 class="text-2xl font-bold mb-4">Tin tức việc làm 3 ngày gần đây</h2>
+      <p class="mb-4">Cập nhật thông tin mới nhất về thị trường việc làm trong 3 ngày qua.</p>
+      <div *ngFor="let article of articles">
+        <div class="mb-6 p-4 bg-white rounded-lg shadow">
+          <h3 class="text-xl font-semibold">{{ article.title }}</h3>
+          <p class="text-gray-600">{{ article.source }} | {{ article.publicationDate | date:'dd/MM/yyyy HH:mm' }}</p>
+          <p class="mt-2">{{ article.summary }}</p>
+          <a [href]="article.url" target="_blank" class="text-blue-500 mt-2 inline-block">Đọc thêm</a>
+        </div>
+      </div>
+      <div *ngIf="articles.length === 0" class="text-center text-gray-500">Không có bài viết nào trong 3 ngày qua.</div>
+    </div>
+  </div>
+  <app-popup-search #popupSearch (validate)="onSearchJob($event)"></app-popup-search>
+  <app-loading></app-loading>
+  <app-chatbot></app-chatbot>
+  <app-footer></app-footer>

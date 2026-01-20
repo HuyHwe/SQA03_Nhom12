@@ -1,0 +1,154 @@
+<app-header-up></app-header-up>
+
+<div class="min-h-screen bg-gradient-to-b from-stone-50 to-stone-100">
+  <div class="container mx-auto px-6 py-10">
+
+    <!-- Thanh tìm kiếm -->
+    <div class="bg-white p-6 rounded-2xl shadow-lg mb-10 border border-stone-200">
+      <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+        <div class="flex flex-col md:flex-row gap-4 items-center">
+          <div class="flex-1">
+            <input
+              type="text"
+              formControlName="searchKey"
+              placeholder="🔍 Nhập từ khóa tìm kiếm (VD: Sale, IT...)"
+              class="w-full p-3 border border-stone-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-stone-500 transition-all"
+            />
+          </div>
+          <div class="w-full md:w-52">
+            <app-selection-menu
+              [selectedItem]="selectedProvince"
+              [items]="provinces"
+              (onChangeSelected)="onProvinceSelected($event)"
+              key="code"
+              labelKey="name"
+              class="block w-full p-3 border border-stone-300 rounded-xl focus:ring-2 focus:ring-stone-500"
+            ></app-selection-menu>
+          </div>
+          <button
+            type="submit"
+            class="bg-gradient-to-r from-orange-600 to-amber-500 text-white px-6 py-3 rounded-xl flex items-center gap-2 shadow-md hover:shadow-xl hover:scale-105 transition-transform"
+          >
+            <svg
+              aria-hidden="true"
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              ></path>
+            </svg>
+            Tìm kiếm
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Bộ lọc -->
+    <div class="bg-white p-6 rounded-2xl shadow-md mb-10 border border-stone-200">
+      <h2 class="text-2xl font-semibold text-stone-700 mb-6">Bộ lọc tìm kiếm</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Bộ lọc lương -->
+        <div class="bg-stone-100 rounded-xl p-4 shadow-sm">
+          <label class="flex items-center gap-2 font-medium text-stone-700">
+            <input type="checkbox" [(ngModel)]="filterSalary" class="h-5 w-5 text-orange-600 rounded" />
+            Lọc theo lương
+          </label>
+          <div *ngIf="filterSalary" class="mt-3 space-y-2">
+            <input
+              type="number"
+              [(ngModel)]="minSalary"
+              placeholder="Lương tối thiểu (VNĐ)"
+              class="w-full p-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-orange-500"
+            />
+            <input
+              type="number"
+              [(ngModel)]="maxSalary"
+              placeholder="Lương tối đa (VNĐ)"
+              class="w-full p-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-orange-500"
+            />
+          </div>
+        </div>
+
+        <!-- Bộ lọc ngành nghề -->
+        <div class="bg-stone-100 rounded-xl p-4 shadow-sm">
+          <label class="flex items-center gap-2 font-medium text-stone-700">
+            <input type="checkbox" [(ngModel)]="filterJobDefault" class="h-5 w-5 text-orange-600 rounded" />
+            Lọc theo ngành nghề
+          </label>
+          <div *ngIf="filterJobDefault" class="mt-3">
+            <app-selection
+              [selectedItem]="selectedJob"
+              [items]="jobsList"
+              (onChangeSelected)="onSelectJob($event)"
+              class="block w-full p-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-orange-500"
+            ></app-selection>
+          </div>
+        </div>
+
+        <!-- Bộ lọc hình thức -->
+        <div class="bg-stone-100 rounded-xl p-4 shadow-sm">
+          <label class="flex items-center gap-2 font-medium text-stone-700">
+            <input type="checkbox" [(ngModel)]="filterWorkingType" class="h-5 w-5 text-orange-600 rounded" />
+            Hình thức làm việc
+          </label>
+          <div *ngIf="filterWorkingType" class="mt-3">
+            <select
+              [(ngModel)]="workingType"
+              class="w-full p-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-orange-500"
+            >
+              <option [value]="null" disabled>Chọn hình thức</option>
+              <option [value]="0">Toàn thời gian</option>
+              <option [value]="1">Bán thời gian</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Bộ lọc kinh nghiệm -->
+        <div class="bg-stone-100 rounded-xl p-4 shadow-sm">
+          <label class="flex items-center gap-2 font-medium text-stone-700">
+            <input type="checkbox" [(ngModel)]="filterExperience" class="h-5 w-5 text-orange-600 rounded" />
+            Kinh nghiệm
+          </label>
+          <div *ngIf="filterExperience" class="mt-3">
+            <input
+              type="number"
+              [(ngModel)]="requiredExperienceLevel"
+              placeholder="Kinh nghiệm (năm)"
+              class="w-full p-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-orange-500"
+            />
+          </div>
+        </div>
+      </div> 
+    </div>
+
+    <!-- Kết quả tìm kiếm -->
+    <div *ngIf="isLoading" class="animate-pulse">
+      <div class="h-20 bg-stone-200 rounded-xl w-full mb-2"></div>
+    </div>
+    <div class="mt-14" *ngIf="dataSource; else loadingJobs"> 
+      <app-items-list
+        #itemsListRef
+        [dataSource]="dataSource"
+        (changePage)="changePage($event)"
+        (onViewDetailItem)="onViewDetailItem($event)"
+        (requestFill)="onRequestFill($event)"
+        [currentPage]="page"
+      ></app-items-list>
+     </div>
+    <ng-template #loadingJobs>
+      <div *ngIf="!isLoading" class="text-center text-stone-600 italic">
+        Không tìm thấy kết quả phù hợp.
+      </div>
+    </ng-template>
+
+  </div>
+</div>
+
+<app-footer></app-footer>

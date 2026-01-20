@@ -1,0 +1,26 @@
+{
+    "sourceFile": "src/app/model/User.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1760408709958,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1760408716802,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -73,9 +73,8 @@\n     this.country = country || 'Việt Nam';\r\n     this.nationality = nationality || 'Việt Nam';\r\n     this.experience = experience;\r\n     this.province = province || 'Hà Nội';\r\n-    this.district = district || 'Cầu Giấy';\r\n     this.ward = ward || 'Dịch Vọng Hậu';\r\n     this.recruiterRate = recruiterRate;\r\n   }\r\n }\r\n"
+                },
+                {
+                    "date": 1760408722465,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -73,9 +73,9 @@\n     this.country = country || 'Việt Nam';\r\n     this.nationality = nationality || 'Việt Nam';\r\n     this.experience = experience;\r\n     this.province = province || 'Hà Nội';\r\n-    this.ward = ward || 'Dịch Vọng Hậu';\r\n+    this.ward = ward || 'Hoàn Kiếm';\r\n     this.recruiterRate = recruiterRate;\r\n   }\r\n }\r\n \r\n"
+                }
+            ],
+            "date": 1760408709958,
+            "name": "Commit-0",
+            "content": "export class User {\r\n  address?: string;\r\n  phone?: string;\r\n  name?: string;\r\n  email?: string;\r\n  job?: string;\r\n  birthyear?: string;\r\n  des?: string;\r\n  salary?: string;\r\n  cv?: string;\r\n  img?: string;\r\n  lat?: number;\r\n  lg?: number;\r\n  gender?: string;\r\n  role?: string;\r\n  introPhone?: string;\r\n  jobTarget?: string;\r\n  avatar?: string;\r\n  country?: string = 'Việt Nam';\r\n  nationality?: string = 'Việt Nam';\r\n  experience?: string;\r\n  province?: string = 'Hà Nội';\r\n  ward?: string = 'Hoàn Kiếm';\r\n  recruiterRate?: any\r\n  constructor(address: string = '',\r\n              phone: string = '',\r\n              name: string = '',\r\n              email: string = '',\r\n              job: string = '',\r\n              birthyear: string = '',\r\n              des: string = '',\r\n              salary: string = '',\r\n              cv: string = '',\r\n              img: string = '',\r\n              lat: number = 21,\r\n              lg: number = 106,\r\n              gender: string = '',\r\n              role: string = '',\r\n              introPhone: string = '',\r\n              jobTarget: string = '',\r\n              avatar: string = '',\r\n              country: string = '',\r\n              nationality: string = '',\r\n              experience: string = '',\r\n              province: string = 'Hà Nội',\r\n              ward: string = 'Hoàn Kiếm',\r\n              recruiterRate = {\r\n                totalCount: 0,\r\n                averageRating: 0,\r\n                rating1Star: 0,\r\n                rating2Star: 0,\r\n                rating3Star: 0,\r\n                rating4Star: 0,\r\n                rating5Star: 0\r\n              }) {\r\n    this.address = address;\r\n    this.phone = phone;\r\n    this.name = name;\r\n    this.email = email;\r\n    this.job = job;\r\n    this.birthyear = birthyear;\r\n    this.des = des;\r\n    this.salary = salary;\r\n    this.cv = cv;\r\n    this.img = img;\r\n    this.lat = lat;\r\n    this.lg = lg;\r\n    this.gender = gender;\r\n    this.role = role;\r\n    this.introPhone = introPhone;\r\n    this.jobTarget = jobTarget;\r\n    this.avatar = avatar;\r\n    this.country = country || 'Việt Nam';\r\n    this.nationality = nationality || 'Việt Nam';\r\n    this.experience = experience;\r\n    this.province = province || 'Hà Nội';\r\n    this.district = district || 'Cầu Giấy';\r\n    this.ward = ward || 'Dịch Vọng Hậu';\r\n    this.recruiterRate = recruiterRate;\r\n  }\r\n}\r\n\r\n"
+        }
+    ]
+}

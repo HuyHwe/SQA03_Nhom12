@@ -1,0 +1,214 @@
+#version: '3.9'
+#
+#networks:
+#  my-networks:
+#    driver: bridge
+#services:
+#  discovery-server:
+#    image: discovery-server
+#    container_name: discovery-server-container
+#    build:
+#      context: discovery-server
+#      dockerfile: ./Dockerfile
+#    environment:
+#      EUREKA_PORT: '1001'
+#      PORT: '1001'
+#    ports:
+#      - '1001:1001'
+#    networks:
+#      my-networks:
+#        aliases:
+#          - 'discovery-server'
+#  api-gateway:
+#    image: api-gateway
+#    container_name: api-gateway-container
+#    build:
+#      context: api-gateway
+#      dockerfile: ./Dockerfile
+#    environment:
+#      EUREKA_URL: discovery-server
+#      DOMAIN_FE: https://test1.jober.com.vn/
+#      EUREKA_PORT: '1001'
+#      PORT: '1000'
+#    depends_on:
+#      - discovery-server
+#    restart: on-failure
+#    ports:
+#      - '1000:1000'
+#    networks:
+#      - my-networks
+#  authorization-server:
+#    image: authorization-server
+#    container_name: authorization-server-container
+#    build:
+#      context: authorization-server
+#      dockerfile: ./Dockerfile
+#    environment:
+#      EUREKA_URL: discovery-server
+#      EUREKA_PORT: '1001'
+#      PORT: '1004'
+#      DB_HOST: postgres106
+#      DB_PORT: 5432
+#      DB_NAME: jober_prod
+#      DB_USER: admin
+#      DB_PASS: juile2022
+#    depends_on:
+#      - discovery-server
+#    restart: on-failure
+#    ports:
+#      - '1004:1004'
+#    networks:
+#      my-networks:
+#        aliases:
+#          - 'authorization-server'
+#  user-service:
+#    image: user-service
+#    container_name: user-service-container
+#    build:
+#      context: .
+#      dockerfile: ./Dockerfile-user
+#    environment:
+#      REDIS_HOST: 113.177.27.200
+#      REDIS_PORT: 6379
+#      REDIS_PASS: julie2022
+#      EUREKA_URL: discovery-server
+#      AUTH_URL: authorization-server-container
+#      PAYMENT_URL: payment-service-container
+#      SEARCH_URL: search-service-container
+#      EUREKA_PORT: '1001'
+#      AUTH_PORT: '1004'
+#      GATEWAY_PORT: '1000'
+#      PORT: '1005'
+#      PAYMENT_SERVICE_PORT: '1006'
+#      SEARCH_SERVICE_PORT: '1002'
+#      FE_DOMAIN: https://jober.com.vn
+#      REDIRECT_URI: https://api.jober.com.vn/login/oauth2/code/google
+#      DB_HOST: postgres106
+#      DB_PORT: 5432
+#      DB_NAME: jober_prod
+#      DB_USER: admin
+#      DB_PASS: juile2022
+#      FILE_PATH: /tmp/files/
+#    depends_on:
+#      - discovery-server
+#      - authorization-server
+#      # - utils-service
+#    restart: on-failure
+#    ports:
+#      - '1005:1005'
+#    networks:
+#      - my-networks
+#    volumes:
+#      - /home/tony/data/jober_v2/file:/tmp/files
+#  search-service:
+#    image: search-service
+#    container_name: search-service-container
+#    build:
+#      context: .
+#      dockerfile: ./Dockerfile-search
+#    environment:
+#      REDIS_HOST: 113.177.27.200
+#      REDIS_PORT: 6379
+#      REDIS_PASS: julie2022
+#      EUREKA_URL: discovery-server
+#      AUTH_URL: authorization-server-container
+#      BE_URL: https://api.jober.com.vn
+#      EUREKA_PORT: '1001'
+#      AUTH_PORT: '1004'
+#      GATEWAY_PORT: '1000'
+#      PORT: '1002'
+#      DB_HOST: postgres106
+#      DB_PORT: 5432
+#      DB_NAME: jober_prod
+#      DB_USER: admin
+#      DB_PASS: juile2022
+#    depends_on:
+#      - discovery-server
+#      - authorization-server
+#      #  - utils-service
+#    restart: on-failure
+#    ports:
+#      - '1002:1002'
+#    networks:
+#      - my-networks
+#
+#  payment-service:
+#    image: payment-service
+#    container_name: payment-service-container
+#    build:
+#      context: .
+#      dockerfile: ./Dockerfile-payment
+#    environment:
+#      REDIS_HOST: 113.177.27.200
+#      REDIS_PORT: 6379
+#      REDIS_PASS: julie2022
+#      EUREKA_URL: discovery-server
+#      AUTH_URL: authorization-server-container
+#      USER_URL: user-service-container
+#      AUTH_PORT: '1004'
+#      GATEWAY_PORT: '1000'
+#      EUREKA_PORT: '1001'
+#      USER_SERVICE_PORT: '1005'
+#      PORT: '1006'
+#      FE_DOMAIN: https://api.jober.com.vn
+#      DB_HOST: postgres106
+#      DB_PORT: 5432
+#      DB_NAME: jober_prod
+#      DB_USER: admin
+#      DB_PASS: juile2022
+#    depends_on:
+#      - discovery-server
+#      - authorization-server
+#    restart: on-failure
+#    ports:
+#      - '1006:1006'
+#    networks:
+#      - my-networks
+#  configuration-service:
+#    image: configuration-service
+#    container_name: configuration-service-container
+#    build:
+#      context: .
+#      dockerfile: ./Dockerfile-configuration
+#    environment:
+#      REDIS_HOST: 113.177.27.200
+#      REDIS_PORT: 6379
+#      REDIS_PASS: julie2022
+#      EUREKA_URL: discovery-server
+#      AUTH_URL: authorization-server-container
+#      EUREKA_PORT: '1001'
+#      AUTH_PORT: '1004'
+#      GATEWAY_PORT: '1000'
+#      PORT: '1007'
+#      DB_HOST: postgres106
+#      DB_PORT: 5432
+#      DB_NAME: jober_prod
+#      DB_USER: admin
+#      DB_PASS: juile2022
+#    depends_on:
+#      - discovery-server
+#      - authorization-server
+#    restart: on-failure
+#    ports:
+#      - '1007:1007'
+#    networks:
+#      - my-networks
+##  utils-service:
+##    image: utils-service
+##    container_name: utils-service-container
+##    build:
+##      context: .
+##      dockerfile: ./Dockerfile-payment
+##    environment:
+##      EUREKA_URL: discovery-server
+##      AUTH_URL: authorization-server-container
+##      EUREKA_PORT: '1001'
+##      PORT: '1006'
+##    depends_on:
+##      - discovery-server
+##      - authorization-server
+##    restart: on-failure
+##    ports:
+##      - '1006:1006'
+##    networks:
+##      - my-networks

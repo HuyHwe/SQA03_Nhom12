@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/app/model/Schedule.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1760408677473,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1760408677473,
+            "name": "Commit-0",
+            "content": "export class Schedule {\r\n  scheduleId: number;\r\n  freelancerId: number;\r\n  jobId: number;\r\n  name: string;\r\n  salary: number;\r\n  creationDate: Date;\r\n  interviewDate: Date;\r\n  startDate: Date;\r\n  endDate: Date;\r\n  topic: string;\r\n  des: string;\r\n  province: string;\r\n  ward: string;\r\n  interviewStartTime: Date;\r\n  interviewEndTime: Date;\r\n  type: number;\r\n  address: string;\r\n  meetingId: string;\r\n  passcode: string;\r\n  linkzoom: string;\r\n  constructor(\r\n    scheduleId: number = 0,\r\n    freelancerId: number = 0,\r\n    jobId: number = 0,\r\n    name: string = '',\r\n    salary: number = 0,\r\n    creationDate: Date = new Date(),\r\n    interviewDate: Date = new Date(),\r\n    startDate: Date = new Date(),\r\n    endDate: Date = new Date(),\r\n    topic: string = '',\r\n    province: string = '',\r\n    ward: string = '',\r\n    interviewStartTime: Date = new Date(),\r\n    interviewEndTime: Date = new Date(),\r\n  ) {\r\n    this.scheduleId = scheduleId;\r\n    this.freelancerId = freelancerId;\r\n    this.jobId = jobId;\r\n    this.name = name;\r\n    this.salary = salary;\r\n    this.startDate = startDate;\r\n    this.endDate = endDate;\r\n    this.topic = topic;\r\n    this.creationDate = creationDate;\r\n    this.interviewDate = interviewDate;\r\n    this.province = province;\r\n    this.ward = ward;\r\n    this.interviewStartTime = interviewStartTime;\r\n    this.interviewEndTime = interviewEndTime;\r\n  }\r\n}\r\n"
+        }
+    ]
+}

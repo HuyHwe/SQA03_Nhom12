@@ -1,0 +1,70 @@
+.selection-wrapper {
+    height: 100%;
+  }
+  .form-select {
+    width: 100%;
+    /* padding: 8px; */
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+  }
+
+  .dropdown-list {
+    max-height: 200px; /* Adjust the maximum height as needed */
+    overflow-y: auto; /* Enable vertical scrollbar when the list exceeds the maximum height */
+    list-style: none; /* Remove default list styles */
+    padding: 0; /* Remove default padding */
+    margin: 4px 0 0; /* Remove default margin */
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    border: 1px solid #ccc; /* Add a border for a dropdown-like appearance */
+    background-color: #fff; /* Set background color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+    border-radius: 8px;
+  }
+
+  .dropdown-list li {
+    padding: 8px;
+    cursor: pointer;
+  }
+
+  .dropdown-list li:hover {
+    background-color: #f5f5f5; /* Change background color on hover */
+  }
+  /* Style the scrollbar */
+  .dropdown-list::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .dropdown-list::-webkit-scrollbar-thumb {
+    background-color: #888; /* Change color of the thumb */
+    border-radius: 5px; /* Add border-radius for rounded thumb */
+  }
+
+  .dropdown-list::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Change color of the track */
+    border-radius: 5px; /* Add border-radius for rounded track */
+  }
+  .selected-form{
+    background-image: none;
+  }
+  .clear-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 10px; /* Adjust the width as needed */
+    height: 10px; /* Adjust the height as needed */
+    background-image: url('data:image/svg+xml,<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 1L1 9M1 1L9 9" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+    background-size: contain; /* Adjust the size as needed */
+    background-repeat: no-repeat;
+}

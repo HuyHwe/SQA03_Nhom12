@@ -1,0 +1,410 @@
+<app-toast #appToast [messageCode]="messageCode"></app-toast>
+<div *ngIf="!showCVManagePage" class="user-detail-wrapper">
+	<div class="">
+		<div class="hidden lg:flex flex-row justify-between items-center py-4 px-3 gap-5 bg-white rounded-xl w-full"
+			style="box-shadow: 0 5px 6px rgba(0, 89, 255, 0.25);">
+			<p class="font-body not-italic font-semibold text-2xl text-black">{{"myProfileLbl" | translate }}</p>
+
+			<div class="flex flex-row items-start gap-5">
+				<button *ngIf="role!=recruiterRole" (click)="openPopupJobFinding()"
+					class="flex flex-col justify-center items-center gap-2 rounded-lg"
+					style="border: 1px solid #5B91FB;">
+					<p class="flex items-center text-center font-body not-italic font-semibold text-xs px-4 py-2"
+						style="color: #3276FA;">{{"postSearchLbl" | translate }}</p>
+				</button>
+				<button (click)="openPopupUpgradeAccount()"
+					class="flex flex-row justify-center items-center gap-2 rounded-lg" style="background: #E99200;">
+					<img src="../../../../assets/icons/premium.svg" class="flex items-center justify-center ml-4 -mr-5">
+					<p class="flex items-center text-center font-body not-italic font-semibold text-xs px-4 py-2"
+						style="color: #FFF;">{{"upgradeProfileLbl" | translate }}</p>
+				</button>
+			</div>
+
+		</div>
+		<div *ngIf="role == 1" class="mt-4">
+			<app-candidate-notification-chart></app-candidate-notification-chart>
+		</div>
+		<div *ngIf="role == 2" class="mt-4">
+			<app-job-notification-chart></app-job-notification-chart>
+		</div>
+		<!-- breadCrum moblie -->
+		<div class="md:hidden flex flex-row justify-between w-full mt-4 mb-4">
+			<div class="w-8/12 flex items-center">
+				<app-breadcrumb key="managerRecruiterHeaderLbl" link="/candidate/profile"></app-breadcrumb>
+			</div>
+
+			<div lass="relative md:block w-4/2">
+				<div class="relative md:block">
+					<div class="rounded-lg border border-gray-700 bg-white px-3 py-1 flex items-center cursor-pointer"
+						(click)="onOpenActionMobile()">
+						<span class="text-gray-700 text-xs font-medium">{{ 'action' | translate }}</span>
+						<img class="ml-1 w-4 h-4" src="../../../../../assets/icons/down.svg" alt="down" />
+					</div>
+					<!-- dropdown profile -->
+					<div class="z-50 absolute right-0 hidden w-40 mt-2 origin-top-right bg-white rounded-md shadow-lg"
+						[class.block]="isDropDownAction" [class.hidden]="!isDropDownAction">
+						<ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button-2">
+							<li>
+								<button type="button" (click)="openPopupChangePassword()"
+									class="inline-flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
+									role="menuitem">
+									<div class="inline-flex items-center">
+										{{ "changePassLbl" | translate }}
+									</div>
+								</button>
+							</li>
+			 				<li>
+								<button type="button" (click)="openPopupJobFinding()"
+									class="inline-flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
+									role="menuitem">
+									<div class="inline-flex items-center">
+										{{ "postSearchLbl" | translate }}
+									</div>
+								</button>
+							</li>
+						</ul>
+					</div>
+					<!-- dropdown profile -->
+
+				</div>
+			</div>
+
+		</div>
+
+		<!-- breadCrum moblie -->
+		<!-- avatar -->
+		<div class="flex flex-col items-start md:p-3 md:gap-10 bg-white rounded-xl  mt-2 md:-mt-9"
+			style="box-shadow: 0 5px 6px rgba(0, 89, 255, 0.25); border-radius: 12px;">
+			<div
+				class="flex flex-row md:justify-between justify-center items-start flex-wrap md:px-5 px-1 gap-10 w-full">
+				<div
+					class="flex md:flex-row flex-col justify-center items-center flex-wrap md:items-start gap-2 isolate ">
+					<div class="flex relative flex-col justify-center  items-center md:mt-0">
+						<img [src]="avatarUrl? avatarUrl: '../assets/icons/user.svg'" alt="Profile"
+							class="w-20 h-20 md:w-40 md:h-52 md:pb-3 rounded-full md:rounded-none">
+						<div *ngIf="isEditMode">
+							<input type="file" #fileInput style="display:none" (change)="onFileSelected($event)">
+							<button (click)="fileInput.click()" style="border: 1px solid #5B91FB;"
+								class="rounded  w-auto flex justify-center items-center gap-2 py-1 px-2  mt-4 md:mt-0">
+								<img src="../../../../../assets/icons/uploadFile.svg" />
+								<p class="flex items-center text-center font-body not-italic font-semibold text-xs"
+									style="color: #3276FA;">{{"uploadAvatarLbl" | translate}}</p>
+							</button>
+						</div>
+						<span class="absolute order-2 rounded-2xl hidden md:block"
+							style="width: 16px; height: 16px; background-color: #00CA15; left: 150px; top: -5px;">
+						</span>
+					</div>
+					<!-- avatar -->
+					<!-- moblie star and upgrade -->
+					<div class="block md:hidden">
+						<div class="flex flex-row justify-center items-center gap-20 mb-2">
+							<img src="/assets/icons/rating.svg" />
+						</div>
+						<button (click)="openPopupUpgradeAccount()"
+							class="flex flex-row justify-center items-center gap-2 rounded-lg"
+							style="background: #E99200;">
+							<img src="../../../../assets/icons/premium.svg"
+								class="flex items-center justify-center ml-4 -mr-5">
+							<p class="flex items-center text-center font-body not-italic font-semibold text-xs px-4 py-2"
+								style="color: #FFF;">{{"upgradeProfileLbl" | translate }}</p>
+						</button>
+					</div>
+					<!-- moblie star and upgrade -->
+
+
+					<!-- star destkop -->
+					<div class="hidden md:flex  flex-col items-start gap-1 ml">
+						<h1 class="font-body not-italic font-semibold text-sm" style="color: #082639;">
+							{{this.userItem.name}}</h1>
+						<div class="flex flex-row justify-center items-center gap-20">
+							<h4 class='font-12 font-semibold'>{{userItem.recruiterRate.averageRating}} {{ "PointLbl" |
+								translate }}
+							</h4>
+							<h4 class="font-normal text-blurblack ml-2">{{userItem.recruiterRate.totalCount}} {{
+								"reviewLbl" |
+								translate }} </h4>
+						</div>
+						<div class="flex flex-row justify-center items-center gap-20">
+							<img src="/assets/icons/rating.svg" />
+							<h4 class="font-normal text-blurblack">{{userItem.recruiterRate.rating5Star}}</h4>
+						</div>
+						<div class="flex flex-row justify-center items-center gap-20">
+							<img src="/assets/icons/rating4.svg" />
+							<h4 class="font-normal text-blurblack">{{userItem.recruiterRate.rating4Star}}</h4>
+						</div>
+						<div class="flex flex-row justify-center items-center gap-20">
+
+							<img src="/assets/icons/rating3.svg" />
+							<h4 class="font-normal text-blurblack">{{userItem.recruiterRate.rating3Star}}</h4>
+						</div>
+						<div class="flex flex-row justify-center items-center gap-20">
+
+							<img src="/assets/icons/rating2.svg" />
+							<h4 class="font-normal text-blurblack">{{userItem.recruiterRate.rating2Star}}</h4>
+						</div>
+						<div class="flex flex-row justify-center items-center gap-20">
+
+							<img src="/assets/icons/rating1.svg" />
+							<h4 class="font-normal text-blurblack">{{userItem.recruiterRate.rating1Star}}</h4>
+						</div>
+					</div>
+					<!--star destkop -->
+
+
+				</div>
+				<!-- Save button desktop -->
+				<div class=" md:flex flex-col items-start flex-wrap pt-1 gap-3">
+					<div>
+						<button (click)="openPopupChangePassword()"
+							class="flex flex-row justify-center items-center gap-2 rounded-lg w-[170px] h-[40px]"
+							style="background: #E6FAE8;">
+							<div class="flex flex-row justify-center items-center px-4 py-2 gap-2">
+								<button class="font-body not-italic font-semibold text-xs flex items-center text-center"
+									style="color: #00CA15;">{{ "changePwdLbl" | translate }}</button>
+							</div>
+						</button>
+						<div *ngIf="isEditMode" class="mt-3"> <button
+								[disabled]="detailUserForm.invalid || !isValidDOB()"
+								[ngClass]="detailUserForm.invalid || !isValidDOB()? 'btn-disable w-[170px]' : 'btn border-none font-size-small font-weight-bold global-text-color-white bg-blue-600 px-3 w-[170px] h-[40px]'"
+								(click)="saveData(1)" type="button" aria-expanded="false"
+								aria-controls="collapseDetailInfo"> <span
+									class="px-2 font-body not-italic font-semibold text-xs items-center">{{"saveChangeLbl"
+									| translate }}</span> </button> </div>
+						<div *ngIf="role!=recruiterRole" class="mt-3">
+							<button
+								class="rounded-lg border-none font-size-small font-weight-bold global-text-color-white bg-red-600 px-3 w-[170px] h-[40px] !hover:"
+								(click)="openPopupCVManagement(true)" type="button" aria-expanded="false"
+								aria-controls="collapseDetailInfo">
+								<span class="px-2 font-body not-italic font-semibold text-xs items-center">{{"manageCV"
+									| translate }}</span>
+							</button>
+						</div>
+					</div>
+				</div>
+				<!-- Save button desktop -->
+			</div>
+			<!-- form -->
+			<form action="" [formGroup]="detailUserForm">
+				<div class="row mt-5">
+					<div class="col-xs-12 col-md-12 px-2">
+						<div class="mb-3">
+							<div class="form-label">
+								<span class="color-ink-text font-size-small font-weight-bold">{{"nameLbl" |
+									translate}}</span>
+							</div>
+							<input [(ngModel)]="userItem.name"
+								[ngClass]="name.invalid? 'inValid-border': 'valid-border'"
+								class="form-control p-2 input-default input-focus" type="text" formControlName="name"
+								placeholder="Enter your name" />
+						</div>
+						<div class="mb-3" *ngIf="userItem.phone != userItem.email">
+							<div class="form-label">
+								<span class="color-ink-text font-size-small font-weight-bold">{{"phoneNumberLbl" |
+									translate}}</span>
+							</div>
+							<input [(ngModel)]="userItem.phone" [readonly]="true"
+								class="form-control p-2 bg-gray-200 text-gray-600 input-default" type="text"
+								formControlName="phone" (mousedown)="$event.preventDefault()"
+								placeholder="Enter your phone number" />
+						</div>
+
+						<div class="flex justify-between flex-wrap">
+							<div class="mb-3 w-40 md:w-5/12">
+								<div class="form-label">
+									<span class="color-ink-text font-size-small font-weight-bold">{{"dateOfBirthLbl" |
+										translate}}</span>
+								</div>
+								<div class="input-container">
+									<input *ngIf="userItem.dateOfBirth" [(ngModel)]="userItem.dateOfBirth"
+										[disabled]="true" formControlName="birthyear"
+										[ngClass]="birthyear.invalid || !isValidDOB()? 'inValid-border': 'valid-border'"
+										class="form-control input-default input-focus" type="date">
+								</div>
+							</div>
+							<div class="mb-3 w-40 md:w-5/12">
+								<div class="form-label">
+									<span class="color-ink-text font-size-small font-weight-bold">{{"genderLBL" |
+										translate}}</span>
+								</div>
+								<div class="input-container">
+									<div class="input-container">
+										<app-selection-menu [isDisable]="!isEditMode" [selectedItem]="selectedGender"
+											[items]="genders"
+											(onChangeSelected)="onGenderSelected($event)"></app-selection-menu>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-12 px-2">
+						<div class="mb-3">
+							<div class="form-label">
+								<span class="color-ink-text font-size-small font-weight-bold">{{"emailLbl" |
+									translate}}</span>
+							</div>
+							<input type="email" [(ngModel)]="userItem.email" [readonly]="true"
+								(mousedown)="$event.preventDefault()"
+								[ngClass]="email.invalid? 'inValid-border': 'valid-border'"
+								class="form-control p-2 bg-gray-200 text-gray-600 input-default" type="text"
+								formControlName="email" placeholder="Enter your email" />
+						</div>
+					</div>
+					<div class="flex justify-between px-2 flex-wrap">
+						<div class="w-40 md:w-5/12">
+							<div class="mb-3 w-full">
+								<div class="form-label">
+									<span class="color-ink-text font-size-small font-weight-bold">{{"provinceLbl" |
+										translate}}</span>
+								</div>
+								<app-selection-menu class="w-full" [isDisable]="!isEditMode"
+									[selectedItem]="selectedProvince" [items]="provinces"
+									(onChangeSelected)="onProvinceSelected($event)"></app-selection-menu>
+							</div>
+						</div>
+						<!-- <div class="w-40 md:w-5/12">
+							<div class="mb-3 w-full">
+								<div class="form-label">
+									<span class="color-ink-text font-size-small font-weight-bold">{{"districtLbl" |
+										translate}}</span>
+								</div>
+								<app-selection-menu class="w-full" [isDisable]="!isEditMode"
+									[selectedItem]="selectedDistrict" [items]="districts"
+									(onChangeSelected)="onDistrictSelected($event)"></app-selection-menu>
+							</div>
+						</div> -->
+					</div>
+					<div class="flex justify-between px-2 flex-wrap">
+						<div class="w-40 md:w-5/12">
+							<div class="mb-3 w-full">
+								<div class="form-label">
+									<span class="color-ink-text font-size-small font-weight-bold">{{"wardLbl" |
+										translate}}</span>
+								</div>
+								<app-selection-menu [isDisable]="!isEditMode" [selectedItem]="selectedWard"
+									[items]="wards" (onChangeSelected)="onWardSelected($event)"></app-selection-menu>
+							</div>
+						</div>
+						<div class="w-40 md:w-5/12">
+							<div class="mb-3 w-full">
+								<div class="form-label">
+									<span class="color-ink-text font-size-small font-weight-bold">{{"addressLbl" |
+										translate}}</span>
+								</div>
+								<input class="form-control input-default input-focus"
+									[(ngModel)]="userItem.detailAddress"
+									[ngClass]="address.invalid? 'inValid-border': 'valid-border'"
+									formControlName="detailAddress" placeholder="Enter your address" />
+							</div>
+						</div>
+					</div>
+
+					<div class="row mb-3 px-2">
+						<div class="form-label">
+							<span class="color-ink-text font-size-small font-weight-bold">{{"jobTargetLbl" |
+								translate}}</span>
+						</div>
+						<textarea rows="3" class="form-control p-3 input-default input-focus"
+							formControlName="jobTarget" [(ngModel)]="userItem.jobTarget"
+							placeholder="Enter your job target"></textarea>
+					</div>
+					<div class="row mb-3 px-2">
+						<div class="form-label">
+							<span class="color-ink-text font-size-small font-weight-bold">{{"experienceLbl" |
+								translate}}</span>
+						</div>
+						<textarea rows="3" class="form-control p-3 input-default input-focus"
+							formControlName="experience" [(ngModel)]="userItem.experience"
+							placeholder="Enter your experience"></textarea>
+					</div>
+				</div>
+				<div class="flex md:hidden justify-center items-center w-full mb-2">
+					<div *ngIf="isEditMode">
+						<button
+							class="active-btn-save btn border-none font-size-small font-weight-bold global-text-color-white bg-blue-600 px-3 w-[170px]"
+							(click)="saveData(1)" type="button" aria-expanded="false"
+							aria-controls="collapseDetailInfo">
+							<span class="px-2 font-body not-italic font-semibold text-xs items-center">{{"saveChangeLbl"
+								| translate}}</span>
+						</button>
+					</div>
+				</div>
+				<div *ngIf="role!=recruiterRole" class="flex gap-2 mb-2 justify-center">
+					<input type="file"
+       #cvInput
+       style="display:none"
+       (change)="onCVSelected($event)"
+       accept="
+         application/pdf,
+         application/vnd.ms-excel,
+         application/msword,
+         application/vnd.openxmlformats-officedocument.wordprocessingml.document
+       ">
+
+					<button (click)="cvInput.click()" style="border: 1px solid #5B91FB;"
+						class="rounded w-auto flex justify-center items-center gap-2 py-1 px-2">
+						<img src="../../../../../assets/icons/uploadFile.svg" />
+						<p class="flex items-center text-center font-body not-italic font-semibold text-xs underline"
+							style="color: #3276FA;">{{"Tải CV của bạn"}}</p>
+					</button>
+				</div>
+			</form>
+
+			<!-- form -->
+		</div>
+	</div>
+</div>
+<app-popup-confirm [confirmCode]="CONFIRM_UPDATE_CODE" (validate)="onUpdate()" #popupConfirmUpdate>
+</app-popup-confirm>
+<app-popup-job-finding #jobFinding [parentPageCode]="PROFILE_PAGE" (validate)="onJobFindingValidate($event)">
+</app-popup-job-finding>
+
+<app-popup-upgrade-account (validate)="openPopupConfirmUpgrade($event)"
+	#popupUpgradeAccount></app-popup-upgrade-account>
+<app-popup-change-password #popupChangePassword (newPassword)="changePassApiCal($event)"></app-popup-change-password>
+<app-popup-confirm-upgrade-account (validate)="compareOwnPointWithPackagePrice()"
+	#popupConfirm></app-popup-confirm-upgrade-account>
+<app-popup-request-topup #popupRequestTopup [upgradedPackage]="upgradePackage"></app-popup-request-topup>
+<app-popup-cv-management *ngIf="showCVManagePage" #popupCVManagement
+	(closeCVManagePage)="openPopupCVManagement($event)"></app-popup-cv-management>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

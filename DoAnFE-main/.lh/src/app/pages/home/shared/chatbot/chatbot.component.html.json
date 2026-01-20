@@ -1,0 +1,30 @@
+{
+    "sourceFile": "src/app/pages/home/shared/chatbot/chatbot.component.html",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1753947374731,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1753947980977,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,23 +1,26 @@\n-<!-- Nút icon chat -->\n-<div class=\"chat-icon\" (click)=\"toggleChat()\">\n+<!-- Nút FAB Chat -->\n+<div class=\"chat-fab\" (click)=\"toggleChat()\">\n   💬\n </div>\n \n <!-- Khung chat -->\n-<div class=\"chat-window\" *ngIf=\"isOpen\">\n+<div class=\"chat-container\" *ngIf=\"isOpen\">\n   <div class=\"chat-header\">\n-    <span>Trợ lý AI</span>\n+    <span>FJob Assistant</span>\n     <button (click)=\"toggleChat()\">✖</button>\n   </div>\n \n-  <div class=\"chat-body\">\n+  <div class=\"chat-messages\">\n     <div *ngFor=\"let msg of messages\" [ngClass]=\"msg.from\">\n       {{ msg.text }}\n     </div>\n   </div>\n \n   <div class=\"chat-input\">\n-    <input [(ngModel)]=\"inputMessage\" (keydown.enter)=\"sendMessage()\" placeholder=\"Gõ gì đó...\" />\n+    <input\n+      [(ngModel)]=\"inputMessage\"\n+      placeholder=\"Nhập câu hỏi...\"\n+      (keydown.enter)=\"sendMessage()\" />\n     <button (click)=\"sendMessage()\">Gửi</button>\n   </div>\n </div>\n"
+                },
+                {
+                    "date": 1754218059165,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,14 +13,20 @@\n   <div class=\"chat-messages\">\n     <div *ngFor=\"let msg of messages\" [ngClass]=\"msg.from\">\n       {{ msg.text }}\n     </div>\n+    <!-- Hiển thị spinner khi đang loading -->\n+    <div *ngIf=\"isLoading\" class=\"loading-spinner\">\n+      <div class=\"spinner\"></div>\n+      <span>Đang xử lý...</span>\n+    </div>\n   </div>\n \n   <div class=\"chat-input\">\n     <input\n       [(ngModel)]=\"inputMessage\"\n       placeholder=\"Nhập câu hỏi...\"\n-      (keydown.enter)=\"sendMessage()\" />\n-    <button (click)=\"sendMessage()\">Gửi</button>\n+      (keydown.enter)=\"sendMessage()\"\n+      [disabled]=\"isLoading\" />\n+    <button (click)=\"sendMessage()\" [disabled]=\"isLoading\">Gửi</button>\n   </div>\n-</div>\n+</div>\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1754218252881,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,8 @@\n   <div class=\"chat-messages\">\n     <div *ngFor=\"let msg of messages\" [ngClass]=\"msg.from\">\n       {{ msg.text }}\n     </div>\n-    <!-- Hiển thị spinner khi đang loading -->\n     <div *ngIf=\"isLoading\" class=\"loading-spinner\">\n       <div class=\"spinner\"></div>\n       <span>Đang xử lý...</span>\n     </div>\n"
+                }
+            ],
+            "date": 1753947374731,
+            "name": "Commit-0",
+            "content": "<!-- Nút icon chat -->\n<div class=\"chat-icon\" (click)=\"toggleChat()\">\n  💬\n</div>\n\n<!-- Khung chat -->\n<div class=\"chat-window\" *ngIf=\"isOpen\">\n  <div class=\"chat-header\">\n    <span>Trợ lý AI</span>\n    <button (click)=\"toggleChat()\">✖</button>\n  </div>\n\n  <div class=\"chat-body\">\n    <div *ngFor=\"let msg of messages\" [ngClass]=\"msg.from\">\n      {{ msg.text }}\n    </div>\n  </div>\n\n  <div class=\"chat-input\">\n    <input [(ngModel)]=\"inputMessage\" (keydown.enter)=\"sendMessage()\" placeholder=\"Gõ gì đó...\" />\n    <button (click)=\"sendMessage()\">Gửi</button>\n  </div>\n</div>\n"
+        }
+    ]
+}

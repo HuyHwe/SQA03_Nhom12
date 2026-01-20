@@ -1,0 +1,32 @@
+.left-panel-wrapper .left-panel-header .tab-button-wrapper {
+    margin: 13px 0px;
+    border-bottom: 1px solid var(--gray) ;
+}
+.left-panel-wrapper .left-panel-header .tab-button{
+    width: 20%;
+    padding: 4px;
+    cursor: pointer;
+}
+.activate-tab {
+    background: var(--blue);
+    color: white;
+}
+.left-panel-wrapper {
+    position: relative;
+}
+.candidate-info-detail-wrapper {
+    position: absolute;
+    top: 15%;
+}
+.job-candidate-item-wrapper {
+    margin-top: 10px;
+    width: 99%;
+}
+.job-candidate-item-list-wrapper {
+    height: 450px;
+    overflow-y: auto;
+    width: 100%;
+    overflow: scroll;
+    overflow-x:hidden;
+}
+

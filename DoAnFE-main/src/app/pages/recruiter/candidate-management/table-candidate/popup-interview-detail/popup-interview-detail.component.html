@@ -1,0 +1,91 @@
+<div class="popup-container" id="popup-interview-detail">
+	<div class="modal">
+		<div class="modal-inner center-pos">
+			<div class="p-3 bg-blue rounded-top d-flex justify-content-between align-items-center position-relative">
+				<span class="font-size-big font-weight-bold global-text-color-white">Chi tiết lịch phỏng vấn</span>
+				<img type="button" (click)="closePopup()" src="../../../../../../assets/icons/white-close.svg"
+					class="position-absolute top-0 end-0 p-3 cursor-pointer" style="cursor: pointer;">
+			</div>
+			<div class="p-4" *ngIf="!loading && scheduleData">
+				<div class="popup-content w-full">
+					<div class="flex flex-col gap-4">
+						<!-- Topic -->
+						<div class="flex flex-col gap-2">
+							<div class="text-base font-semibold" style="color: var(--ink);">Topic</div>
+							<div class="text-base">{{ scheduleData.topic || "Phỏng vấn" }}</div>
+						</div>
+
+						<!-- Description -->
+						<div class="flex flex-col gap-2">
+							<div class="text-base font-semibold" style="color: var(--ink);">{{ "desJobLbl" | translate }}</div>
+							<div class="text-base">{{ scheduleData.des || scheduleData.jobName || "" }}</div>
+						</div>
+
+						<!-- Interview Time -->
+						<div class="flex flex-col gap-2">
+							<div class="text-base font-semibold" style="color: var(--ink);">Thời gian phỏng vấn</div>
+							<div class="text-base" *ngIf="scheduleData.startDate && scheduleData.endDate">
+								{{ getFormattedDate(scheduleData.startDate) }}, từ {{ getFormattedTime(scheduleData.startDate) }} đến {{ getFormattedTime(scheduleData.endDate) }}
+							</div>
+							<div class="text-base" *ngIf="!scheduleData.startDate || !scheduleData.endDate">
+								Chưa được thiết lập
+							</div>
+						</div>
+
+						<!-- Interview Format -->
+						<div class="flex flex-col gap-2">
+							<div class="text-base font-semibold" style="color: var(--ink);">Hình thức phỏng vấn</div>
+							<div class="text-base">{{ getInterviewMethod() }}</div>
+						</div>
+
+						<!-- Location -->
+						<div class="flex flex-col gap-2" *ngIf="scheduleData.province || scheduleData.ward">
+							<div class="text-base font-semibold" style="color: var(--ink);">{{ "addressLbl" | translate }}</div>
+							<div class="text-base">{{ getAddress() }}</div>
+						</div>
+
+						<!-- Meeting ID -->
+						<div class="flex flex-col gap-2" *ngIf="scheduleData.meetId">
+							<div class="text-base font-semibold" style="color: var(--ink);">Meeting ID</div>
+							<div class="text-base">{{ scheduleData.meetId }}</div>
+						</div>
+
+						<!-- Passcode -->
+						<div class="flex flex-col gap-2" *ngIf="scheduleData.passcode">
+							<div class="text-base font-semibold" style="color: var(--ink);">Passcode</div>
+							<div class="text-base">{{ scheduleData.passcode }}</div>
+						</div>
+
+						<!-- Zoom Link -->
+						<div class="flex flex-col gap-2" *ngIf="scheduleData.meetUrl">
+							<div class="text-base font-semibold" style="color: var(--ink);">Link zoom</div>
+							<div class="text-base break-all" style="color: #3276FA; text-decoration: underline; cursor: pointer;" (click)="onStart()">
+								{{ scheduleData.meetUrl }}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="p-4 d-flex justify-content-center" *ngIf="loading">
+				<div class="spinner-border" role="status">
+					<span class="sr-only">Đang tải...</span>
+				</div>
+			</div>
+			<div class="col-12 py-4 horizontal-center-pos" *ngIf="!loading && scheduleData">
+				<div class="col-md-12 right-btn-wrapper horizontal-center-pos vertical-center-pos-1">
+					<button class="btn border-none font-size-small font-weight-bold global-text-color-white bg-blue px-5" 
+						(click)="onStart()" *ngIf="scheduleData.startDate">
+						Bắt đầu
+					</button>
+					<button class="btn border-none font-size-small font-weight-bold color-disable-text bg-disable px-5" 
+						(click)="closePopup()">
+						{{ "close" | translate }}
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<app-popup-interview-result #popupInterviewResult></app-popup-interview-result>
+

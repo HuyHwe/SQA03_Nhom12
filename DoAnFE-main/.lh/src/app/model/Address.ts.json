@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/app/model/Address.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1760408676761,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1760408676761,
+            "name": "Commit-0",
+            "content": "export class Address {\r\n  constructor(\r\n    public province: string,\r\n    public ward: string\r\n  ) {}\r\n}\r\n"
+        }
+    ]
+}

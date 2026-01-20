@@ -1,0 +1,133 @@
+<div class="popup-container" id="popup-booking">
+  <div class="modal fixed inset-0 z-50 bg-black/50 backdrop-blur-sm">
+    
+    <div *ngIf="methodInterview == 1"
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:w-[50%] w-[95%] max-h-[90vh] flex flex-col gap-0 rounded-xl overflow-hidden shadow-2xl bg-white">
+      
+      <div class="flex px-5 py-4 items-center justify-between bg-[#00b14f]">
+        <button (click)="onInterview(-1)" class="hover:bg-white/20 p-1 rounded-full transition-all">
+          <img src="../../../../../../assets/icons/arrow-left.svg" alt="back" class="brightness-0 invert">
+        </button>
+        <h2 class="text-white font-bold text-lg uppercase tracking-wide">
+          {{ "bookInterviewLbl" | translate }}
+        </h2>
+        <button (click)="closePopup()" class="hover:bg-white/20 p-1 rounded-full transition-all">
+          <img src="../../../../../../assets/icons/close.svg" alt="close" class="brightness-0 invert">
+        </button>
+      </div>
+
+      <div class="flex flex-col p-6 gap-6 overflow-y-auto">
+        <form [formGroup]="scheduleForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <div class="flex flex-col gap-1 md:col-span-2">
+            <label class="text-sm font-bold text-gray-700">{{ "topicLbl" | translate }}</label>
+            <input formControlName="topic" [(ngModel)]="schedule.topic"
+              class="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#00b14f] focus:border-transparent outline-none transition-all" 
+              type="text" placeholder="Nhập chủ đề phỏng vấn...">
+          </div>
+
+          <div class="flex flex-col gap-1 md:col-span-2">
+            <label class="text-sm font-bold text-gray-700">{{ "desJobLbl" | translate }}</label>
+            <input formControlName="des" [(ngModel)]="schedule.des"
+              class="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#00b14f] outline-none" 
+              type="text">
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <label class="text-sm font-bold text-gray-700">{{ "interviewDate" | translate }}</label>
+            <input formControlName="interviewDate" [(ngModel)]="schedule.interviewDate"
+              class="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#00b14f] outline-none" 
+              type="date">
+          </div>
+
+          <div class="flex gap-2 items-end">
+            <div class="flex-1">
+              <label class="text-xs font-bold text-gray-500">{{ "fromLbl" | translate }}</label>
+              <input formControlName="interviewStartTime" [(ngModel)]="schedule.interviewStartTime"
+                class="w-full border border-gray-300 rounded-lg px-2 py-2 focus:ring-2 focus:ring-[#00b14f] outline-none text-sm" type="time">
+            </div>
+            <div class="flex-1">
+              <label class="text-xs font-bold text-gray-500">{{ "toLbl" | translate }}</label>
+              <input formControlName="interviewEndTime" [(ngModel)]="schedule.interviewEndTime"
+                class="w-full border border-gray-300 rounded-lg px-2 py-2 focus:ring-2 focus:ring-[#00b14f] outline-none text-sm" type="time">
+            </div>
+          </div>
+
+          <div class="md:col-span-2 py-2 px-3 bg-green-50 rounded-lg border border-green-100">
+            <app-radio-button [items]="radioItems" (radioOnChecked)="radioOnChecked($event)"></app-radio-button>
+          </div>
+
+          <ng-container *ngIf="isChoseOnline()">
+            <div class="flex flex-col gap-1">
+              <label class="text-sm font-bold text-gray-700">Meeting ID</label>
+              <input formControlName="meetingId" [(ngModel)]="schedule.meetingId"
+                class="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#00b14f] outline-none" type="text" placeholder="123 456 789">
+            </div>
+            <div class="flex flex-col gap-1">
+              <label class="text-sm font-bold text-gray-700">Passcode</label>
+              <input formControlName="passcode" [(ngModel)]="schedule.passcode"
+                class="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#00b14f] outline-none" type="text" placeholder="******">
+            </div>
+            <div class="flex flex-col gap-1 md:col-span-2">
+              <label class="text-sm font-bold text-gray-700">Link Zoom/Meet</label>
+              <input formControlName="linkzoom" [(ngModel)]="schedule.linkzoom"
+                class="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#00b14f] outline-none" type="text" placeholder="https://zoom.us/j/...">
+            </div>
+          </ng-container>
+
+          <div *ngIf="!isChoseOnline()" class="flex flex-col gap-1 md:col-span-2">
+            <label class="text-sm font-bold text-gray-700">{{ "addressLbl" | translate }}</label>
+            <input formControlName="address" [(ngModel)]="schedule.address"
+              class="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#00b14f] outline-none" 
+              type="text" placeholder="Địa điểm phỏng vấn trực tiếp...">
+          </div>
+        </form>
+      </div>
+
+      <div class="flex justify-end items-center gap-3 p-5 bg-gray-50">
+        <button (click)="closePopup()" 
+          class="px-6 py-2.5 rounded-lg font-semibold text-gray-600 hover:bg-gray-200 transition-all text-sm">
+          {{ "cancelLbl" | translate }}
+        </button>
+        <button (click)="onInterview(2)"
+          class="px-6 py-2.5 rounded-lg font-semibold text-white bg-[#00b14f] hover:bg-[#008e3f] shadow-lg shadow-green-200 transition-all text-sm">
+          {{ "createInterviewLbl" | translate }}
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="methodInterview === 3"
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:w-[40%] w-[95%] flex flex-col rounded-xl overflow-hidden shadow-2xl bg-white">
+      
+      <div class="flex px-5 py-4 items-center justify-between bg-[#00b14f]">
+        <button (click)="onInterview(1)"><img src="../../../../../../assets/icons/arrow-left.svg" class="brightness-0 invert"></button>
+        <h2 class="text-white font-bold text-lg uppercase">{{ "detailInterviewLbl" | translate }}</h2>
+        <button (click)="closePopup()"><img src="../../../../../../assets/icons/close.svg" class="brightness-0 invert"></button>
+      </div>
+
+      <div class="p-6 flex flex-col gap-6">
+        <div class="flex items-center gap-8 py-3 px-4 bg-green-50 rounded-lg border border-green-100">
+          <div class="flex items-center gap-2 cursor-pointer">
+            <input id="effort" type="radio" value="effort" name="result" class="w-4 h-4 text-[#00b14f] focus:ring-[#00b14f]">
+            <label for="effort" class="text-sm font-bold text-gray-700">{{ "effortLbl" | translate }}</label>
+          </div>
+          <div class="flex items-center gap-2 cursor-pointer">
+            <input id="noteffort" type="radio" value="noteffort" name="result" class="w-4 h-4 text-[#00b14f] focus:ring-[#00b14f]">
+            <label for="noteffort" class="text-sm font-bold text-gray-700">{{ "noteffortLbl" | translate }}</label>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label class="text-sm font-bold text-gray-700">Feedback</label>
+          <textarea rows="4" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-[#00b14f] outline-none" 
+            placeholder="Nhập nhận xét về ứng viên..."></textarea>
+        </div>
+
+        <button class="w-full py-3 bg-[#00b14f] hover:bg-[#008e3f] text-white font-bold rounded-lg transition-all shadow-lg shadow-green-100">
+          {{ "sendresultInterviewLbl" | translate }}
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

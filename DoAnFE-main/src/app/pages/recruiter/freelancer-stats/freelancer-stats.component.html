@@ -1,0 +1,140 @@
+<div class="freelancer-stats-container p-4 md:p-8 bg-gray-50 min-h-screen">
+  <div class="max-w-7xl mx-auto flex flex-col gap-8">
+
+    <!-- Header / Breadcrumb + Export -->
+    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center bg-white p-6 rounded-xl shadow-lg gap-4">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+        <p class="text-3xl font-bold text-gray-800">📊 Thống kê Freelancer theo Vị trí</p>
+      </div>
+      <button (click)="exportFile()"
+        [ngClass]="checkedItems.length > 0 ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-md' : 'bg-gray-300 text-gray-600 cursor-not-allowed'"
+        class="flex items-center gap-2 px-4 py-2 rounded-xl font-semibold transition duration-300">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.5 14.25l-5-5-5 5"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.5 9.25v10"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 10v10a2 2 0 01-2 2H5a2 2 0 01-2-2V10a2 2 0 012-2h3"></path>
+        </svg>
+        Xuất Excel
+      </button>
+    </div>
+
+    <!-- Filter Form -->
+    <form [formGroup]="statsForm" (ngSubmit)="onSubmit()"
+      class="bg-white p-6 rounded-xl shadow-lg w-full max-w-lg mx-auto flex flex-col gap-4">
+      <h3 class="text-xl font-bold text-gray-700">🔍 Chọn Vị trí Công việc</h3>
+
+      <div class="flex flex-col gap-1">
+        <label for="jobId" class="text-sm font-medium text-gray-700">Vị trí:</label>
+        <select id="jobId" formControlName="jobId"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <option *ngFor="let job of jobs" [value]="job.id">{{ job.name }}</option>
+        </select>
+        <div *ngIf="statsForm?.get('jobId')?.invalid && statsForm?.get('jobId')?.touched"
+          class="text-red-500 text-xs mt-1 animate-pulse">
+          Vị trí công việc là bắt buộc.
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="isLoading || statsForm?.invalid"
+        class="w-full py-2 px-4 rounded-lg font-medium text-white transition duration-300"
+        [ngClass]="{
+          'bg-indigo-600 hover:bg-indigo-700 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500': !isLoading && !statsForm?.invalid,
+          'bg-gray-400 cursor-not-allowed': isLoading || statsForm?.invalid
+        }">
+        <span *ngIf="!isLoading">Tìm kiếm Thống kê</span>
+        <span *ngIf="isLoading" class="flex items-center justify-center gap-2">
+          <svg class="animate-spin w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+            </path>
+          </svg>
+          Đang tải...
+        </span>
+      </button>
+    </form>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage"
+      class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-md shadow-md animate-pulse w-full max-w-7xl mx-auto">
+      <p class="font-bold">Lỗi!</p>
+      <p>{{ errorMessage }}</p>
+    </div>
+
+    <!-- Stats Summary -->
+    <div *ngIf="!isLoading && responseData.length > 0" class="results-section w-full bg-white p-6 rounded-xl shadow-lg flex flex-col gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="p-4 bg-indigo-50 rounded-lg border-l-4 border-indigo-600 shadow-sm">
+          <h4 class="text-sm font-medium text-gray-500">Tổng Freelancer Phù hợp</h4>
+          <p class="text-3xl font-bold text-indigo-800">{{ responseData.length }}</p>
+        </div>
+        <div class="p-4 bg-green-50 rounded-lg border-l-4 border-green-600 shadow-sm">
+          <h4 class="text-sm font-medium text-gray-500">Điểm Phù hợp Trung bình</h4>
+          <p class="text-3xl font-bold text-green-800">{{ averageScorePercentage }}%</p>
+        </div>
+      </div>
+
+      <!-- Freelancer Table -->
+      <h3 class="text-xl font-bold text-gray-700">Chi tiết Freelancer</h3>
+      <div class="overflow-x-auto rounded-lg border border-gray-200">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="p-3"><input type="checkbox" (change)="onSelectAll($event)" class="rounded"></th>
+              <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tên</th>
+              <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Vị trí</th>
+              <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Kinh nghiệm</th>
+              <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Kỹ năng</th>
+              <th class="px-3 py-3 text-left text-xs font-bold text-gray-700 uppercase">ĐIỂM TỔNG (%)</th>
+              <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">GNN Score (%)</th>
+              <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Avatar</th>
+              <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">Hành động</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr *ngFor="let freelancer of responseData" class="hover:bg-indigo-50 transition">
+              <td class="p-3"><input type="checkbox" [checked]="isChecked(freelancer)" (change)="onCheckboxChange(freelancer, $event)" class="rounded"></td>
+
+              <td class="px-3 py-4">{{ freelancer.name || 'N/A' }}</td>
+              <td class="px-3 py-4">{{ freelancer.job || 'N/A' }}</td>
+              <td class="px-3 py-4">{{ freelancer.experienceLevel || 0 }}</td>
+              <td class="px-3 py-4">{{ freelancer.skillLevel || 0 }}</td>
+              <td class="px-3 py-4 font-extrabold" [ngClass]="{
+                  'text-green-600': (freelancer.score ?? 0) * 100 >= 70,
+                  'text-yellow-600': (freelancer.score ?? 0) * 100 < 70 && (freelancer.score ?? 0) * 100 >= 50,
+                  'text-red-600': (freelancer.score ?? 0) * 100 < 50
+                }">{{ (freelancer.score ?? 0) * 100 | number:'1.1-1' }}%</td>
+              <td class="px-3 py-4 text-xs">{{ (freelancer.gnnScore ?? 0) * 100 | number:'1.1-1' }}%</td>
+              <td class="px-3 py-4">
+                <img *ngIf="freelancer.avatar" [src]="freelancer.avatar" alt="Avatar" class="h-10 w-10 rounded-full object-cover border-2 border-indigo-200">
+                <span *ngIf="!freelancer.avatar" class="text-xs text-gray-400">N/A</span>
+              </td>
+              <td class="px-3 py-4">
+                <button (click)="openPopupInfoCandidate(freelancer); $event.stopPropagation()"
+                  class="bg-indigo-100 hover:bg-indigo-200 text-indigo-600 hover:text-indigo-900 p-2 rounded-lg text-xs font-semibold transition">
+                  Xem Chi tiết
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- No Data -->
+    <div *ngIf="!isLoading && responseData.length === 0"
+      class="flex items-center justify-center gap-3 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-6 rounded-xl shadow-lg mx-auto w-full">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+        </path>
+      </svg>
+      <p class="font-semibold">Chưa tìm thấy freelancer phù hợp nào.</p>
+    </div>
+  </div>
+
+  <!-- Popups -->
+  <app-popup-booking-interview [candidate]="null"></app-popup-booking-interview>
+  <app-popup-info-candidate #popupInfoCandidate></app-popup-info-candidate>
+</div>

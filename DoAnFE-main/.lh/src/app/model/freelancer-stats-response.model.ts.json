@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/app/model/freelancer-stats-response.model.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1764226938847,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1764227033878,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,10 +13,43 @@\n }\r\n \r\n export interface Freelancer {\r\n   id: number;\r\n+  userCommon?: UserCommon;  // Nested if serialized, or flatten if BE flattens\r\n+  jobDefaultId: number;\r\n   name: string;\r\n   job: string;\r\n+  birthyear: string;\r\n+  gender: string;\r\n+  des: string;\r\n+  address: string;\r\n+  lat: number;\r\n+  lng: number;\r\n+  cv: string;\r\n+  active: number;\r\n+  workingtype: string;\r\n+  status: number;\r\n+  img: string;\r\n+  phone: string;\r\n+  email: string;\r\n+  experienceDes: string;\r\n+  skillDes: string;\r\n+  ratingavr: number;\r\n+  creationDate: string;  // ISO string from LocalDateTime\r\n+  updatedate: string;    // ISO string from LocalDateTime\r\n+  salary: string;\r\n+  ward: string;\r\n+  province: string;\r\n+  jobTarget: string;\r\n   experienceLevel: number;\r\n   skillLevel: number;\r\n-  // Add other fields as needed, e.g., userCommon, matchScore, etc.\r\n+  matchScore: number;    // From CV parsing, 0-100\r\n+  // embedding: string;  // Transient, likely not serialized\r\n+}\r\n+\r\n+export interface UserCommon {\r\n+  id: number;\r\n+  // Add common user fields if nested and serialized by BE\r\n+  avatar?: string;\r\n+  dateOfBirth?: string;  // From earlier context\r\n+  // Add more if needed: province, ward, etc., but may overlap with Freelancer fields\r\n }\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1764226938847,
+            "name": "Commit-0",
+            "content": "// models/freelancer-stats-response.model.ts\r\n// Model for response (adapt to backend FreelancerStatsResponse)\r\n\r\nexport interface FreelancerStatsResponse {\r\n  totalSuitableCount: number;\r\n  averageScore: number;  // 0-1 scale\r\n  topFreelancers: FreelancerMatch[];\r\n}\r\n\r\nexport interface FreelancerMatch {\r\n  freelancer: Freelancer;\r\n  score: number;  // 0-1 scale\r\n}\r\n\r\nexport interface Freelancer {\r\n  id: number;\r\n  name: string;\r\n  job: string;\r\n  experienceLevel: number;\r\n  skillLevel: number;\r\n  // Add other fields as needed, e.g., userCommon, matchScore, etc.\r\n}"
+        }
+    ]
+}

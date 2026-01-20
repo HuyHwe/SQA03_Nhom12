@@ -1,0 +1,35 @@
+.user-detail-wrapper {
+    .btn-show-user-info {
+        border: none;
+        background-color: var(--background-colapse-bar);
+        color: var(--blue-text);
+    }
+    .mat-form-field {
+        display: block; 
+    }
+}
+.active-btn-save {
+    width: 100%;
+    border-radius: 6px;
+    padding: 7px;
+    height: 36px;
+    color: white;
+    background: #00b14f;
+}
+.active-btn-cancel {
+    width: 100%;
+    border-radius: 6px;
+    padding: 7px;
+    height: 36px;
+    color: white;
+    background: gray;
+}
+
+.btn-disable {
+    border: none;
+    font-size: var(--font-size-common);
+    font-family: var(--font-common);
+    font-weight: var(--font-weight-common);
+    background-color: var(--disable-btn-color);
+    color: var(--disable-text-color);
+}

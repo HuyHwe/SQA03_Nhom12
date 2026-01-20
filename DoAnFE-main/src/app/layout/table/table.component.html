@@ -1,0 +1,62 @@
+<div class="">
+  <div class="table-wrapper">
+    <table
+      id="dtOrderExample"
+      class="table table-striped table-bordered table-sm dataTable table-body-wrapper"
+      cellspacing="0"
+      width="100%"
+    >
+      <thead>
+      <tr>
+        <th
+          class="heading-table"
+        >
+          <span>{{ sequenceIndexLbl |translate}}</span>
+        </th>
+        <th
+          class="heading-table"
+          *ngFor="let col of displayedColumns"
+          ngClass="{{ col.key }}"
+        >
+          <span>{{ col.name }}</span>
+        </th>
+      </tr>
+      </thead>
+      <tbody class="">
+      <tr class="body-table" *ngFor="let rowData of dataTable; index as i">
+        <td class="" *ngFor="let col of displayedColumns">
+          <span>{{i}}</span>
+        </td>
+        <td class="" *ngFor="let col of displayedColumns">
+          <span>{{rowData[col.key]}}</span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+ <div class="flex justify-center mt-6">
+    <ul class="flex items-center gap-2 pagination-custom">
+      <!-- Prev -->
+      <li>
+        <button (click)="onPrePageClick()" [disabled]="!isPrePageActive()" class="page-btn">
+          ‹
+        </button>
+      </li>
+
+      <!-- Page numbers -->
+      <li *ngFor="let i of arrPage">
+        <button *ngIf="isDisplayPageNumber(i)" (click)="onCurrentPageClick(i)" class="page-btn"
+          [class.active]="currentPage === i">
+          {{ i }}
+        </button>
+      </li>
+
+      <!-- Next -->
+      <li>
+        <button (click)="onNextPageClick()" [disabled]="!isNextPageActive()" class="page-btn">
+          ›
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+<div class="candidate-layout">
+  <!-- HEADER -->
+  <header class="candidate-header">
+    <app-header-up
+      (toggleSidebar)="toggleSidebar()"
+      (activeLink)="onActiveLink($event)">
+    </app-header-up>
+  </header>
+
+  <!-- BODY -->
+  <div class="candidate-body">
+    <!-- SIDEBAR -->
+    <aside
+      class="candidate-sidebar"
+      [class.open]="sidebarExpanded">
+      <app-sidebar
+        #appSideBar
+        [isExpanded]="sidebarExpanded"
+        (toggleSidebar)="toggleSidebar()"
+        (activeLink)="onActiveLink($event)">
+      </app-sidebar>
+    </aside>
+
+    <!-- OVERLAY (mobile) -->
+    <div
+      class="sidebar-overlay"
+      *ngIf="sidebarExpanded"
+      (click)="closeSidebar()">
+    </div>
+
+    <!-- CONTENT -->
+    <main class="candidate-content">
+      <div *ngIf="routerLinkNames.referralProgram">
+        <app-referral-program-candidate isEditMode="true"></app-referral-program-candidate>
+      </div>
+
+      <div *ngIf="routerLinkNames.joberWallet">
+        <app-joberwallet-candidate isEditMode="true"></app-joberwallet-candidate>
+      </div>
+
+      <div *ngIf="routerLinkNames.mainScreen">
+        <app-profile-candidate
+          isEditMode="true"
+          (uploadAvatar)="uploadAvatar($event)">
+        </app-profile-candidate>
+      </div>
+
+      <div *ngIf="routerLinkNames.listJob">
+        <app-listjob-candidate isEditMode="true"></app-listjob-candidate>
+      </div>
+
+      <div *ngIf="routerLinkNames.posts">
+        <app-candidate-posts isEditMode="true"></app-candidate-posts>
+      </div>
+
+      <div *ngIf="routerLinkNames.calendar">
+        <app-calendar isEditMode="true"></app-calendar>
+      </div>
+
+      <div *ngIf="routerLinkNames.listSavedJob">
+        <app-saved-jobs isEditMode="true"></app-saved-jobs>
+      </div>
+    </main>
+  </div>
+
+  <!-- LOADING -->
+  <app-loading></app-loading>
+</div>

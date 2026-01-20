@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/app/layout/left-panel/candidate-info-detail/candidate-info-detail.component.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1757393631828,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1757393631828,
+            "name": "Commit-0",
+            "content": "import { Component, OnInit, ViewChild, Input, OnChanges } from '@angular/core';\r\nimport { ApiNameConstants } from 'src/app/constant/ApiNameConstants';\r\nimport { Constants } from 'src/app/constant/Constants';\r\nimport { AuthService } from 'src/app/core/auth/auth.service';\r\nimport { UserService } from 'src/app/service/user.service';\r\nimport { environment } from 'src/environments/environment';\r\nimport { Router } from '@angular/router';\r\nimport { UtilsService } from 'src/app/helper/service/utils.service';\r\nimport { ConstantsApp } from 'src/app/constant/ConstantsApp';\r\n\r\n@Component({\r\n  selector: 'app-candidate-info-detail',\r\n  templateUrl: './candidate-info-detail.component.html',\r\n  styleUrls: ['./candidate-info-detail.component.scss']\r\n})\r\n\r\nexport class CandidateInfoDetailComponent implements OnInit, OnChanges {\r\n  @Input() itemMarker: any;\r\n  isOpen:any\r\n  introYourselfLbl = Constants.introYourselfLbl;\r\n  contactLbl = Constants.contactLbl;\r\n  markLbl = Constants.markLbl;\r\n  constructor(private userService: UserService,\r\n    private utilsService: UtilsService,\r\n    private authService: AuthService, private router: Router) {\r\n  }\r\n  ngOnInit() {\r\n  }\r\n  ngOnChanges() {\r\n    this.isOpen = true;\r\n  }\r\n  closePopup() {\r\n    this.isOpen = false;\r\n  }\r\n\r\n  contact() {\r\n    let authenticated = this.authService.authenticated();\r\n    if (!authenticated) {\r\n      this.router.navigate([\"/app-login\"]);\r\n      return;\r\n    }\r\n    let functionName = 'onCreateUser';\r\n    let messageLog = 'creating recruiter';\r\n    let apiUrl = environment.API_URI + ApiNameConstants.BS_CREATE_RECRUITER;\r\n    try {\r\n        this.userService.postDatas(null, apiUrl, functionName, messageLog)\r\n        .subscribe(res => {\r\n            if (res) {\r\n                // success close popup\r\n                this.closePopup();\r\n            }\r\n        });\r\n    } catch (error) {\r\n        console.log('onCreateUser: ' + error);\r\n    }\r\n  }\r\n\r\n  saveCandidate() {\r\n    let authenticated = this.authService.authenticated();\r\n    if (!authenticated) {\r\n      this.router.navigate([\"/app-login\"]);\r\n      return;\r\n    }\r\n    let user = JSON.parse(his.utilsService.getItem(ConstantsApp.user));\r\n    let body = {\r\n      freelancerId: this.itemMarker.id,\r\n      userId: user.id,\r\n      note: 5\r\n    }\r\n    let functionName = 'saveCandidate';\r\n    let messageLog = 'saving candidate';\r\n    let apiUrl = environment.API_URI + ApiNameConstants.BS_RECRUITER_SAVE_CANDIDATE;\r\n    try {\r\n        this.userService.postDatas(body, apiUrl, functionName, messageLog)\r\n        .subscribe(res => {\r\n            if (res && res.code == ConstantsApp.EXISTED) {\r\n              // show popup this user is existed\r\n            } else if(res && res.code == ConstantsApp.updated) {\r\n              this.closePopup();\r\n            }\r\n        });\r\n    } catch (error) {\r\n        console.log('saveCandidate: ' + error);\r\n    }\r\n  }\r\n}\r\n"
+        }
+    ]
+}

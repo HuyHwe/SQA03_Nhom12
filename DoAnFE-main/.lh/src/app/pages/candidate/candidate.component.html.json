@@ -1,0 +1,30 @@
+{
+    "sourceFile": "src/app/pages/candidate/candidate.component.html",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1757315645815,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1757318824334,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,11 +28,9 @@\n             </div>\r\n             <div *ngIf=\"routerLinkNames.listSavedJob\">\r\n                 <app-saved-jobs isEditMode=\"true\"></app-saved-jobs>\r\n             </div>\r\n-            <div *ngIf=\"routerLinkNames.search\">\r\n-                <app-search-page isEditMode=\"true\"></app-search-page>\r\n-            </div>\r\n+          \r\n         </div>\r\n \t\t\r\n     </div>\r\n \t<app-loading></app-loading>\r\n"
+                },
+                {
+                    "date": 1764986427008,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,12 @@\n             </div>\r\n             <div *ngIf=\"routerLinkNames.listSavedJob\">\r\n                 <app-saved-jobs isEditMode=\"true\"></app-saved-jobs>\r\n             </div>\r\n-          \r\n+\r\n+            <div *ngIf=\"routerLinkNames.companyDetail\">\r\n+                <app-company-detail  isEditMode=\"true\" ></app-company-detail >\r\n+            </div>\r\n         </div>\r\n \t\t\r\n     </div>\r\n \t<app-loading></app-loading>\r\n"
+                },
+                {
+                    "date": 1764986533159,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,12 +28,8 @@\n             </div>\r\n             <div *ngIf=\"routerLinkNames.listSavedJob\">\r\n                 <app-saved-jobs isEditMode=\"true\"></app-saved-jobs>\r\n             </div>\r\n-\r\n-            <div *ngIf=\"routerLinkNames.companyDetail\">\r\n-                <app-company-detail  isEditMode=\"true\" ></app-company-detail >\r\n-            </div>\r\n         </div>\r\n \t\t\r\n     </div>\r\n \t<app-loading></app-loading>\r\n"
+                }
+            ],
+            "date": 1757315645815,
+            "name": "Commit-0",
+            "content": "<div class=\"management-container\">\r\n    <div class=\"header-up-wrapper row\">\r\n        <app-header-up (activeLink)=\"onActiveLink($event)\"></app-header-up>\r\n    </div>\r\n    <div class=\"management-container-main mx-auto pl-2 pr-4\" style=\"background-color: var(--background-admin);\">\r\n        <div class=\"management-container-left\">\r\n            <app-sidebar #appSideBar [isExpanded]=\"sidebarExpanded\" (toggleSidebar)=\"sidebarExpanded = !sidebarExpanded\"\r\n                (activeLink)=\"onActiveLink($event)\"></app-sidebar>\r\n        </div>\r\n        <div class=\"management-container-right lg:mt-2 \">\r\n            <div *ngIf=\"routerLinkNames.referralProgram\">\r\n                <app-referral-program-candidate isEditMode=\"true\"></app-referral-program-candidate>\r\n            </div>\r\n            <div *ngIf=\"routerLinkNames.joberWallet\">\r\n                <app-joberwallet-candidate isEditMode=\"true\"></app-joberwallet-candidate>\r\n            </div>\r\n            <div *ngIf=\"routerLinkNames.mainScreen\">\r\n                <app-profile-candidate (uploadAvatar)=\"uploadAvatar($event)\"  isEditMode=\"true\"></app-profile-candidate>\r\n            </div>\r\n            <div *ngIf=\"routerLinkNames.listJob\">\r\n                <app-listjob-candidate isEditMode=\"true\"></app-listjob-candidate>\r\n            </div>\r\n            <div *ngIf=\"routerLinkNames.posts\">\r\n                <app-candidate-posts isEditMode=\"true\"></app-candidate-posts>\r\n            </div>\r\n            <div *ngIf=\"routerLinkNames.calendar\">\r\n                <app-calendar isEditMode=\"true\"></app-calendar>\r\n            </div>\r\n            <div *ngIf=\"routerLinkNames.listSavedJob\">\r\n                <app-saved-jobs isEditMode=\"true\"></app-saved-jobs>\r\n            </div>\r\n            <div *ngIf=\"routerLinkNames.search\">\r\n                <app-search-page isEditMode=\"true\"></app-search-page>\r\n            </div>\r\n        </div>\r\n\t\t\r\n    </div>\r\n\t<app-loading></app-loading>\r\n\r\n\t\r\n</div>\r\n<app-footer></app-footer>\r\n"
+        }
+    ]
+}

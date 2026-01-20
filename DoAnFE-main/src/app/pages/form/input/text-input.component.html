@@ -1,0 +1,33 @@
+<div class="text-input">
+    <div class="row" [ngClass]="[currentItem.label != ''?  'input-lbl' : 'hide']" >
+        <span>{{currentItem.label}}</span>
+    </div>
+    <div class="input-wrapper row" [ngClass]="[currentItem.label != ''? 'input-with-lbl' : 'input-without-lbl' ]" >
+        <input *ngIf="currentItem.type === ''" class="input-common vertical-center-pos-1 global-text global-text-color-black"
+        [ngClass]="[iconName == ''? 'inputNoIcon' : 'inputIcon'
+        , iconName == 'address'? 'long-width' : ''
+        , isRedBorderTxt()? 'required-border' : 'unrequired-border']"
+        type="text" placeholder="{{currentItem.placeholderVal}}"
+        [value]="inputVal"
+        [(ngModel)]="inputVal"
+        (keyup)="onChangeText($event)"
+        (click)="onClick($event)"
+        [required]="isRequired"
+        (input)="item=getValue($event)">
+
+        <input *ngIf="currentItem.type !== ''" type="password" class="input-common vertical-center-pos global-text global-text-color-black" id="pass-input-id" 
+        [ngClass]="[iconName == ''? 'inputNoIcon' : 'inputIcon'
+        , iconName == 'address'? 'long-width' : ''
+        , isRedBorderPass()? 'required-border' : 'unrequired-border']"
+        placeholder="{{currentItem.placeholderVal}}"
+        [value]="currentItem.val"
+        [(ngModel)]="currentItem.val"
+        (keyup)="onChangePass($event)"
+        [required]="true"
+        (input)="item=getValue($event)">
+
+    </div>
+    <i class="" [ngClass]="[iconName == 'search'? 'fa-solid fa-magnifying-glass' : '', 
+    iconName == 'address'? 'fa-solid fa-location-dot' : '',
+    iconName == 'job'? 'fa-duotone fa-bagel' : '']"></i>
+</div>

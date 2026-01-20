@@ -1,0 +1,77 @@
+<app-toast #appToast [messageCode]=""></app-toast>
+<div class="joberwallet-wrapper">
+	
+	<div class="flex flex-col items-start gap-5 flex-1 mt-2 mr-5 pb-3">
+		<div class="sm:flex hidden items-center p-6 gap-5 self-stretch rounded-xl bg-white"
+			style="box-shadow: 0px 5px 6px 0px rgba(0, 89, 255, 0.25);">
+			<span class="font-body text-2xl font-semibold text-black">{{ 'myJoberWalletLbl' | translate}}</span>
+		</div>
+
+		<div class="flex sm:hidden items-start gap-1">
+			<span class="font-body font-normal text-xs items-center not-italic" style="color: rgba(0, 0, 0, 0.3);">{{
+				"homeLbl" | translate }}</span>
+			<span class="font-body font-normal text-xs items-center not-italic"
+				style="color: rgba(0, 0, 0, 0.3);">/</span>
+			<span class="font-body font-normal text-xs items-center not-italic" style="color: rgba(0, 0, 0, 0.7);">{{
+				"myJoberWalletLbl" | translate }}</span>
+		</div>
+
+		<div class="flex flex-col items-center gap-10 p-5 self-stretch rounded-xl sm:bg-white bg-none h-full -mt-10 shadow-none"
+			style="box-shadow: 0px 5px 6px 8px rgba(0, 89, 255, 0.25);">
+			<!-- Payment Result Card -->
+			<div *ngIf="showPaymentResult && paymentResult" class="w-full">
+				<div class="flex flex-col gap-3 p-4 rounded-lg" [ngStyle]="{ 'background': paymentResult.success ? '#ECFDF5' : '#FEF2F2', 'border': '1px solid ' + (paymentResult.success ? '#10B981' : '#EF4444') }">
+					<div class="flex items-center justify-between">
+						<div class="flex items-center gap-2">
+							<span class="font-body font-semibold" [ngStyle]="{ 'color': paymentResult.success ? '#065F46' : '#991B1B' }">{{ paymentResult.success ? 'Giao dịch thành công' : 'Giao dịch thất bại' }}</span>
+						</div>
+						<button (click)="dismissPaymentResult()" aria-label="dismiss">
+							<img src="../../../../assets/icons/close.svg" alt="close" />
+						</button>
+					</div>
+					<div class="grid sm:grid-cols-4 grid-cols-2 gap-3 mt-2">
+						<div class="flex flex-col"><span class="text-xs" style="color: rgba(0,0,0,0.6)">Method</span><span class="font-semibold">{{ paymentResult.method }}</span></div>
+						<div class="flex flex-col"><span class="text-xs" style="color: rgba(0,0,0,0.6)">Order</span><span class="font-semibold">{{ paymentResult.orderId }}</span></div>
+						<div class="flex flex-col"><span class="text-xs" style="color: rgba(0,0,0,0.6)">Amount</span><span class="font-semibold">{{ formatVnd(paymentResult.amount) }}</span></div>
+					</div>
+					<div *ngIf="paymentResult.message" class="mt-1 text-sm" [ngStyle]="{ 'color': paymentResult.success ? '#065F46' : '#991B1B' }">{{ paymentResult.message }}</div>
+				</div>
+			</div>
+			<div
+				class="flex justify-between sm:flex-row flex-col sm:items-center p-3 sm:px-5 sm:py-3 rounded-xl sm:w-full w-[130%] -mt-5 bg-wallet">
+				<div class="flex flex-col items-start sm:gap-5 gap-3">
+					<span class="font-body sm:font-semibold font-normal sm:text-2xl text-sm text-black">{{
+						"totalMoneyLbl" |
+						translate }}</span>
+					<div class="flex items-end gap-0">
+						<span class="font-body font-semibold sm:text-5xl text-xl" style="color: var(--green);">
+						</span>
+						<span class="font-body font-semibold text-xl" style="color: var(--green);">
+							{{ user.totalMoney }} VNĐ
+						</span>
+					</div>
+				</div>
+
+				<div class="flex justify-center items-center gap-2 sm:h-[40px] h-[27px] rounded-lg sm:mt-0 mt-3"
+					style="background: var(--green);">
+					<button class="flex justify-center items-center gap-2" style="padding: 10px 24px 10px 16px;"
+						(click)="openPopupRecharge()">
+						<img src="../../../../assets/icons/icon-up.svg" alt="icon-up">
+						<span class="font-body font-semibold sm:text-base text-xs text-center text-white">{{
+							"rechargeLbl" |
+							translate }}</span>
+					</button>
+				</div>
+			</div>
+
+			<div class="flex flex-col items-center gap-5 w-full">
+				<div class="flex flex-col items-start rounded-xl" style="border: 1px solid var(--border-history);">
+					<app-table-history [dataSource]="dataOrg" (changePage)="changePage($event)"  #appTable [displayedColumns]="displayedColumns"></app-table-history>
+				</div>
+				<div class="flex overflow-x-auto md:h-[5px] md:max-w-[900px]">
+				</div>
+			</div>
+		</div>
+	</div>
+	<app-popup-recharge #popupRecharge></app-popup-recharge>
+</div>

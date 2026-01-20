@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/app/pages/login/bk/login.component.html",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1755659335871,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1755659335871,
+            "name": "Commit-0",
+            "content": "<div class=\"popup-container\">\r\n    <div class=\"modal\">\r\n        <div class=\"modal-inner center-pos\">\r\n            <div class=\"modal-header\">\r\n                <p class=\"\"></p>\r\n                <i class=\"fa-solid fa-xmark\" (click)=\"closePopup()\"></i>\r\n            </div>\r\n            <div class=\"modal-body\">\r\n                <p class=\"global-text-big-size global-text-color-black body-title\">{{loginLbl}}</p>\r\n                <div class=\"modal-element-container\">\r\n                    <p class=\"global-text\">{{usernameLbl}}</p>\r\n                    <div class=\"input-container\">\r\n                        <app-text-input [item]=\"inputItemUsernameStr\" (inputOnchange)=\"inputOnchange($event)\"></app-text-input>\r\n                    </div>\r\n                </div>\r\n                <div class=\"modal-element-container\">\r\n                    <p class=\"global-text\">{{passLbl}}</p>\r\n                    <div class=\"input-container\">\r\n                        <!-- <app-text-input [item]=\"inputItemPassStr\" (inputOnChangePass)=\"inputPassOnchange($event)\"></app-text-input> -->\r\n                    </div>\r\n                </div>\r\n                <div class=\"forgot-pass\">\r\n                    <span class=\"global-text text-link cursor-pointer vertical-center-pos\">{{forgotPassLbl}}</span>\r\n                </div>\r\n                <div class=\"modal-element-container btn-wrapper\">\r\n                    <button class=\"btn-style global-text\" (click)=\"onLogin()\">{{loginLbl}}</button>\r\n                </div>\r\n                <div class=\"modal-element-container horizontal-center-txt-position\">\r\n                    <span class=\"global-text\">{{isHasAccountQuestion}} <span class=\"global-text text-link cursor-pointer\">{{registerLbl}}</span></span>\r\n                </div>\r\n                <div class=\"modal-element-container other-option horizontal-center-txt-position\">\r\n                    <span class=\"global-text global-text-medium-size\">{{otherLoginOptionLbl}}</span>\r\n                </div>\r\n                <div class=\"modal-element-container other-option-icon\">\r\n                    <div class=\"icon-wrapper row\">\r\n                        <div class=\"col-xl-6 cursor-pointer\">                        \r\n                            <i class=\"fa-brands fa-facebook-f cursor-pointer\"></i>\r\n                        </div>\r\n                        <div class=\"col-xl-6  cursor-pointer\"> \r\n                            <!-- <i class=\"fa-brands fa-google\"></i>  -->\r\n                            <img src=\"./assets/icons/google-icon.png\" alt=\"google-icon\" class=\"google-icon\">     \r\n                        </div>\r\n                    </div>\r\n                    \r\n                </div>\r\n            </div>\r\n            <!-- <div class=\"modal-footer\">\r\n                <button class=\"btn-style global-text\" (click)=\"closePopup()\">Close</button>\r\n            </div> -->\r\n        </div>\r\n    </div>\r\n</div>"
+        }
+    ]
+}

@@ -1,0 +1,90 @@
+<app-toast #appToast [messageCode]=""></app-toast>
+<div class="refferalprograme-wrapper">
+	<div class="flex flex-col items-start gap-5 flex-1 mt-2.5 mr-5 mb-0">
+		<div class="hidden md:flex items-center p-6 gap-5 self-stretch rounded-xl bg-white"
+			style="box-shadow: 0px 5px 6px 0px rgba(0, 89, 255, 0.25);">
+			<span class="font-body text-2xl font-semibold text-black">{{ 'introProgramingLbl' | translate}}</span>
+		</div>
+
+		<!-- breadCrum moblie -->
+		<div class=" md:hidden flex flex-row justify-between w-full mb-2">
+			<div class="w-8/12 flex items-center">
+				<app-breadcrumb key="introProgramingLbl" link="/candidate/referralprogram"></app-breadcrumb>
+			</div>
+
+		</div>
+		<!-- breadCrum moblie -->
+
+		<div
+			class="wrapper flex flex-col items-center md:gap-10 md:p-5 py-5 px-1 self-stretch rounded-xl bg-transparent md:bg-white h-full -mt-10 shadow-md ml-3 md:ml-0">
+			<div class="flex items-start gap-10">
+				<div class="flex justify-center items-center md:w-[350px] w-[151px] md:h-[202px] md:p-5 px-2 pt-2 flex-col items-center md:gap-5 rounded-xl text-center bg-white bg-white-mobile"
+					style="border: 1px solid var(--green); min-height: 140px;">
+					<span
+						class="font-body md:font-semibold md:text-xl text-md font-medium md:inline-block md:whitespace-nowrap text-sm block md:inline relative top-[-5px] md:top-0 mb-3"
+						style="color: var(--ink);">{{
+						"totalPointLbl" |
+						translate }}</span>
+					<span class="font-body md:font-semibold font-medium md:text-5xl text-lg"
+						style="color: var(--green);">{{bonusPoint}}</span>
+					<div class="hidden md:flex flex-col justify-center items-center gap-2 rounded-lg"
+						style="background-color: var(--blue-text);">
+						<button class="flex py-2 px-4 items-center justify-center gap-2 text-white">
+							<span class="items-center font-body font-semibold text-base text-white"
+								(click)="openPopupChangePoint()">{{ "changePointLbl"
+								| translate }}</span>
+						</button>
+					</div>
+					<div class="md:hidden flex items-center font-body font-semibold text-base text-sm mt-3 md:mt-0">
+						<button class="flex items-center gap-2 focus:outline-none">
+							<span class="text-base underline text-sm" style="color: var(--green);"
+								(click)="openPopupChangePoint()">{{ "changePointLbl"
+								| translate }}</span>
+						</button>
+					</div>
+				</div>
+				<div class="flex justify-center items-center md:w-[350px] w-[151px] md:h-[202px] md:w-auto flex md:p-5 px-2 pt-2 flex-col items-center md:gap-5 rounded-xl bg-white bg-white-mobile"
+					style="border: 1px solid var(--green); min-height: 140px;">
+					<span class="font-body md:font-semibold md:text-xl text-md font-medium text-center text-sm mb-2"
+						style="color: var(--ink);">{{"totalreferredLbl" |
+						translate}}</span>
+					<span class="font-body md:font-semibold font-medium md:text-5xl text-lg mt-1"
+						style="color: var(--green);">{{dataIntroUsersOrg.totalCount || 0 }}</span>
+					<div class="hidden md:flex flex-col justify-center items-center gap-2 rounded-lg"
+						style="background-color: var(--blue-text);">
+						<button class="flex py-2 px-4 items-center justify-center gap-2 text-white">
+							<span class="items-center font-body font-semibold text-base text-white"
+								(click)="openPopupReferral()">{{"introLbl" |
+								translate}}</span>
+						</button>
+					</div>
+					<div
+						class="flex md:hidden flex-col justify-center items-center gap-2 rounded-lg h-[50px] md:h-auto">
+						<button class="flex py-2 px-4 items-center justify-center gap-2 ">
+							<span class="items-center font-body font-semibold text-base underline text-sm"
+								style="color: var(--green);" (click)="openPopupReferral()">{{ "introLbl"
+								| translate }}</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div *ngIf="dataIntroUsersOrg.length != 0"
+				class="bg-white rounded-xl overflow-hidden mt-3 w-full md:w-[83%] md:mx-auto p-3">
+				<span class="font-body font-semibold md:text-2xl text-md text-black mb-3 md:mb-1 block">
+					{{ "listReferralLbl" | translate}}
+				</span>
+
+				<div class="bg-white rounded-xl border border-gray-300 md:shadow-md w-full">
+					<app-referral-program-table (changePage)="changePage($event)"
+						[displayedColumns]="displayedColumnsIntro"
+						[dataSource]="dataIntroUsersOrg"></app-referral-program-table>
+				</div>
+			</div>
+		</div>
+		<div class="flex overflow-x-auto md:h-[5px] md:max-w-[900px]">
+		</div>
+	</div>
+	<app-popup-changepoint #popupChangePoint (validate)="onRedeemFinished($event)"></app-popup-changepoint>
+	<app-popup-referral #popupReferral (validate)="onCreateUser($event)"></app-popup-referral>
+</div>
+<app-loading></app-loading>

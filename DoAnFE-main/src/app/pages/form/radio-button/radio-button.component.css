@@ -1,0 +1,14 @@
+.radio-button-wrapper {
+    width: 100%;
+		display: flex;
+}
+.radio-role {
+    width: 32%;
+    float: left;
+		@media (max-width: 500px){
+			width: 50%;
+		}
+}
+.radio-button-wrapper label {
+    padding: 3px 7px;
+}

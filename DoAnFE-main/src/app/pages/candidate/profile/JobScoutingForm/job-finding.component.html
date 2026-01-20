@@ -1,0 +1,179 @@
+<div class="user-detail-wrapper">
+	<div class="flex flex-col items-start gap-5 mt-2 mr-5">
+		<div class="flex flex-col items-start p-3 gap-10 bg-white rounded-xl  ">
+			<form action="" [formGroup]="detailUserForm">
+				<div class="row">
+					<div class="col-xs-12 col-md-12 px-2">
+						<div class="flex justify-between flex-wrap" *ngIf="parentPageCode == PROFILE_PAGE">
+							<div class="mb-3 w-full">
+								<div class="form-label"><span
+										class="color-ink-text font-size-small font-weight-bold">{{"jobLbl" |
+										translate }}</span>
+								</div>
+								<div class="input-container">
+									<app-selection class="w-full" [selectedItem]="selectedJobDefault"
+										[items]="jobDefaults" [pageMenu]="pageMenu"
+										(onChangeSelected)="onJobDefaultSelected($event)"
+										(refetchScrollMenu)="refetchScrollMenu($event)"></app-selection>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="flex justify-between px-2 flex-wrap">
+						<div class="w-full md:w-5/12">
+							<div class="mb-3 w-full">
+								<div class="form-label">
+									<span class="color-ink-text font-size-small font-weight-bold">{{"provinceLbl" |
+										translate }}</span>
+								</div>
+								<app-selection-menu class="w-full" [isDisable]="!isEditMode"
+									[selectedItem]="selectedProvince" [items]="provinces"
+									(onChangeSelected)="onProvinceSelected($event)"></app-selection-menu>
+							</div>
+						</div>
+						<!-- <div class="w-full md:w-5/12">
+							<div class="mb-3 w-full">
+								<div class="form-label"><span class="color-ink-text font-size-small font-weight-bold">{{
+										"districtLbl" | translate }}</span>
+								</div>
+								<app-selection-menu class="w-full" [isDisable]="!isEditMode"
+									[selectedItem]="selectedDistrict" [items]="districts"
+									(onChangeSelected)="onDistrictSelected($event)"></app-selection-menu>
+							</div>
+						</div> -->
+
+					</div>
+					<div class="flex justify-between px-2 flex-wrap">
+						<div class="w-full md:w-5/12">
+							<div class="mb-3 w-full">
+								<div class="form-label"><span
+										class="color-ink-text font-size-small font-weight-bold">{{"wardLbl" |
+										translate
+										}}</span>
+								</div>
+								<app-selection-menu [isDisable]="!isEditMode" [selectedItem]="selectedWard"
+									[items]="wards" (onChangeSelected)="onWardSelected($event)"></app-selection-menu>
+							</div>
+						</div>
+						<div class="w-full md:w-5/12">
+							<div class="mb-3 w-full">
+								<div class="form-label"><span
+										class="color-ink-text font-size-small font-weight-bold">{{"addressLbl" |
+										translate }}</span>
+								</div>
+								<input class="form-control" [(ngModel)]="userItem.detailAddress"
+									[ngClass]="address.invalid? 'inValid-border': 'valid-border'"
+									formControlName="address" />
+							</div>
+						</div>
+
+					</div>
+
+					<div class="row mb-3 px-2">
+						<div class="form-label"><span
+								class="color-ink-text font-size-small font-weight-bold">{{"jobTargetLbl" |
+								translate
+								}}</span>
+						</div>
+						<textarea rows="3" class="form-control p-3" formControlName="jobTarget"
+							[(ngModel)]="userItem.jobTarget"></textarea>
+					</div>
+					<div class="row mb-3 px-2">
+						<div class="form-label"><span
+								class="color-ink-text font-size-small font-weight-bold">{{"experienceLbl" |
+								translate
+								}}</span>
+						</div>
+						<textarea rows="3" class="form-control p-3" formControlName="experience"
+							[(ngModel)]="userItem.experience"></textarea>
+					</div>
+					<!-- Skill Description -->
+					<div class="row mb-3 px-2">
+						<div class="form-label">
+							<span class="color-ink-text font-size-small font-weight-bold">
+								{{"skillLbl" | translate}}
+							</span>
+						</div>
+						<textarea rows="3" class="form-control p-3" formControlName="skillDes"
+							[(ngModel)]="userItem.skillDes"></textarea>
+					</div>
+
+
+
+					<!-- Phần Upload CV với trạng thái -->
+					<div class="row mb-3 px-2">
+						<div class="form-label">
+							<span class="color-ink-text font-size-small font-weight-bold">{{"uploadCV" |
+								translate}}</span>
+						</div>
+						<div class="flex gap-2 mb-2">
+							<input type="file" #fileInput style="display:none" (change)="onFileSelected($event)"
+								accept=".pdf,.docx,.xlsx" />
+							<button (click)="fileInput.click()" [disabled]="isCheckingCV"
+								style="border: 1px solid #5B91FB;"
+								class="rounded w-auto flex justify-center items-center gap-2 py-1 px-2 ">
+								<img src="../../../../../assets/icons/uploadFile.svg" />
+								<p class="flex items-center text-center font-body not-italic font-semibold text-xs underline"
+									style="color: #00b14f;">Chọn file CV</p>
+							</button>
+						</div>
+
+						<!-- Hiển thị tên file nếu đã chọn -->
+						<div class="flex gap-2 mb-2 text-sm text-gray-700" *ngIf="selectedFile && !isCheckingCV">
+							📄 {{selectedFile.name}}
+						</div>
+
+						<!-- Thanh trạng thái đang xử lý -->
+						<div class="flex items-center gap-2 mb-2" *ngIf="isCheckingCV">
+							<div
+								class="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin">
+							</div>
+							<span class="text-sm text-blue-600 font-medium">Đang xử lý CV...</span>
+						</div>
+
+						<!-- Kết quả độ phù hợp -->
+						<div class="mb-2 p-3 bg-blue-50 border border-blue-200 rounded-lg"
+							*ngIf="matchScore !== null && !isCheckingCV">
+							<div class="flex items-center justify-between">
+								<span class="font-semibold text-sm text-gray-800">Độ phù hợp với công việc:</span>
+							</div>
+							<div class="flex items-center gap-3 mt-2">
+								<div class="flex items-center gap-1">
+									<span class="text-2xl font-bold"
+										[ngClass]="{'text-green-600': matchScore >= 70, 'text-yellow-600': matchScore >= 40 && matchScore < 70, 'text-red-600': matchScore < 40}">
+										{{ matchScore }}%
+									</span>
+									<span class="text-xs font-medium"
+										[ngClass]="{'text-green-600': matchScore >= 70, 'text-yellow-600': matchScore >= 40 && matchScore < 70, 'text-red-600': matchScore < 40}">
+										{{ matchScore >= 70 ? 'Phù hợp tốt!' : (matchScore >= 40 ? 'Phù hợp trung bình'
+										: 'Cần cải thiện') }}
+									</span>
+								</div>
+							</div>
+							<div class="text-xs text-gray-600 mt-2" *ngIf="matchReasons && matchReasons.length > 0">
+								<strong>Lý do:</strong> {{ matchReasons.join(', ') }}
+							</div>
+						</div>
+
+						<!-- Lỗi nếu có -->
+						<div class="mb-2 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700"
+							*ngIf="cvError">
+							⚠️ {{ cvError }}
+						</div>
+					</div>
+
+				</div>
+				<div class="flex justify-center">
+					<button [disabled]="detailUserForm.invalid || isCheckingCV"
+						[ngClass]="(detailUserForm.invalid || !selectedFile || isCheckingCV) ? 'btn-disable' : 'active-btn-save'"
+						class="btn border-none font-size-small font-weight-bold global-text-color-white bg-blue-600 px-3 w-[170px]"
+						(click)="saveData()" type="button" aria-expanded="false" aria-controls="collapseDetailInfo">
+						<span class="px-2 font-body not-italic font-semibold text-xs items-center">{{"postJob" |
+							translate}}</span>
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<app-toast #appToast></app-toast>

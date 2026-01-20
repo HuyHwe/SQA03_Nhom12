@@ -1,0 +1,22 @@
+.center-pos {
+    top: 15%;
+
+}
+
+.popup-container .modal-inner {
+    //padding: 20px;
+    width: 25%;
+    height: 23%;
+    margin-bottom: 5%;
+		@media (max-width: 900px){
+			width: 40%;
+    	height: 40%;
+		}
+		@media (max-width: 500px){
+			width: 80%;
+    	height: 40%;
+		}
+}
+input.ng-invalid.ng-touched {
+    border: red 1px solid;
+}

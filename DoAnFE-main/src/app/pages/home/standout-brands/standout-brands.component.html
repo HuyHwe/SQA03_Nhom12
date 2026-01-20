@@ -1,0 +1,67 @@
+<div class="standout-wrapper">
+
+  <!-- Header -->
+  <div class="header">
+    <h2>Thương hiệu nổi bật</h2>
+    <p class="subtitle">Các công ty đang tuyển dụng nhiều</p>
+  </div>
+
+  <!-- Category -->
+  <div class="category-filter">
+    <button
+      *ngFor="let cat of categories"
+      class="chip"
+      [class.active]="cat === selectedCategory || (cat === 'Tất cả' && !selectedCategory)"
+      (click)="onSelectCategory(cat === 'Tất cả' ? '' : cat)"
+    >
+      {{ cat }}
+    </button>
+  </div>
+
+  <!-- Content -->
+  <div class="brand-layout">
+
+    <!-- Left highlight -->
+    <div class="highlight-card"
+         *ngIf="organizations.length > 0"
+         (click)="onClickCompany(organizations[0])">
+
+      <span class="badge">Top Company</span>
+
+      <img
+        [src]="organizations[0].avatar"
+        class="highlight-logo"
+        onerror="this.src='assets/img/default-company.png'" />
+
+      <div class="highlight-name">
+        {{ organizations[0].name }}
+      </div>
+
+      <div class="highlight-meta">
+        {{ organizations[0].postCount }} việc làm
+      </div>
+    </div>
+
+    <!-- Right grid -->
+    <div class="brand-grid"
+         *ngIf="!isLoading && organizations.length > 1">
+
+      <div class="brand-card"
+           *ngFor="let org of organizations | slice:1"
+           (click)="onClickCompany(org)">
+
+        <img class="logo"
+             [src]="org.avatar"
+             onerror="this.src='assets/img/default-company.png'" />
+
+        <div class="info">
+          <div class="name">{{ org.name }}</div>
+          <div class="meta">{{ org.postCount }} việc làm</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

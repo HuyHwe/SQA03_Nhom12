@@ -1,0 +1,26 @@
+<app-toast #appToast [messageCode]=""></app-toast>
+<div class="container">
+	<div class="grid xs:grid-cols-3 md:grid-cols-2 gap-4">
+		<div *ngFor="let i of data">
+			<app-candidate-item [item]="i" (viewDetail)="openPopupDetailItem($event)"></app-candidate-item>
+		</div>
+	</div>
+	<div class="text-[60px] text-center text-gray-300 font-extrabold" *ngIf="data.length==0">Không tìm thấy ứng viên phù hợp</div>
+	<div class="paginator-wrapper flex justify-center p-4">
+		<div class="pagination flex justify-content">
+			<div class="flex items-center">
+				<img type="button" (click)="onPrePageClick()" src="../assets/img/back.png" class="px-2 h-4">
+			</div>
+			<li class="page-item" *ngFor="let i of arrPage" (click)="onCurrentPageClick(i)">
+				<a class="page-link" *ngIf="isDisplayPageNumber(i)" [ngClass]="{'   text-white':currentPage===i||data.length==0}">{{ i }}</a>
+			</li>
+			<div class="flex items-center">
+				<img type="button" (click)="onNextPageClick()" src="../assets/img/next.png" class="px-2 h-4">
+			</div>
+		</div>
+	</div>
+</div>
+<app-popup-info-candidate [parentPageCode]="APP_CANDIDATE_ITEMS_LIST"  #popupInfoCandidate></app-popup-info-candidate>
+<app-popup-confirm-apply
+  (validate)="onValidate($event)" #popupConfirmApply></app-popup-confirm-apply>
+<app-popup-job-finding  #jobFinding></app-popup-job-finding>

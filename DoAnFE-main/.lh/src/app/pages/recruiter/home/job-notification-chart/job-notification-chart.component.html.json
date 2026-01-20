@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/app/pages/recruiter/home/job-notification-chart/job-notification-chart.component.html",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1755222859458,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1755223550996,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,12 +5,8 @@\n     <option [ngValue]=\"null\" disabled>Chọn bài đăng</option>\r\n     <option *ngFor=\"let job of jobPosts\" [ngValue]=\"job\">{{ job.name }}</option>\r\n   </select>\r\n   \r\n-  <!-- <div *ngIf=\"selectedJob\">\r\n-    <canvas baseChart \r\n-            [data]=\"barChartData\"\r\n-            [options]=\"barChartOptions\"\r\n-            [type]=\"barChartType\">\r\n-    </canvas>\r\n-  </div> -->\r\n-</div>\n\\ No newline at end of file\n+  <div *ngIf=\"selectedJob\">\r\n+    <canvas #barChart></canvas>\r\n+  </div>\r\n+</div>\r\n"
+                }
+            ],
+            "date": 1755222859458,
+            "name": "Commit-0",
+            "content": "<div class=\"chart-container\">\r\n  <h2>Thống kê thông báo cho bài đăng</h2>\r\n  \r\n  <select [(ngModel)]=\"selectedJob\" (change)=\"onJobSelected()\">\r\n    <option [ngValue]=\"null\" disabled>Chọn bài đăng</option>\r\n    <option *ngFor=\"let job of jobPosts\" [ngValue]=\"job\">{{ job.name }}</option>\r\n  </select>\r\n  \r\n  <!-- <div *ngIf=\"selectedJob\">\r\n    <canvas baseChart \r\n            [data]=\"barChartData\"\r\n            [options]=\"barChartOptions\"\r\n            [type]=\"barChartType\">\r\n    </canvas>\r\n  </div> -->\r\n</div>"
+        }
+    ]
+}

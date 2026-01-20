@@ -1,0 +1,26 @@
+{
+    "sourceFile": "src/app/pages/home/popup-confirm-common/popup-confirm.component.html",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1755591273337,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1755591453383,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n-<div class=\"popup-container\" *ngIf=\"isOpen\" id=\"popup-confirm-apply\">\r\n-  <div class=\"modal display\">\r\n+<div class=\"popup-container\" id=\"popup-confirm-apply\" [ngClass]=\"{ 'display': isOpen, 'hide': !isOpen }\">\r\n+  <div class=\"modal\">\r\n     <div class=\"modal-inner center-pos row\">\r\n       <div\r\n         class=\"col-12 py-3 bg-blue rounded-top d-flex justify-content-center align-items-center position-relative\">\r\n         <span class=\"font-size-big font-weight-bold global-text-color-white\">{{noticeLbl}}</span>\r\n@@ -9,10 +9,10 @@\n       </div>\r\n \r\n       <div class=\"col-12 py-4 d-flex justify-content-center\">\r\n         <div class=\"popup-content px-5\">\r\n-          <span *ngIf=\"!isRedirect\">{{\"remindingCreateProfileLbl\" | translate}}</span>\r\n-          <span *ngIf=\"isRedirect\">{{\"qaViewAppliedJob\" | translate}}</span>\r\n+          <span *ngIf=\"!isRedirect\">{{ \"remindingCreateProfileLbl\" | translate }}</span>\r\n+          <span *ngIf=\"isRedirect\">{{ \"qaViewAppliedJob\" | translate }}</span>\r\n         </div>\r\n       </div>\r\n \r\n       <div class=\"col-12 py-4 horizontal-center-pos\">\r\n"
+                },
+                {
+                    "date": 1755591776150,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n-<div class=\"popup-container\" id=\"popup-confirm-apply\" [ngClass]=\"{ 'display': isOpen, 'hide': !isOpen }\">\r\n-  <div class=\"modal\">\r\n+<div class=\"popup-container\" *ngIf=\"isOpen\" id=\"popup-confirm-apply\">\r\n+  <div class=\"modal display\">\r\n     <div class=\"modal-inner center-pos row\">\r\n       <div\r\n         class=\"col-12 py-3 bg-blue rounded-top d-flex justify-content-center align-items-center position-relative\">\r\n         <span class=\"font-size-big font-weight-bold global-text-color-white\">{{noticeLbl}}</span>\r\n@@ -9,10 +9,10 @@\n       </div>\r\n \r\n       <div class=\"col-12 py-4 d-flex justify-content-center\">\r\n         <div class=\"popup-content px-5\">\r\n-          <span *ngIf=\"!isRedirect\">{{ \"remindingCreateProfileLbl\" | translate }}</span>\r\n-          <span *ngIf=\"isRedirect\">{{ \"qaViewAppliedJob\" | translate }}</span>\r\n+          <span *ngIf=\"!isRedirect\">{{\"remindingCreateProfileLbl\" | translate}}</span>\r\n+          <span *ngIf=\"isRedirect\">{{\"qaViewAppliedJob\" | translate}}</span>\r\n         </div>\r\n       </div>\r\n \r\n       <div class=\"col-12 py-4 horizontal-center-pos\">\r\n"
+                }
+            ],
+            "date": 1755591273337,
+            "name": "Commit-0",
+            "content": "<div class=\"popup-container\" *ngIf=\"isOpen\" id=\"popup-confirm-apply\">\r\n  <div class=\"modal display\">\r\n    <div class=\"modal-inner center-pos row\">\r\n      <div\r\n        class=\"col-12 py-3 bg-blue rounded-top d-flex justify-content-center align-items-center position-relative\">\r\n        <span class=\"font-size-big font-weight-bold global-text-color-white\">{{noticeLbl}}</span>\r\n        <img type=\"button\" (click)=\"closePopup()\" src=\"../assets/icons/white-close.svg\"\r\n          class=\"position-absolute top-0 end-0 p-3\">\r\n      </div>\r\n\r\n      <div class=\"col-12 py-4 d-flex justify-content-center\">\r\n        <div class=\"popup-content px-5\">\r\n          <span *ngIf=\"!isRedirect\">{{\"remindingCreateProfileLbl\" | translate}}</span>\r\n          <span *ngIf=\"isRedirect\">{{\"qaViewAppliedJob\" | translate}}</span>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"col-12 py-4 horizontal-center-pos\">\r\n        <div class=\"col-md-6 left-btn-wrapper horizontal-end-pos vertical-center-pos-1\">\r\n          <button class=\"btn\r\n              border-none\r\n              font-size-small\r\n              font-weight-bold\r\n              color-disable-text\r\n              bg-disable px-5\" \r\n              (click)=\"closePopup()\">{{cancelLbl}}</button>\r\n        </div>\r\n\r\n        <div class=\"col-md-6 right-btn-wrapper horizontal-start-pos vertical-center-pos-1\">\r\n          <button class=\"btn\r\n              border-none\r\n              font-size-small\r\n              font-weight-bold\r\n              global-text-color-white\r\n              bg-blue px-5\" \r\n              (click)=\"onValidate()\">{{yesLbl}}</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+        }
+    ]
+}

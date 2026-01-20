@@ -1,0 +1,337 @@
+<div class="popup-container" id="popup-recharge">
+	<div class="modal">
+
+		<!-- Payment -->
+		<div class="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] sm:w-[40%] w-[85%] inline-flex flex-col gap-3 rounded-lg"
+			style="background: var(--white);">
+			<div *ngIf="methodPayment === 0">
+				<div class="flex px-3 py-2 justify-center items-center gap-5 self-stretch"
+					style="border-radius: 8px 8px 0px 0px; background: var(--blue-text);">
+					<button (click)="closePopup()"><img src="../../../../../assets/icons/arrow-left.svg"
+						alt="icon-arrow-left">
+					</button>
+					<div class="flex justify-center gap-28 flex-1">
+						<div class="flex items-center gap-5 text-white">
+							<span class="font-body font-semibold text-xl">{{ "rechargeLbl"
+								| translate }}</span>
+						</div>
+					</div>
+					<button (click)="closePopup()"><img src="../../../../../assets/icons/close.svg" alt="icon-close">
+					</button>
+				</div>
+
+				<div class="flex flex-col p-6 gap-7">
+					<div class="flex flex-col items-start gap-2">
+						<div class="flex items-start gap-2 px-3">
+							<label for="" class="font-body font-semibold text-sm" style="color: var(--ink);">
+								1. {{ "rechargeFeeLbl" | translate}}
+							</label>
+						</div>
+												<div class="flex items-center rounded-lg w-full"
+							style="border: 1px solid var(--ink-background); background: rgba(0, 0, 0, 0.05);">
+							<div class="flex items-center gap-1 px-3 py-2 flex-1 rounded-sm bg-white">
+								<input type="text" class="form-control flex flex-1 items-center rounded-lg outline-none"
+									placeholder="100.000" [value]="amountInput" (input)="onAmountInput($event)">
+							</div>
+						</div>
+					</div>
+
+					<div class="flex flex-col items-start gap-2">
+						<div class="flex items-start gap-2 px-3">
+							<label for="" class="font-body font-semibold text-sm" style="color: var(--ink);">
+								2. {{ "choosePaymentLbl" | translate }}
+							</label>
+						</div>
+
+                        <div class="flex flex-col items-start gap-3 w-full">
+							<button class="flex items-center gap-5 p-3 rounded-xl button-payment w-full"
+								(click)="onChangeMethodPayment(4)" style="border: 1px solid rgba(0, 0, 0, 0.1);">
+								<img src="../../../../../assets/img/momo.svg" alt="Momo">
+								<span class="font-body text-base" style="color: var(--ink);">{{ "paymentbyMomoLbl" |
+									translate }}</span>
+							</button>
+							<button class="flex items-center gap-5 p-3 rounded-xl button-payment w-full"
+								style="border: 1px solid rgba(0, 0, 0, 0.1);" (click)="onChangeMethodPayment(2)">
+								<img src="../../../../../assets/img/napas.png" alt="VnPay">
+								<span class="font-body text-base" style="color: var(--ink);">{{ "paymentbyCardLbl" |
+									translate }}</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Payment to QRCode -->
+		<div class="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] sm:w-[45%] w-[85%] inline-flex flex-col gap-3 rounded-lg"
+			style="background: var(--white);">
+			<div *ngIf="methodPayment == 1">
+				<div class="flex px-3 py-2 items-center gap-5"
+					style="border-radius: 8px 8px 0px 0px; background: var(--blue-text);">
+					<button (click)="onChangeMethodPayment(0)"><img src="../../../../../assets/icons/arrow-left.svg"
+							alt="icon-arrow-left">
+					</button>
+					<div class="flex items-center justify-center gap-28 flex-1">
+						<div class="flex items-center gap-5 text-white">
+							<span class="font-body font-semibold text-xl">{{ "rechargeLbl"
+								| translate }}</span>
+						</div>
+					</div>
+					<button (click)="closePopup()"><img src="../../../../../assets/icons/close.svg" alt="icon-close">
+					</button>
+				</div>
+				<div class="flex flex-col px-6 items-center gap-7">
+					<div class="flex sm:p-5 items-center gap-5 rounded-xl bg-white">
+						<div class="flex flex-col items-center gap-5">
+							<span class="font-body font-semibold text-base text-black mt-4">{{ "scanQrLbl" |
+								translate}}</span>
+							<div class="flex sm:flex-row flex-col items-center gap-5">
+								<img src="../../../../../assets/icons/qr-code.svg" alt="QrCode">
+								<div class="flex flex-col items-start gap-3">
+									<div class="flex item-center gap-3">
+										<div class="flex flex-col justify-center items-center p-1 gap-3"
+											style="border-radius: 55px; background: var(--blue-text);">
+											<span
+												class="flex flex-col justify-center items-center font-body font-semibold not-italic text-xs text-white w-[16px] h-[16px]">1</span>
+										</div>
+										<span
+											class="font-body font-normal sm:text-base text-xs not-italic text-black">{{
+											"openVnPayLbl" | translate }}</span>
+									</div>
+
+									<div class="flex item-center gap-3">
+										<div class="flex flex-col justify-center items-center p-1 gap-3"
+											style="border-radius: 55px; background: var(--blue-text);">
+											<span
+												class="flex flex-col justify-center items-center font-body font-semibold not-italic text-xs text-white w-[16px] h-[16px]">2</span>
+										</div>
+										<span
+											class="font-body font-normal sm:text-base text-xs not-italic text-black">{{
+											"scanQrcodeLbl" | translate }}</span>
+									</div>
+
+									<div class="flex item-center gap-3">
+										<div class="flex flex-col justify-center items-center p-1 gap-3"
+											style="border-radius: 55px; background: var(--blue-text);">
+											<span
+												class="flex flex-col justify-center items-center font-body font-semibold not-italic text-xs text-white w-[16px] h-[16px]">3</span>
+										</div>
+										<span
+											class="font-body font-normal sm:text-base text-xs not-italic text-black">{{
+											"selectConfirmLbl" | translate }}</span>
+									</div>
+								</div>
+							</div>
+							<span class="font-body not-italic text-sm -mt-5 mb-5" style="color: rgba(0, 0, 0, 0.3);">{{
+								"qrCodeExpaireLbl" | translate }}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Payment to Momo -->
+		<div class="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] sm:w-[45%] w-[85%] inline-flex flex-col gap-3 rounded-lg"
+			style="background: var(--white);">
+			<div *ngIf="methodPayment == 4">
+				<div class="flex px-3 py-2 items-center gap-5"
+					style="border-radius: 8px 8px 0px 0px; background: var(--blue-text);">
+					<button (click)="onChangeMethodPayment(0)"><img src="../../../../../assets/icons/arrow-left.svg"
+							alt="icon-arrow-left">
+					</button>
+					<div class="flex items-center justify-center gap-28 flex-1">
+						<div class="flex items-center gap-5 text-white">
+							<span class="font-body font-semibold text-xl">{{ "rechargeLbl"
+								| translate }}</span>
+						</div>
+					</div>
+					<button (click)="closePopup()"><img src="../../../../../assets/icons/close.svg" alt="icon-close">
+					</button>
+				</div>
+				<div class="flex flex-col px-6 items-center gap-7">
+					<div class="flex sm:px-5 sm:py-4 p-3 items-center gap-5 rounded-xl bg-white">
+						<div class="flex flex-col items-center gap-5">
+							<span class="font-body font-semibold text-base text-black mt-1">{{ "scanQrLbl" |
+								translate}}</span>
+							<div class="flex sm:flex-row flex-col items-center gap-5">
+								<img src="../../../../../assets/icons/qr-code.svg" alt="QrCode">
+								<div class="flex flex-col items-start gap-3">
+									<div class="flex item-center gap-3">
+										<div class="flex flex-col justify-center items-center p-1 gap-3"
+											style="border-radius: 55px; background: var(--blue-text);">
+											<span
+												class="flex flex-col justify-center items-center font-body font-semibold not-italic text-xs text-white w-[16px] h-[16px]">1</span>
+										</div>
+										<span
+											class="font-body font-normal sm:text-base text-xs not-italic text-black">{{
+											"openMomoLbl" | translate }}</span>
+									</div>
+
+									<div class="flex item-center gap-3">
+										<div class="flex flex-col justify-center items-center p-1 gap-3"
+											style="border-radius: 55px; background: var(--blue-text);">
+											<span
+												class="flex flex-col justify-center items-center font-body font-semibold not-italic text-xs text-white w-[16px] h-[16px]">2</span>
+										</div>
+										<span
+											class="font-body font-normal sm:text-base text-xs not-italic text-black">{{
+											"scanQrcodeLbl" | translate }}</span>
+									</div>
+
+									<div class="flex item-center gap-3">
+										<div class="flex flex-col justify-center items-center p-1 gap-3"
+											style="border-radius: 55px; background: var(--blue-text);">
+											<span
+												class="flex flex-col justify-center items-center font-body font-semibold not-italic text-xs text-white w-[16px] h-[16px]">3</span>
+										</div>
+										<span
+											class="font-body font-normal sm:text-base text-xs not-italic text-black">{{
+											"selectConfirmLbl" | translate }}</span>
+									</div>
+								</div>
+							</div>
+							<span class="font-body font-normal italic text-sm items-center text-center" style="color: #0059FF;">{{
+								"qrCodeExpaireLbl" | translate }}</span>
+							
+							<button class="flex items-center justify-center px-6 py-2 rounded-lg mt-2"
+								style="background: var(--blue-text);" (click)="createMomoPayment()">
+								<span class="font-body font-semibold text-xs items-center not-italic text-white">
+									{{ "continueLbl" | translate }}
+								</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Payment to Napas -->
+		<div class="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] sm:w-[45%] w-[85%] inline-flex flex-col gap-3 rounded-lg"
+			style="background: var(--white);">
+			<div *ngIf="methodPayment == 2">
+				<div class="flex px-3 py-2 items-center gap-5"
+					style="border-radius: 8px 8px 0px 0px; background: var(--blue-text);">
+					<button (click)="onChangeMethodPayment(0)"><img src="../../../../../assets/icons/arrow-left.svg"
+							alt="icon-arrow-left">
+					</button>
+					<div class="flex items-center justify-center gap-28 flex-1">
+						<div class="flex items-center gap-5 text-white">
+							<span class="font-body font-semibold text-xl">{{ "rechargeLbl"
+								| translate }}</span>
+						</div>
+					</div>
+					<button (click)="closePopup()"><img src="../../../../../assets/icons/close.svg" alt="icon-close">
+					</button>
+				</div>
+				<div class="flex flex-col p-6 items-center gap-7">
+					<div class="flex flex-col items-center gap-6">
+						<span class="font-body font-semibold not-italic text-base text-center" style="color: var(--ink);">{{
+							"pleaseFillLbl" | translate }}</span>
+						<img src="../../../../../assets/img/card.png" alt="cardATM">
+						<div class="flex flex-col items-start gap-2 w-full">
+							<div class="flex items-center rounded-lg w-full"
+								style="border: 1px solid var(--neutral); background: var(--white);">
+								<div class="flex flex-1 items-center gap-1 px-3 py-2 rounded-lg"
+									style="border: 1px solid var(--neutral); background: var(--white);">
+									<input type="text" class="flex items-center flex-1 outline-none	"
+										placeholder="Số thẻ">
+								</div>
+							</div>
+							<div class="flex items-center rounded-lg w-full"
+								style="border: 1px solid var(--neutral); background: var(--white);">
+								<div class="flex flex-1 items-center gap-1 px-3 py-2 rounded-lg"
+									style="border: 1px solid var(--neutral); background: var(--white);">
+									<input type="text" class="flex items-center flex-1 outline-none	"
+										placeholder="Họ và tên chủ thẻ">
+								</div>
+							</div>
+							<div class="flex items-center rounded-lg w-full"
+								style="border: 1px solid var(--neutral); background: var(--white);">
+								<div class="flex flex-1 items-center gap-1 px-3 py-2 rounded-lg"
+									style="border: 1px solid var(--neutral); background: var(--white);">
+									<input type="text" class="flex items-center flex-1 outline-none	"
+										placeholder="Ngày hiệu lực">
+								</div>
+							</div>
+						</div>
+						<span class="font-body font-normal italic text-sm items-center text-center" style="color: #0059FF;">{{
+							"listBankLbl" | translate }}</span>
+						
+						<div class="flex items-start gap-5">
+							<div class="flex flex-col items-center justify-center gap-2 h-[32px] rounded-lg">
+								<button class="flex items-center justify-center px-6 py-2 rounded-lg"
+									style="background: rgba(0, 0, 0, 0.3);" (click)="closePopup()">
+									<span class="font-body font-semibold text-xs items-center not-italic text-white">{{
+										"cancelLbl" | translate }}</span>
+								</button>
+							</div>
+							<div class="flex flex-col items-center justify-center gap-2 h-[32px] rounded-lg">
+								<button class="flex items-center justify-center px-6 py-2 rounded-lg"
+									style="background: var(--blue-text);"  (click)="onChangeMethodPayment(3)">
+									<span class="font-body font-semibold text-xs items-center not-italic text-white">{{
+										"continueLbl" | translate }}</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] sm:w-[45%] w-[85%] inline-flex flex-col gap-3 rounded-lg"
+			style="background: var(--white);">
+			<div *ngIf="methodPayment == 3">
+				<div class="flex px-3 py-2 items-center gap-5"
+					style="border-radius: 8px 8px 0px 0px; background: var(--blue-text);">
+					<button (click)="onChangeMethodPayment(0)"><img src="../../../../../assets/icons/arrow-left.svg"
+							alt="icon-arrow-left">
+					</button>
+					<div class="flex items-center justify-center gap-28 flex-1">
+						<div class="flex items-center gap-5 text-white">
+							<span class="font-body font-semibold text-xl">{{ "rechargeLbl"
+								| translate }}</span>
+						</div>
+					</div>
+					<button (click)="closePopup()"><img src="../../../../../assets/icons/close.svg" alt="icon-close">
+					</button>
+				</div>
+				<div class="flex flex-col p-6 items-center gap-7">
+					<div class="flex flex-col items-center gap-6">
+						<span class="font-body font-semibold not-italic text-base text-center" style="color: var(--ink);">{{
+							"pleaseFillLbl" | translate }}</span>
+						<img src="../../../../../assets/img/card.png" alt="cardATM">
+						<div class="flex flex-col items-start gap-2 w-full">
+							<div class="flex items-center rounded-lg w-full"
+								style="border: 1px solid var(--neutral); background: var(--white);">
+								<div class="flex flex-1 items-center gap-1 px-3 py-2 rounded-lg"
+									style="border: 1px solid var(--neutral); background: var(--white);">
+									<input type="text" class="flex items-center flex-1 outline-none	"
+										placeholder="Mã xác thực (OTP)">
+								</div>
+							</div>
+						</div>
+						<span class="font-body font-normal italic text-sm items-center text-center" style="color: #0059FF;">{{
+							"listBankLbl" | translate }}</span>
+						
+						<div class="flex items-start gap-5">
+							<div class="flex flex-col items-center justify-center gap-2 h-[32px] rounded-lg">
+								<button class="flex items-center justify-center px-6 py-2 rounded-lg"
+									style="background: rgba(0, 0, 0, 0.3);" (click)="closePopup()">
+									<span class="font-body font-semibold text-xs items-center not-italic text-white">{{
+										"cancelLbl" | translate }}</span>
+								</button>
+							</div>
+							<div class="flex flex-col items-center justify-center gap-2 h-[32px] rounded-lg">
+								<button class="flex items-center justify-center px-6 py-2 rounded-lg"
+									style="background: var(--blue-text);">
+									<span class="font-body font-semibold text-xs items-center not-italic text-white">{{
+										"continueLbl" | translate }}</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

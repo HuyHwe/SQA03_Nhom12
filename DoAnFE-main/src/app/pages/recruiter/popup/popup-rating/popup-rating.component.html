@@ -1,0 +1,40 @@
+<div class="popup-container" id="popup-rating">
+	<div class="modal">
+		<div class="modal-inner center-pos row">
+			<div
+				class="px-3 col-12 py-3 bg-blue rounded-top d-flex align-items-center position-relative">
+				<span class="font-size-big font-weight-bold global-text-color-white">{{"ratingCandidate" | translate}}</span>
+				<img type="button" (click)="closePopup()" src="../assets/icons/white-close.svg"
+					class="position-absolute top-0 end-0 p-3">
+			</div>
+			<div class="justify-center">
+				<div class="popup-content px-5 justify-center">
+          <div class="flex justify-center w-full py-3">
+            <div class="inline-grid grid-cols-5 flex justify-center">
+              <div *ngFor="let i of [1, 2, 3, 4, 5]"
+                   (click)="onRate(i)"
+                   class="cursor-pointer" >
+                <img src="/src/assets/icons/star.svg" />
+              </div>
+            </div>
+          </div>
+          <textarea rows="3" class="form-control p-3"
+                    [(ngModel)]="comment"></textarea>
+          <div class="justify-center flex py-3">
+            <span class="italic">{{"promotingForRating" | translate}}</span>
+          </div>
+        </div>
+			</div>
+			<div class="py-3">
+				<div class="justify-center flex">
+					<button class="btn
+                    border-none
+                    font-size-small
+                    font-weight-bold
+                    global-text-color-white
+                    bg-blue px-5" (click)="onValidate()">{{"reviewLbl" | translate}}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

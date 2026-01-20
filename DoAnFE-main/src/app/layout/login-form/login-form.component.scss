@@ -1,0 +1,44 @@
+.user-detail-wrapper {
+    .btn-show-user-info {
+        border: none;
+        background-color: var(--background-colapse-bar);
+        color: var(--blue-text);
+    }
+    .mat-form-field {
+        display: block; 
+    }
+}
+.active-btn-save {
+    width: 100%;
+    border-radius: 6px;
+    padding: 7px;
+    height: 36px;
+    color: white;
+    background: #00b14f;
+}
+
+.btn-disable {
+    border: none;
+    font-size: var(--font-size-common);
+    font-family: var(--font-common);
+    font-weight: var(--font-weight-common);
+    background-color: var(--disable-btn-color);
+    color: var(--disable-text-color);
+}
+.password-container {
+    position: relative;
+}
+
+.password-container input {
+    padding-right: 30px; 
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #333;
+}

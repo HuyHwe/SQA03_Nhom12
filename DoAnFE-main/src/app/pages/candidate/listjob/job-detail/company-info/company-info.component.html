@@ -1,0 +1,33 @@
+<div
+  class="flex flex-col p-5 items-start gap-8 rounded-xl w-[100%]"
+  style="background: var(--ink-background)"
+>
+  <div class="flex flex-col items-start gap-2">
+                <span
+                  class="flex flex-col self-stretch font-body font-semibold not-italic uppercase text-xl"
+                  style="color: var(--base-ink-sub-text)"
+                >
+                  {{ "organizationNameLbl" | translate }}
+                </span>
+    <span
+      class="font-body font-normal not-italic text-base"
+      style="color: var(--base-ink-border)"
+    >
+                  {{ item.companyName }}
+                </span>
+  </div>
+  <div class="flex flex-col items-start gap-2">
+                <span
+                  class="flex flex-col self-stretch font-body font-semibold not-italic uppercase text-xl"
+                  style="color: var(--base-ink-sub-text)"
+                >
+                  {{ "organizationDesLbl" | translate }}
+                </span>
+    <span
+      class="font-body font-normal not-italic text-base"
+      style="color: var(--base-ink-border)"
+    >
+                  {{ item.organizationDes }}
+                </span>
+  </div>
+</div>

@@ -1,0 +1,93 @@
+<div class="row header-down">
+	<div class="col-md-12 input-group-wrapper">
+		<div class="row h-100">
+			<div class="col-md-6">
+				<div class="row h-100">
+					<div class="col-md-6 h-75" clickOutside (clickOutside)="clickedOutsideAdd()">
+						<app-text-input [item]="inputItemAddStr" [inputVal]="inputAddressVal"
+							(inputOnchange)="inputAddressOnchange($event)"
+							(inputOnClick)="inputAddressOnClick($event)"></app-text-input>
+						<div class="" *ngIf="isdropdownAddressOpen">
+							<app-dropdown-list #dropdownAdd [items]="searchingAddresses"
+								(onChangeSelected)="onSelectedAddress($event)"></app-dropdown-list>
+						</div>
+					</div>
+					<div class="col-md-6 h-75 ps-md-3" clickOutside (clickOutside)="clickedOutsideJob()">
+						<app-text-input [item]="inputItemMajorStr" [inputVal]="inputJobVal"
+							(inputOnchange)="inputJobOnchange($event)"
+							(inputOnClick)="inputJobOnClick($event)"></app-text-input>
+						<div class="dropdown-list-wrapper" *ngIf="isdropdownJobOpen">
+							<app-dropdown-list #dropdownJob [items]="searchingJobs"
+								(onChangeSelected)="onSelectedJob($event)"></app-dropdown-list>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 ps-md-5">
+				<div class="row">
+					<div class="col-md-2 horizontal-center-pos">
+						<button class="btn-search btn-style-blue-border" (click)="onSearch()">{{ "searchLbl" | translate
+							}}</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- <div class="row h-100">
+      <div class="col-md-3 col-4 input-text-search"
+    clickOutside (clickOutside)="clickedOutsideAdd()">
+      <app-text-input [item]="inputItemAddStr" 
+      [inputVal]="inputAddressVal"
+      (inputOnchange)="inputAddressOnchange($event)"
+      (inputOnClick)="inputAddressOnClick($event)"
+      ></app-text-input>
+      <div class="" *ngIf="isdropdownAddressOpen">
+        <app-dropdown-list #dropdownAdd [items]="searchingAddresses" (onChangeSelected) = "onSelectedAddress($event)"></app-dropdown-list>
+      </div>
+    </div>
+    <div class="col-md-3 col-4 input-text-search" 
+    clickOutside (clickOutside)="clickedOutsideJob()">
+      <app-text-input [item]="inputItemMajorStr"
+      [inputVal]="inputJobVal"
+      (inputOnchange)="inputJobOnchange($event)"
+      (inputOnClick)="inputJobOnClick($event)"
+      ></app-text-input>
+      <div class="dropdown-list-wrapper" *ngIf="isdropdownJobOpen">
+        <app-dropdown-list #dropdownJob [items]="searchingJobs" (onChangeSelected) = "onSelectedJob($event)"></app-dropdown-list>
+      </div>
+    </div>
+    <div class="col-md-2 col-2 horizontal-center-pos">
+      <button 
+      class="btn-search btn-style-blue-border"
+      (click)="onSearch()"
+       >{{searchLbl}}</button>
+    </div>
+    </div> -->
+	</div>
+	<div class="col-md-12 header-btn-group-wrapper global-text-small-size">
+		<div class="row">
+			<div class="col-md-3">
+				<div class="row">
+					<div class="div col-md-10">
+						<div class="row">
+							<div class="btn-wrapper col-md-4 col-4">
+								<button type="button"
+									class="middle-btn-style-border light-gray-background btn-blue-border"
+									(click)="onSearch()">{{salaryLbl}}</button>
+							</div>
+							<div class="btn-wrapper col-md-4 col-4">
+								<button type="button"
+									class="middle-btn-style-border light-gray-background btn-blue-border"
+									(click)="onSearch()">{{radius}}</button>
+							</div>
+							<div class="btn-wrapper col-md-4 col-4">
+								<button type="button"
+									class="middle-btn-style-border light-gray-background btn-blue-border"
+									(click)="onSearch()">{{durationTime}}</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

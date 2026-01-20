@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/app/pages/notification/notification.component.scss",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1754982594123,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1754982594123,
+            "name": "Commit-0",
+            "content": ".container {\r\n  max-width: 800px;\r\n}\r\n\r\n.border {\r\n  border-color: #e5e7eb;\r\n}\r\n\r\n.rounded-md {\r\n  border-radius: 0.375rem;\r\n}\r\n\r\n.space-y-4 > * + * {\r\n  margin-top: 1rem;\r\n}\r\n\r\n.bg-gray-100 {\r\n  background-color: #f3f4f6;\r\n}"
+        }
+    ]
+}

@@ -1,0 +1,60 @@
+<div class="header-up-wrapper row shadow-md bg-transparent relative z-20">
+	<app-header-up></app-header-up>
+</div>
+
+<div class="rounded-bottom min-h-screen">
+	<div>
+		<form [formGroup]="searchingForm">
+			<label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">{{
+				"searchLbl" |
+				translate }}</label>
+			<div class="absolute flex top-[30%] left-[30%] w-[40%]">
+				<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+					<svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor"
+						viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+							d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+					</svg>
+				</div>
+				<input id="default-search"
+					class="block w-full pt-3 pb-3 pl-12 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+					placeholder="{{'searchplacehoder' | translate}}" formControlName="searchInput" required [(ngModel)]="keySearch" />
+				<button (click)="handleSearch()"
+					class="text-white right-0 h-[55px] rounded-l-none absolute bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+					{{ "searchLbl" | translate }}
+				</button>
+			</div>
+
+			<!-- <div class="absolute flex flex-wrap top-[40%] items-center left-[30%] w-[50%] gap-3 mt-2">
+				<div *ngFor="let item of jobSuggest">
+					<button
+						class="flex justify-center items-center gap-2 px-4 py-1 rounded-lg bg-[--white] hover:bg-[--border-history]"
+						style="border: 1px solid rgba(0, 0, 0, 0.1);" (click)="gotoOtherPage(item)">
+						<span
+							class="font-body font-normal not-italic text-sm text-center text-[--base-ink-border] hover:text-[--blue-text]">{{
+							item.name }}</span>
+					</button>
+				</div>
+			</div> -->
+		</form>
+		<img src="../../../../assets/img/job-banner.png" alt="job-banner" class="bg-cover bg-no-repeat" />
+	</div>
+
+	<div class="mt-20">
+		<div class="flex flex-row mt-8 ml-12">
+			<span class="font-body font-semibold text-3xl not-italic text-black">
+				{{ "JobselectLbl" | translate}}:
+			</span>
+			<span class="font-body font-semibold text-3xl not-italic pl-2" style="color: var(--blue-text);">
+				{{ this.nameType}}
+			</span>
+		</div>
+		<div class="mt-14">
+			<app-items-list [dataSource]="dataSource" (changePage)="changePage($event)"
+				(onViewDetailItem)="showDetailItem($event)" [currentPage]="pageNum"></app-items-list>
+		</div>
+	</div>
+</div>
+
+<app-footer></app-footer>
+<app-loading></app-loading>

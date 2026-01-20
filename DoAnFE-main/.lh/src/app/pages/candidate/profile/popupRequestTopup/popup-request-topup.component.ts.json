@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/app/pages/candidate/profile/popupRequestTopup/popup-request-topup.component.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1757393917578,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1757393917578,
+            "name": "Commit-0",
+            "content": "import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';\r\nimport * as $ from 'jquery';\r\nimport {environment} from \"../../../../../environments/environment\";\r\nimport {ApiNameConstants} from \"../../../../constant/ApiNameConstants\";\r\nimport {CommonService} from \"../../../../service/common.service\";\r\nimport {ConstantsApp} from \"../../../../constant/ConstantsApp\";\r\nimport {UtilsService} from \"../../../../helper/service/utils.service\";\r\n\r\n@Component({\r\n    selector: 'app-popup-request-topup',\r\n    templateUrl: './popup-request-topup.component.html',\r\n    styleUrls: ['./../popupConfirmUpgradeUser/popup-confirm-upgrade-account.component.scss']\r\n})\r\nexport class PopupRequestTopupComponent implements OnInit {\r\n    @Output() validate = new EventEmitter();\r\n    @Input() upgradedPackage: any\r\n    isPopupOpen = false;\r\n\r\n    constructor(private commonService: CommonService, private utilsService: UtilsService) {}\r\n\r\n    ngOnInit(): void {\r\n        this.closePopup();\r\n    }\r\n\r\n    openPopup() {\r\n      this.isPopupOpen = true;\r\n      document.body.classList.add('no-scroll');\r\n      let modal = $(\".popup-confirm-topup-account .modal\");\r\n      modal.removeClass(\"hide\");\r\n      modal.addClass(\"display\");\r\n    }\r\n\r\n    closePopup() {\r\n        this.isPopupOpen = false;\r\n        document.body.classList.remove('no-scroll'); \r\n        let modal = $(\".popup-confirm-topup-account .modal\");\r\n        modal.removeClass(\"display\");\r\n        modal.addClass(\"hide\");\r\n    }\r\n\r\n    onValidate() {\r\n      this.callPaymentService();\r\n    }\r\n\r\n  callPaymentService() {\r\n    let user = JSON.parse(this.utilsService.getItem(ConstantsApp.user));\r\n    let body = {\r\n      \"amount\": this.upgradedPackage.price,\r\n      \"bankCode\": \"NCB\",\r\n      \"language\": \"vnd\",\r\n      \"phone\": user.phone\r\n    }\r\n    const functionName = 'callPaymentService';\r\n    const messageLog = 'call payment service';\r\n    let apiUrl = environment.API_URI + ApiNameConstants.BS_PAYMENT_CREATE;\r\n    try {\r\n      this.commonService.postDatas(body, apiUrl, functionName, messageLog).subscribe(res => {\r\n        if (res && res.data) {\r\n          this.validate.emit();\r\n          this.closePopup();\r\n          window.open(res.data, '_blank')\r\n        }\r\n      });\r\n    } catch(e) {\r\n      console.log(e);\r\n    }\r\n  }\r\n}\r\n"
+        }
+    ]
+}

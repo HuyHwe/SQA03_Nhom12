@@ -1,0 +1,30 @@
+<div class="left-panel-wrapper">
+    <div class="row number-item">
+        <span>{{foundJobLbl}} {{foundNumber}}
+            <span *ngIf="role == 1"> {{jobNearbyLbl}}</span>
+            <span *ngIf="role == 2"> {{candidateNearbyLbl}}</span>
+        </span>
+    </div>
+        <!-- todo comment -->
+    <div class="row left-panel-header">
+        <div class="row tab-button-wrapper global-text-bold">
+            <div class="tab-button col-xl-3 horizontal-center-pos activate-tab"><span>{{nearlyLbl}}</span></div>
+            <div class="tab-button col-xl-3 horizontal-center-pos"><span>{{popularLbl}}</span></div>
+            <div class="tab-button col-xl-3 horizontal-center-pos"><span>{{savedLbl}}</span></div>
+        </div>
+    </div>
+    <div class="job-candidate-item-list-wrapper">
+        <div class="job-candidate-item-wrapper" *ngFor="let item of freelancerNearBy; index as i;">
+            <app-job-candidate-item [item] = "item"></app-job-candidate-item>
+        </div>
+    </div>
+    <!-- <div class="" *ngIf="(role.isCandidate && itemMarker) || (role == 1 && itemMarker)">
+        <app-job-info-detail ></app-job-info-detail>
+    </div> -->
+    <div class="candidate-info-detail-wrapper" *ngIf="(role == 1 && itemMarker)">
+        <app-job-info-detail [itemMarker] = "itemMarker"></app-job-info-detail>
+    </div>
+    <div class="candidate-info-detail-wrapper" *ngIf="(role == 2 && itemMarker)">
+        <app-candidate-info-detail [itemMarker] = "itemMarker"></app-candidate-info-detail>
+    </div>
+</div>

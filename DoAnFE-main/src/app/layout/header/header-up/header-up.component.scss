@@ -1,0 +1,250 @@
+/* ======================== */
+/* === HEADER BASE STYLE === */
+/* ======================== */
+
+.recruiter-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: end;
+}
+
+.recruiter-wrapper::after {
+  position: absolute;
+  content: "";
+  top: 50%;
+  transform: translateY(-50%);
+  height: 41px;
+  border-left: 1px solid var(--black);
+  left: 15px;
+}
+
+a.al-logo {
+  color: #fff;
+  display: block;
+  font-size: 24px;
+  font-family: Roboto, sans-serif;
+  white-space: nowrap;
+  float: left;
+  outline: 0 !important;
+  line-height: 60px;
+  margin-left: 40%;
+}
+
+a {
+  transition: color 0.5s ease;
+}
+
+a.collapse-menu-link {
+  font-size: 31px;
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+  line-height: 42px;
+  color: #fff;
+  padding: 0;
+  float: left;
+  margin: 11px 0 0 25px;
+}
+
+.header-component {
+  height: 100%;
+}
+
+.logo-wrapper img {
+  width: 160px;
+}
+
+.dropdown-component {
+  height: 100%;
+}
+
+.login-text {
+  cursor: pointer;
+}
+
+.login-text-wrapper {
+  padding: unset;
+}
+
+.header-up .left-txt,
+.header-up .middle-txt,
+.header-up .right-txt {
+  width: 10%;
+}
+
+.avatar-wrapper {
+  position: relative;
+}
+
+.dropdown-wrapper {
+  position: absolute;
+  top: 100%;
+  right: 75%;
+  z-index: 999;
+}
+
+.nav-inner {
+  gap: 16px;
+  padding-inline: 8px;
+}
+
+.logo-group {
+  gap: 12px;
+}
+
+.logo-group img {
+  height: 44px;
+  width: auto;
+}
+
+.logo-group img:first-child {
+  height: 32px;
+}
+
+.navbar-actions {
+  gap: 8px;
+}
+
+/* ========== Responsive ========== */
+
+@media (max-width: 1023px) {
+  .hide-on-mobile-tablet {
+    display: none;
+  }
+
+  .nav-inner {
+    gap: 12px;
+  }
+
+  .logo-group img {
+    height: 36px;
+  }
+}
+
+@media (min-width: 740px) and (max-width: 1023px) {
+  .hide-on-tablet {
+    display: none;
+  }
+}
+
+@media (max-width: 739px) {
+  .hide-on-mobile {
+    display: none;
+  }
+
+  .nav-inner {
+    padding-inline: 4px;
+  }
+
+  .logo-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .logo-group img {
+    height: 32px;
+  }
+
+  .navbar-actions {
+    width: 100%;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+}
+
+.topnav {
+  overflow: hidden;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.navbar {
+  height: 100%;
+}
+
+.active-link {
+  color: #00b14f;
+}
+.notification-dropdown {
+  position: absolute;
+  right: 0;
+  top: 120%;
+  width: 350px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  z-index: 200;
+  overflow: hidden; /* Cắt nội dung + bo viền ngoài */
+  display: flex;
+  flex-direction: column;
+
+  .dropdown-header {
+    position: sticky;
+    top: 0;
+    background: #f8f9fa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    border-bottom: 1px solid #e0e0e0;
+    font-weight: 600;
+    z-index: 10;
+
+    .mark-all {
+      background: none;
+      border: none;
+      color: #007bff;
+      font-size: 13px;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  /* ✅ Chỉ danh sách cuộn, bo góc tròn với popup */
+.notification-list {
+  flex: 1;
+  max-height: 400px;
+  overflow-y: auto;
+  background: #fff;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+
+  /* ép bo góc hiển thị đúng */
+  overflow: overlay;
+  clip-path: inset(0 round 12px);
+  -webkit-clip-path: inset(0 round 12px);
+
+  /* Scrollbar style – dùng ::ng-deep để Angular không chặn */
+  ::ng-deep &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::ng-deep &::-webkit-scrollbar-track {
+    background: transparent;
+    margin-block: 8px;
+    border-radius: 12px;
+  }
+
+  ::ng-deep &::-webkit-scrollbar-thumb {
+    background-color: #c4c4c4;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  ::ng-deep &::-webkit-scrollbar-thumb:hover {
+    background-color: #9e9e9e;
+  }
+}
+
+}
+

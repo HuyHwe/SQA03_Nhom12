@@ -1,0 +1,190 @@
+<app-toast #appToast [messageCode]=""></app-toast>
+<div class="popup-container" id="popup-referral">
+  <div class="modal relative">
+    <div
+      class="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] md:w-[969px] w-[90%] max-h-[90vh] overflow-auto inline-flex flex-col gap-3 rounded-lg"
+      style="background: var(--white);">
+      <div class="flex px-3 py-2 justify-between items-center md:gap-5 self-stretch"
+        style="border-radius: 8px 8px 0px 0px; background: var(--blue-text);">
+        <div class="flex items-center gap-28">
+          <span class="font-body font-semibold text-xl" style="color: var(--white);">
+            {{ "introNewuserLbl" | translate }}
+          </span>
+        </div>
+        <button (click)="closePopup()"><img src="../../../../../assets/icons/close.svg" alt="icon-close"></button>
+      </div>
+      <div class="flex flex-col px-1 md:px-5 items-start gap-2 md:gap-7 bg-white">
+        <form action="" class="w-full" [formGroup]="inforForm">
+          <div class="flex flex-col px-1 md:px-5 items-start gap-2 md:gap-7 bg-white">
+            <div class="flex items-start md:gap-7 mb-2 w-full">
+              <div class="form-group">
+                <div class="form-label">
+                  <span class="font-body font-semibold text-sm" style="color: var(--ink);">{{ "nameLbl" | translate
+                    }}</span>
+                </div>
+                <div class="form-input">
+                  <input [(ngModel)]="userItem.name" class="flex px-3 py-2 items-center gap-1 flex-1 outline-none"
+                    formControlName="name" [ngClass]="{
+                    'inValid-border': name.invalid,
+                    'valid-border': inforForm.get('name').valid && inforForm.get('name').touched
+                  }" type="text" placeholder="">
+                </div>
+              </div>
+            </div>
+            <div class="flex items-start gap-7 mb-2 w-full">
+              <div class="form-group">
+                <div class="form-label">
+                  <span class="font-body font-semibold text-sm" style="color: var(--ink);">{{ "phoneNumberLbl" |
+                    translate }}</span>
+                </div>
+                <div class="form-input">
+                  <input class="flex px-3 py-2 items-center gap-1 flex-1 outline-none" formControlName="phone"
+                    [(ngModel)]="userItem.phone" [ngClass]="{
+                    'inValid-border': phone.invalid,
+                    'valid-border': inforForm.get('phone').valid && inforForm.get('phone').touched
+                  }" type="text">
+                </div>
+              </div>
+            </div>
+            <div class="flex items-start gap-16 w-full flex-wrap">
+              <div class="form-group md:w-1/2 w-full">
+                <div class="form-label">
+                  <span class="font-body font-semibold text-sm" style="color: var(--ink);">{{ "dateOfBirthLbl" |
+                    translate }}</span>
+                </div>
+                <div class="form-input">
+                  <input class="flex px-3 py-2 items-center gap-1 flex-1 outline-none" type="date"
+                    [(ngModel)]="userItem.dateOfBirth" [disabled]="true" formControlName="dateOfBirth" [ngClass]="{
+                    'inValid-border': !isValidDOB() || dateOfBirth.invalid && inforForm.get('dateOfBirth').touched,
+                    'valid-border': inforForm.get('dateOfBirth').valid && inforForm.get('dateOfBirth').touched
+                  }">
+                </div>
+              </div>
+              <div class="form-group md:w-1/2 w-full">
+                <div class="form-label">
+                  <span class="font-body font-semibold text-sm" style="color: var(--ink);">{{ "genderLBL" | translate
+                    }}</span>
+                </div>
+                <div class="form-input-selection">
+                  <app-selection-menu [selectedItem]="selectedGender" [items]="genders"
+                    (onChangeSelected)="onGenderSelected($event)"></app-selection-menu>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-start gap-7 mb-2 w-full">
+              <div class="form-group">
+                <div class="form-label">
+                  <span class="font-body font-semibold text-sm" style="color: var(--ink);">{{ "emailLbl" | translate
+                    }}</span>
+                </div>
+                <div class="form-input">
+                  <input class="flex px-3 py-2 items-center gap-1 flex-1 outline-none" type="email"
+                    [(ngModel)]="userItem.email" [ngClass]="{
+                    'inValid-border': email.invalid,
+                    'valid-border': inforForm.get('email').valid && inforForm.get('email').touched
+                  }" formControlName="email">
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-between mb-2 w-full flex-wrap">
+              <div class="w-full md:w-5/12">
+                <div class="mb-3 w-full">
+                  <div class="form-label">
+                    <span class="color-ink-text font-size-small font-weight-bold">{{ "provinceLbl" | translate }}</span>
+                  </div>
+                  <app-selection-menu *ngIf="provinces?.length" class="w-full" [selectedItem]="selectedProvince"
+                    [items]="provinces" (onChangeSelected)="onProvinceSelected($event)"></app-selection-menu>
+                  <div *ngIf="!provinces?.length" class="text-sm text-gray-500">Đang tải danh sách tỉnh/thành phố...
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="w-full md:w-5/12">
+                <div class="mb-3 w-full">
+                  <div class="form-label">
+                    <span class="color-ink-text font-size-small font-weight-bold">{{ "districtLbl" | translate }}</span>
+                  </div>
+                  <app-selection-menu *ngIf="districts?.length" class="w-full" [selectedItem]="selectedDistrict"
+                    [items]="districts" (onChangeSelected)="onDistrictSelected($event)"></app-selection-menu>
+                  <div *ngIf="!districts?.length" class="text-sm text-gray-500">Đang tải danh sách quận/huyện...</div>
+                </div>
+              </div> -->
+            </div>
+            <div class="flex justify-between mb-2 w-full flex-wrap">
+              <div class="w-full md:w-5/12">
+                <div class="form-label">
+                  <span class="font-body font-semibold text-sm" style="color: var(--ink);">{{ "wardLbl" | translate
+                    }}</span>
+                </div>
+                <div class="form-input-selection">
+                  <app-selection-menu *ngIf="wards?.length" [selectedItem]="selectedWard" [items]="wards"
+                    (onChangeSelected)="onWardSelected($event)"></app-selection-menu>
+                  <div *ngIf="!wards?.length" class="text-sm text-gray-500">Đang tải danh sách phường/xã...</div>
+                </div>
+              </div>
+              <div class="w-full md:w-5/12">
+                <div class="form-label">
+                  <span class="font-body font-semibold text-sm" style="color: var(--ink);">{{ "jobAddressLBL" |
+                    translate }}</span>
+                </div>
+                <div class="form-input">
+                  <textarea rows="2" class="w-full flex px-3 py-2 items-center gap-1 flex-1 outline-none"
+                    [ngClass]="address.invalid ? 'inValid-border' : 'valid-border'" formControlName="address"
+                    [(ngModel)]="userItem.address"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="w-full">
+              <app-radio-button [items]="radioItems" (radioOnChecked)="radioOnChecked($event)"></app-radio-button>
+            </div>
+            <div *ngIf="isShowTarget" class="flex flex-col items-start gap-2 w-full mb-2">
+              <div class="form-group w-full">
+                <div class="form-label">
+                  <span class="font-body font-semibold text-sm" style="color: var(--ink);">{{ "jobTargetLbl" | translate
+                    }}</span>
+                </div>
+                <div class="form-input">
+                  <textarea rows="4" class="w-full" [(ngModel)]="userItem.jobTarget"
+                    formControlName="jobTarget"></textarea>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="isShowTarget" class="flex flex-col items-start gap-2 w-full mb-2">
+              <div class="form-group w-full">
+                <div class="form-label">
+                  <span class="font-body font-semibold text-sm" style="color: var(--ink);">{{ "experienceLbl" |
+                    translate }}</span>
+                </div>
+                <div class="form-input">
+                  <textarea rows="4" class="w-full" [(ngModel)]="userItem.experience"
+                    formControlName="experience"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col items-center gap-7 p-6">
+            <div class="flex items-start gap-5">
+              <div class="flex flex-row justify-center items-center gap-2 h-8">
+                <button class="btn-disable flex justify-center items-center px-6 py-2 gap-2 rounded-lg"
+                  style="background: rgba(0, 0, 0, 0.30);" (click)="closePopup()">
+                  <span class="font-body font-semibold text-xs items-center" style="color: var(--white);">
+                    {{ "cancelLbl" | translate }}
+                  </span>
+                </button>
+                <button class="flex justify-center items-center px-6 py-2 gap-2 rounded-lg"
+                  [disabled]="inforForm.invalid || !isValidDOB()"
+                  [ngClass]="{'btn-disable': inforForm.invalid || !isValidDOB(), 'active-btn-save h-10': !inforForm.invalid}"
+                  (click)="onCreateUser()">
+                  <span class="font-body font-semibold text-xs items-center" style="color: var(--white);">
+                    {{ "introLbl" | translate }}
+                  </span>
+                </button>
+
+
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

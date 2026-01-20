@@ -1,0 +1,59 @@
+<div class="user-detail-wrapper">
+	<form action="" [formGroup]="detailUserForm">
+		<div class="row">
+			<div class="mb-3">
+				<div class="form-label"><span class="color-ink-text font-size-small font-weight-bold">{{"oldPassLbl" |
+						translate}}</span>
+				</div>
+				<input [(ngModel)]="userItem.password" [ngClass]="(password.invalid)? 'inValid-border': 'valid-border'"
+					class="form-control p-2" type="password" formControlName="password" placeholder="{{'enterOldPassLbl' | translate}}"/>
+			</div>
+			<div class="forgot-pass h-10" *ngIf="passIsNull">
+				<span class="text-sm text-red-600 text-link cursor-pointer">{{"passCantNull" | translate}}</span>
+			</div>
+			<div class="mb-3">
+				<div class="form  -label"><span class="color-ink-text font-size-small font-weight-bold">{{"newPassLbl" |
+						translate}}</span></div>
+				<input type="password" [(ngModel)]="userItem.newPassword"
+					[ngClass]="newPassword.invalid? 'inValid-border': 'valid-border'" class="form-control p-2"
+					formControlName="newPassword" placeholder="{{'enterNewPassLbl' | translate}}"/>
+			</div>
+			<div class="forgot-pass h-10" *ngIf="newPassIsNull">
+				<span class="text-sm text-red-600 text-link cursor-pointer">{{"newPassCantNull" | translate}}</span>
+			</div>
+			<div class="mb-3">
+				<div class="form-label"><span class="color-ink-text font-size-small font-weight-bold">{{"reenterPassLbl" |
+						translate}}</span>
+				</div>
+				<input type="password" [(ngModel)]="userItem.repeatedPassword"
+					[ngClass]="repeatedPassword.invalid? 'inValid-border': 'valid-border'" class="form-control p-2"
+					formControlName="repeatedPassword" placeholder="{{'enterRepeatPassLbl' | translate}}"/>
+			</div>
+			<div class="forgot-pass h-10" *ngIf="userItem.newPassword!= userItem.repeatedPassword">
+				<span class="text-sm text-red-600 text-link cursor-pointer">{{"missMatchLbl" | translate}}</span>
+			</div>
+			<div class="forgot-pass h-10" *ngIf="userItem.newPassword == userItem.repeatedPassword && newPassword.invalid">
+				<span class="text-sm text-red-600 text-link cursor-pointer">{{"passwordTut" | translate}}</span>
+			</div>
+			<div class=" flex gap-2">
+				<button [ngClass]="'active-btn-cancel'" class="btn
+        border-none
+        font-size-small
+        font-weight-bold
+        px-3" (click)="closePopup()" type="button" aria-expanded="false" aria-controls="collapseDetailInfo">
+					<span class="px-2">{{"cancelLbl" | translate}}</span>
+				</button>
+				<button [disabled]="detailUserForm.invalid" [ngClass]="'active-btn-save'" class="btn
+          border-none
+          font-size-small
+          font-weight-bold
+          global-text-color-white
+          bg-green
+          px-3" (click)="changeUserPassword()" type="button" aria-expanded="false" aria-controls="collapseDetailInfo">
+					<span class="px-2">{{"updateLbl" | translate}}</span>
+				</button>
+			</div>
+
+		</div>
+	</form>
+</div>

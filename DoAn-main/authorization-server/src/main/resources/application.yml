@@ -1,0 +1,50 @@
+security:
+  oauth2:
+    resource:
+      filter-order: 3
+server:
+  port: ${PORT:2004}
+eureka:
+  instance:
+    preferIpAddress: 'true'
+  client:
+    fetchRegistry: 'true'
+    registerWithEureka: 'true'
+    serviceUrl:
+      defaultZone: http://${EUREKA_URL:localhost}:${EUREKA_PORT:2001}/eureka/
+spring:
+  application:
+    name: authorization-server
+  datasource:
+    max-active: 2
+  profiles:
+    active: local
+
+#
+#security:
+#  oauth2:
+#    resource:
+#      filter-order: 3
+#
+#server:
+#  port: ${PORT:2004}
+#
+#eureka:
+#  instance:
+#    preferIpAddress: 'true'
+#
+#  client:
+#    fetchRegistry: 'true'
+#    registerWithEureka: 'true'
+#    serviceUrl:
+#      defaultZone: http://${EUREKA_URL:discovery-server}:${EUREKA_PORT:2001}/eureka/
+#
+#spring:
+#  application:
+#    name: authorization-server
+#
+#  datasource:
+#    max-active: 2
+#
+#  profiles:
+#    active: local

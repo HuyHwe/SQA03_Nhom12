@@ -1,0 +1,56 @@
+<div class="wrapper hidden lg:block">
+	<div class="header">
+		<div class="flex flex-row items-start gap-5 bg-white my-2"
+			style="box-shadow: 0px 5px 6px rgba(0, 89, 255, 0.25); border-radius: 12px; padding: 0.85rem;">
+			<img [src]="avatarUrl" alt="Rounded Avatar"
+				style="border-radius: 50%; width: 40px; height: 40px;">
+
+			<div class="flex flex-col justify-center items-start gap-3 -ml-5">
+				<div class="flex flex-row items-start gap-3">
+					<p class="font-body not-italic font-medium text-18 leading-5" style="color: #082639;">{{user.name}}</p>
+				</div>
+				<div class=" flex flex-row items-center justify-between gap-3">
+					<p class="font-body not-italic font-normal text-sm justify-center" style="color: #082639;">{{"phoneNumberLbl"
+						| translate}}:
+						{{user.phone}}
+					</p>
+					<div class=" w-[1px] h-[15px] bg-black"></div>
+					<p *ngIf="user.role == 2" class="font-body not-italic font-normal text-sm justify-center"
+						style="color: rgba(0, 0, 0, 0.5)">{{
+						"recruiterLbl" | translate }}</p>
+					<p *ngIf="user.role == 1" class="font-body not-italic font-normal text-sm justify-center"
+						style="color: rgba(0, 0, 0, 0.5)">{{
+						"candidateLbl" | translate }}</p>
+					<p *ngIf="user.role == 7" class="font-body not-italic font-normal text-sm justify-center"
+						style="color: rgba(0, 0, 0, 0.5)">{{
+						"adminLbl" | translate }}</p>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="sidebar box-shadow global-text-color-black global-text" [ngClass]="{ 'expanded': !isExpanded }"
+		style="border-radius: 12px;">
+		<div class="content">
+			<div class="link py-3 px-3" *ngFor="let item of choices; index as i" (click)="onActiveLink(item, $event, i)">
+				<div class="content link-content" [ngClass]="cssActiveLink(i)">
+					<div class="icon">
+						<img src="{{item.icon}}">
+					</div>
+					<div class="title global-text">{{item.name|translate}}</div>
+				</div>
+				<div class="children pt-2">
+					<div class="link py-2 px-3" *ngFor="let childItem of item.children; index as i"
+						(click)="onActiveLink(item, $event, i)">
+						<div class="content link-content" [ngClass]="cssActiveLink(i)">
+							<div class="icon">
+								<img src="{{childItem.icon}}">
+							</div>
+							<div class="title global-text">{{childItem.name}}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,44 @@
+<app-toast #appToast [messageCode]="messageCode"></app-toast>
+<div class="user-detail-wrapper">
+  <form action="" [formGroup]="detailUserForm" (keyup.enter)="changePassWithPhone()">
+
+
+    <div class="row mt-5">
+
+      <div class="mb-3">
+        <div class="form-label"><span class="color-ink-text font-size-small font-weight-bold">{{phoneNumberLbl}}</span>
+        </div>
+        <input [(ngModel)]="userItem.phone" [ngClass]="(phone.invalid||!loginState)? 'inValid-border': 'valid-border'"
+          class="form-control p-2" type="text" formControlName="phone" placeholder="0987654321"/>
+      </div>
+
+      <div class="forgot-pass h-10" *ngIf="phone.invalid" >
+        <span class="text-sm text-red-600 text-link cursor-pointer"
+          >{{invalidPhone}}</span>
+      </div>
+      <div class="forgot-pass h-10" *ngIf="phoneIsNull">
+        <span class="text-sm text-red-600 text-link cursor-pointer"
+          >{{phoneCantNull}}</span>
+      </div>
+      <div class="forgot-pass h-10" *ngIf="isChangedSuccessfully === false" >
+        <span class="text-sm text-red-600 text-link cursor-pointer">
+          {{'changingPassFailedLbl' | translate}}
+        </span>
+      </div>
+      <div class="mt-2">
+        <button [ngClass]="'active-btn-save'" class="btn
+          border-none
+          font-size-small
+          font-weight-bold
+          global-text-color-white
+          bg-green
+          px-3" (click)="changePassWithPhone()" type="button" aria-expanded="false"
+          aria-controls="collapseDetailInfo">
+          <img class="" src="../assets/icons/white-save.svg" alt="">
+          <span class="px-2">{{getBackPassLbl}}</span>
+        </button>
+      </div>
+
+    </div>
+  </form>
+</div>

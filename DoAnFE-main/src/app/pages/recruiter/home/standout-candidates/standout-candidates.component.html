@@ -1,0 +1,79 @@
+<section class="candidate-section">
+<div class="candidate-container">
+  <div class="section-header">
+    <div class="title-wrapper">
+      <h2>🎯 Ứng viên tiêu biểu</h2>
+      <p>Những hồ sơ có điểm uy tín và đánh giá cao nhất hệ thống</p>
+    </div>
+  </div>
+
+  <div class="loading-overlay" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Đang tìm kiếm những ứng viên tài năng nhất...</p>
+  </div>
+
+  <ng-container *ngIf="!isLoading">
+    
+    <div class="featured-container" *ngIf="featuredCandidate">
+      <div class="featured-card">
+        <div class="badge-top">Hạng 1</div>
+        <div class="avatar-featured">
+          {{ featuredCandidate.name?.charAt(0) }}
+        </div>
+
+        <div class="featured-content">
+          <h3>{{ featuredCandidate.name }}</h3>
+          <div class="meta-info">
+            <span class="rating">★ {{ featuredCandidate.rating || 0 }}/5</span>
+            <span class="dot">•</span>
+            <span class="location">{{ featuredCandidate.province }}</span>
+          </div>
+
+          <div class="point-badge">
+            <span class="label">Điểm tích lũy:</span>
+            <span class="value">{{ featuredCandidate.point | number }}</span>
+          </div>
+
+          <button class="btn-primary-large" (click)="openPopupDetailItem(featuredCandidate)">
+            Xem hồ sơ chi tiết
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="candidate-grid" *ngIf="otherCandidates.length > 0">
+      <div class="candidate-card" 
+           *ngFor="let c of otherCandidates; let i = index; trackBy: trackByCandidate">
+        <div class="card-header">
+          <div class="avatar-small">
+            {{ c.name?.charAt(0) }}
+          </div>
+          <div class="rank-badge">#{{ i + 2 }}</div>
+        </div>
+
+        <div class="card-body">
+          <div class="name" [title]="c.name">{{ c.name }}</div>
+          <div class="sub">★ {{ c.rating || 0 }} • {{ c.province }}</div>
+          <div class="point-text">{{ c.point | number }} điểm</div>
+        </div>
+
+        <div class="card-footer">
+          <button class="btn-outline-small" (click)="openPopupDetailItem(c)">
+            Xem chi tiết
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="!featuredCandidate && otherCandidates.length === 0">
+      <p>Hiện tại chưa có ứng viên nào đạt tiêu chuẩn tiêu biểu.</p>
+    </div>
+
+  </ng-container>
+  </div>
+</section>
+
+<app-popup-info-candidate 
+  [parentPageCode]="APP_CANDIDATE_ITEMS_LIST" 
+  #popupInfoCandidate>
+</app-popup-info-candidate>

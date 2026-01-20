@@ -1,0 +1,132 @@
+spring:
+  cloud:
+    gateway:
+      default-filters:
+      - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+#            allowedOrigins: ${DOMAIN_FE:http://localhost:4200}
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+      discovery:
+        locator:
+          enabled: 'true'
+          lower-case-service-id: 'true'
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/bs-user/**,/bs-user/schedule/**, /bs-freelancer/**, /recruiter/**, /candidate/**, /bs-job/**, /payment/**, /bs-admin/**, /swagger-ui/**, /v3/api-docs/**, /api/v1/**, /login/**, /oauth2/**
+        - id: search-service
+          uri: lb://search-service
+          predicates:
+            - Path=/bs-search/**, /bs-address/**
+        - id: authorization-server
+          uri: lb://authorization-server
+          predicates:
+            - Path=/oauth/**
+        - id: configuration-service
+          uri: lb://configuration-service
+          predicates:
+            - Path=/bs-configuration/**, /swagger-ui/**, /bs-package/**
+        - id: payment-service
+          uri: lb://payment-service
+          predicates:
+            - Path=/bs-payment/**, /swagger-ui/**, /swagger-ui/**
+  application:
+    name: api-gateway
+  main:
+    allow-bean-definition-overriding: 'true'
+eureka:
+  instance:
+    preferIpAddress: 'true'
+  client:
+    fetchRegistry: 'true'
+    registerWithEureka: 'true'
+    serviceUrl:
+      defaultZone: http://${EUREKA_URL:localhost}:${EUREKA_PORT:2001}/eureka/
+logging:
+  level:
+    org:
+      springframework:
+        web: WARN
+    com:
+      netflix: WARN
+server:
+  port: ${PORT:2000}
+
+
+
+
+
+#spring:
+#  cloud:
+#    gateway:
+#      default-filters:
+#        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+#      globalcors:
+#        corsConfigurations:
+#          '[/**]':
+#            allowedOrigins: "*"
+#            allowedHeaders: "*"
+#            allowedMethods:
+#              - GET
+#              - POST
+#              - PUT
+#              - DELETE
+#      discovery:
+#        locator:
+#          enabled: 'true'
+#          lower-case-service-id: 'true'
+#      routes:
+#        - id: user-service
+#          uri: lb://user-service
+#          predicates:
+#            - Path=/bs-user/**,/bs-user/schedule/**,/bs-freelancer/**,/recruiter/**,/candidate/**,/bs-job/**,/payment/**,/bs-admin/**,/swagger-ui/**,/v3/api-docs/**,/api/v1/**,/login/**,/oauth2/**
+#        - id: search-service
+#          uri: lb://search-service
+#          predicates:
+#            - Path=/bs-search/**,/bs-address/**
+#        - id: authorization-server
+#          uri: lb://authorization-server
+#          predicates:
+#            - Path=/oauth/**
+#        - id: configuration-service
+#          uri: lb://configuration-service
+#          predicates:
+#            - Path=/bs-configuration/**,/swagger-ui/**,/bs-package/**
+#        - id: payment-service
+#          uri: lb://payment-service
+#          predicates:
+#            - Path=/bs-payment/**,/swagger-ui/**,/swagger-ui/**
+#
+#  application:
+#    name: api-gateway
+#  main:
+#    allow-bean-definition-overriding: 'true'
+#
+#eureka:
+#  instance:
+#    preferIpAddress: 'true'
+#  client:
+#    fetchRegistry: 'true'
+#    registerWithEureka: 'true'
+#    serviceUrl:
+#      defaultZone: http://${EUREKA_URL:discovery-server}:${EUREKA_PORT:2001}/eureka/
+#
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        web: WARN
+#    com:
+#      netflix: WARN
+#
+#server:
+#  port: ${PORT:2000}

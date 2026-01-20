@@ -1,0 +1,38 @@
+{
+    "sourceFile": "src/app/layout/loadingInteceptor/loader.service.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 5,
+            "patches": [
+                {
+                    "date": 1754218482654,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1754218570658,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,28 +1,21 @@\n import { Injectable } from '@angular/core';\r\n import { Subject } from 'rxjs';\r\n-import { HttpRequest } from '@angular/common/http';\r\n \r\n @Injectable({\r\n   providedIn: 'root',\r\n })\r\n export class LoaderService {\r\n-  private isLoadingSubject = new Subject<boolean>();\r\n-  isLoading = this.isLoadingSubject.asObservable();\r\n-  private ignoredEndpoints = ['/bs-user/api/chat']; // Bỏ qua endpoint của chatbot\r\n \r\n-  constructor() {}\r\n+  isLoading = new Subject<boolean>();\r\n \r\n-  show(req: HttpRequest<any>) {\r\n-    if (this.ignoredEndpoints.some(endpoint => req.url.includes(endpoint))) {\r\n-      return; // Không kích hoạt loading cho chatbot\r\n-    }\r\n-    this.isLoadingSubject.next(true);\r\n+  constructor() {\r\n   }\r\n \r\n-  hide(req: HttpRequest<any>) {\r\n-    if (this.ignoredEndpoints.some(endpoint => req.url.includes(endpoint))) {\r\n-      return; // Không thay đổi trạng thái loading\r\n-    }\r\n-    this.isLoadingSubject.next(false);\r\n+  show() {\r\n+     this.isLoading.next(true);\r\n   }\r\n+\r\n+  hide() {\r\n+     this.isLoading.next(false);\r\n+  }\r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1754218632245,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,5 +17,6 @@\n \r\n   hide() {\r\n      this.isLoading.next(false);\r\n   }\r\n+  \r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1754218767270,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,13 +10,13 @@\n \r\n   constructor() {\r\n   }\r\n \r\n-  show() {\r\n+  show(req: unknown) {\r\n      this.isLoading.next(true);\r\n   }\r\n \r\n-  hide() {\r\n+  hide(req: unknown) {\r\n      this.isLoading.next(false);\r\n   }\r\n   \r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1754218786464,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,13 +10,13 @@\n \r\n   constructor() {\r\n   }\r\n \r\n-  show(req: unknown) {\r\n+  show() {\r\n      this.isLoading.next(true);\r\n   }\r\n \r\n-  hide(req: unknown) {\r\n+  hide() {\r\n      this.isLoading.next(false);\r\n   }\r\n   \r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1754896255079,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,22 +1,22 @@\n-import { Injectable } from '@angular/core';\r\n-import { Subject } from 'rxjs';\r\n-\r\n-@Injectable({\r\n-  providedIn: 'root',\r\n-})\r\n-export class LoaderService {\r\n-\r\n-  isLoading = new Subject<boolean>();\r\n-\r\n-  constructor() {\r\n-  }\r\n-\r\n-  show() {\r\n-     this.isLoading.next(true);\r\n-  }\r\n-\r\n-  hide() {\r\n-     this.isLoading.next(false);\r\n-  }\r\n-  \r\n+import { Injectable } from '@angular/core';\n+import { Subject } from 'rxjs';\n+\n+@Injectable({\n+  providedIn: 'root',\n+})\n+export class LoaderService {\n+\n+  isLoading = new Subject<boolean>();\n+\n+  constructor() {\n+  }\n+\n+  show() {\n+     this.isLoading.next(true);\n+  }\n+\n+  hide() {\n+     this.isLoading.next(false);\n+  }\n+  \n }\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1754218482654,
+            "name": "Commit-0",
+            "content": "import { Injectable } from '@angular/core';\r\nimport { Subject } from 'rxjs';\r\nimport { HttpRequest } from '@angular/common/http';\r\n\r\n@Injectable({\r\n  providedIn: 'root',\r\n})\r\nexport class LoaderService {\r\n  private isLoadingSubject = new Subject<boolean>();\r\n  isLoading = this.isLoadingSubject.asObservable();\r\n  private ignoredEndpoints = ['/bs-user/api/chat']; // Bỏ qua endpoint của chatbot\r\n\r\n  constructor() {}\r\n\r\n  show(req: HttpRequest<any>) {\r\n    if (this.ignoredEndpoints.some(endpoint => req.url.includes(endpoint))) {\r\n      return; // Không kích hoạt loading cho chatbot\r\n    }\r\n    this.isLoadingSubject.next(true);\r\n  }\r\n\r\n  hide(req: HttpRequest<any>) {\r\n    if (this.ignoredEndpoints.some(endpoint => req.url.includes(endpoint))) {\r\n      return; // Không thay đổi trạng thái loading\r\n    }\r\n    this.isLoadingSubject.next(false);\r\n  }\r\n}"
+        }
+    ]
+}

@@ -1,0 +1,12 @@
+<div class="chart-container">
+  <h2>Thống kê thông báo cho bài đăng</h2>
+  
+  <select [(ngModel)]="selectedJob" (change)="onJobSelected()">
+    <option [ngValue]="null" disabled>Chọn bài đăng</option>
+    <option *ngFor="let job of jobPosts" [ngValue]="job">{{ job.name }}</option>
+  </select>
+  
+  <div *ngIf="selectedJob">
+    <canvas #barChart></canvas>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/app/layout/toast/toast.component.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1757059596736,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1757059970579,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -26,19 +26,19 @@\n   show(info: any) {\r\n     if (info.messageCode) this.isShow = true;\r\n     switch (info.messageCode) {\r\n       case(ConstantsApp.SUCCESS_CODE):\r\n-        this.imgLink = '../../../assets/icons/white-check.svg';\r\n+        this.imgLink = '../../../../../assets/icons/white-check.svg';\r\n         this.message = info.message? info.message: Constants.saveSuccessLbl;\r\n         this.bgClass = 'bg-light-green';\r\n       break;\r\n       case(ConstantsApp.FAILED_CODE):\r\n-        this.imgLink = '../../../assets/icons/noti-fail.svg';\r\n+        this.imgLink = '../../../../../assets/icons/noti-fail.svg';\r\n         this.message = info.message? info.message: Constants.saveFailedLbl;\r\n         this.bgClass = 'bg-light-red';\r\n         break;\r\n       case(ConstantsApp.EXISTED):\r\n-        this.imgLink = '../../../assets/icons/noti-fail.svg';\r\n+        this.imgLink = '../../../../../assets/icons/noti-fail.svg';\r\n         this.message = info.message? info.message: 'existedAccountLbl';\r\n         this.bgClass = 'bg-light-red';\r\n         break;\r\n       case(ConstantsApp.WARNING_CODE):\r\n"
+                }
+            ],
+            "date": 1757059596736,
+            "name": "Commit-0",
+            "content": "import { Component, OnInit, Input, OnChanges } from '@angular/core';\r\nimport { ConstantsApp } from 'src/app/constant/ConstantsApp';\r\nimport { Constants } from 'src/app/constant/Constants';\r\n\r\n@Component({\r\n  selector: 'app-toast',\r\n  templateUrl: './toast.component.html',\r\n  styleUrls: ['./toast.component.scss']\r\n})\r\n\r\nexport class ToastComponent implements OnInit, OnChanges{\r\n  @Input() messageCode : any;\r\n  imgLink: any;\r\n  message: any;\r\n  isShow: any;\r\n  bgClass: any;\r\n  constructor() {\r\n  }\r\n  ngOnInit() {\r\n    this.isShow = false;\r\n  }\r\n\r\n  ngOnChanges() {\r\n  }\r\n\r\n  show(info: any) {\r\n    if (info.messageCode) this.isShow = true;\r\n    switch (info.messageCode) {\r\n      case(ConstantsApp.SUCCESS_CODE):\r\n        this.imgLink = '../../../assets/icons/white-check.svg';\r\n        this.message = info.message? info.message: Constants.saveSuccessLbl;\r\n        this.bgClass = 'bg-light-green';\r\n      break;\r\n      case(ConstantsApp.FAILED_CODE):\r\n        this.imgLink = '../../../assets/icons/noti-fail.svg';\r\n        this.message = info.message? info.message: Constants.saveFailedLbl;\r\n        this.bgClass = 'bg-light-red';\r\n        break;\r\n      case(ConstantsApp.EXISTED):\r\n        this.imgLink = '../../../assets/icons/noti-fail.svg';\r\n        this.message = info.message? info.message: 'existedAccountLbl';\r\n        this.bgClass = 'bg-light-red';\r\n        break;\r\n      case(ConstantsApp.WARNING_CODE):\r\n      break;\r\n    }\r\n\r\n    setTimeout(() => {\r\n      this.isShow = false;\r\n    }, 3000);\r\n  }\r\n}\r\n"
+        }
+    ]
+}

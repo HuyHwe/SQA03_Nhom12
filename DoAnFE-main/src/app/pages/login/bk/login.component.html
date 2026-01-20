@@ -1,0 +1,52 @@
+<div class="popup-container">
+    <div class="modal">
+        <div class="modal-inner center-pos">
+            <div class="modal-header">
+                <p class=""></p>
+                <i class="fa-solid fa-xmark" (click)="closePopup()"></i>
+            </div>
+            <div class="modal-body">
+                <p class="global-text-big-size global-text-color-black body-title">{{loginLbl}}</p>
+                <div class="modal-element-container">
+                    <p class="global-text">{{usernameLbl}}</p>
+                    <div class="input-container">
+                        <app-text-input [item]="inputItemUsernameStr" (inputOnchange)="inputOnchange($event)"></app-text-input>
+                    </div>
+                </div>
+                <div class="modal-element-container">
+                    <p class="global-text">{{passLbl}}</p>
+                    <div class="input-container">
+                        <!-- <app-text-input [item]="inputItemPassStr" (inputOnChangePass)="inputPassOnchange($event)"></app-text-input> -->
+                    </div>
+                </div>
+                <div class="forgot-pass">
+                    <span class="global-text text-link cursor-pointer vertical-center-pos">{{forgotPassLbl}}</span>
+                </div>
+                <div class="modal-element-container btn-wrapper">
+                    <button class="btn-style global-text" (click)="onLogin()">{{loginLbl}}</button>
+                </div>
+                <div class="modal-element-container horizontal-center-txt-position">
+                    <span class="global-text">{{isHasAccountQuestion}} <span class="global-text text-link cursor-pointer">{{registerLbl}}</span></span>
+                </div>
+                <div class="modal-element-container other-option horizontal-center-txt-position">
+                    <span class="global-text global-text-medium-size">{{otherLoginOptionLbl}}</span>
+                </div>
+                <div class="modal-element-container other-option-icon">
+                    <div class="icon-wrapper row">
+                        <div class="col-xl-6 cursor-pointer">                        
+                            <i class="fa-brands fa-facebook-f cursor-pointer"></i>
+                        </div>
+                        <div class="col-xl-6  cursor-pointer"> 
+                            <!-- <i class="fa-brands fa-google"></i>  -->
+                            <img src="./assets/icons/google-icon.png" alt="google-icon" class="google-icon">     
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <!-- <div class="modal-footer">
+                <button class="btn-style global-text" (click)="closePopup()">Close</button>
+            </div> -->
+        </div>
+    </div>
+</div>

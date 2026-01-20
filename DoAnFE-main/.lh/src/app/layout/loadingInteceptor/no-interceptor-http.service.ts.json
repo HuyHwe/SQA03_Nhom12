@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/app/layout/loadingInteceptor/no-interceptor-http.service.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1754218887365,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1754218887365,
+            "name": "Commit-0",
+            "content": "import { Injectable } from '@angular/core';\r\nimport { HttpClient, HttpBackend } from '@angular/common/http';\r\n\r\n@Injectable({\r\n  providedIn: 'root'\r\n})\r\nexport class NoInterceptorHttpService {\r\n  private http: HttpClient;\r\n\r\n  constructor(handler: HttpBackend) {\r\n    this.http = new HttpClient(handler); // Tạo HttpClient không dùng interceptor\r\n  }\r\n\r\n  getHttpClient(): HttpClient {\r\n    return this.http;\r\n  }\r\n}"
+        }
+    ]
+}

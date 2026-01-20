@@ -1,0 +1,110 @@
+package com.paymentservice.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+@Setter
+@Getter
+@Entity
+@Table(name = "usercommon")
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserCommon implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
+    @Size(max = 255)
+    @Column(name = "phone")
+    private String phone;
+
+    @Size(max = 255)
+    @Column(name = "pin")
+    private String pin;
+
+    @Size(max = 255)
+    @Column(name = "status")
+    private String status;
+
+    @Column(name = "totalmoney")
+    private Double totalMoney;
+
+    @Column(name = "rating")
+    private Integer rating;
+
+    @Column(name = "role")
+    private Integer role;
+
+    @Column(name = "loginnumber")
+    private Long loginNumber;
+
+    @Column(name = "withdrawnumber")
+    private Integer withdrawNumber;
+
+    @Size(max = 255)
+    @Column(name = "introphone")
+    private String introPhone;
+
+    @Column(name = "bonuspoint")
+    private Double bonusPoint;
+
+    @Size(max = 255)
+    @Column(name = "email")
+    private String email;
+
+    @Size(max = 255)
+    @Column(name = "avatar")
+    private String avatar;
+
+    @Column(name = "sentpassword")
+    private Integer sentPassword;
+
+    @Size(max = 200)
+    @Column(name = "facebookid", length = 200)
+    private String facebookId;
+
+    @Size(max = 255)
+    @Column(name = "googleid")
+    private String googleId;
+
+    @Column(name = "receiveinfo")
+    private Integer receiveInfo;
+
+    @Column(name = "sendsmsnumber")
+    private Integer sendSmsNumber;
+
+    @Column(name = "creationdate")
+    private LocalDateTime creationDate;
+    @Column(name = "updatedate")
+    private LocalDateTime updateDate;
+    @Column(name = "dateofbirth")
+    private LocalDateTime dateOfBirth;
+    @Column(name = "country")
+    private String country;
+    @Column(name = "nationality")
+    private String nationality;
+    @Column(name = "detailaddress")
+    private String detailAddress;
+    @Column(name = "premiumexpdate")
+    private LocalDateTime premiumExpdate;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "gender")
+    private String gender;
+    @Column(name = "address")
+    private String address;
+    @Column(name = "jobtarget")
+    private String jobTarget;
+    @Column(name = "experience")
+    private String experience;
+    @Column(name = "ispremium")
+    private Boolean isPremium;
+}

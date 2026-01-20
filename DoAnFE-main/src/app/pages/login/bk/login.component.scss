@@ -1,0 +1,126 @@
+.popup-container {
+
+}
+.modal-header {
+    border-bottom: none;
+}
+.popup-container .modal{
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    background: rgba(0, 0, 0, 0.6);
+    
+}
+.center-pos {
+    margin: auto;
+    top: 1%;
+    position: relative;
+}
+.popup-container .modal-inner {
+    width: 400px;
+    height: 98%;
+    border-radius: 10px;
+    background: white;
+    animation-name: modalShow;
+    animation-duration: 0.3s;
+}
+.popup-container .modal-inner .modal-header{
+    height: 10%;
+    padding: 30px;
+}
+
+.popup-container .modal-inner .modal-body{
+    height: 80%;
+}
+.popup-container .modal-inner .modal-footer{
+    height: 10%;
+}
+.hide {
+    display: none;
+    opacity: 0;
+    transform: scale(1);
+}
+.display {
+    display: block;
+    opacity: 1;
+    transform: scale(1);
+}
+.modal-inner .modal-header i {
+    font-size: 20px;
+    cursor: pointer;
+    color: gray;
+}
+.modal-element-container {
+    height: 15%;
+    margin-top: 4%;
+}
+.other-option-icon {
+    display: flex;
+}
+.other-option, .other-option-icon {
+    height: 5%!important;
+}
+.modal-element-container .input-container {
+    height: 50%;
+    width: 100%;
+}
+.modal-element-container .icon-wrapper{
+    width: 30%;
+    margin: auto;
+}
+.modal-element-container .icon-wrapper i {
+    font-size: 23px;
+    color: var(--blue);;
+}
+.modal-element-container .icon-wrapper img {
+    font-size: 23px;
+    width: 23px;
+}
+.modal-element-container .input-container input {
+    width: 100%;
+    height: 100%;
+}
+
+.modal-element-container p:first-child {
+    margin: 0;
+    padding: 7px 0px;
+    height: 40%;
+    font-size: 15px;
+}
+.modal-body {
+    padding: 30px;
+}
+.modal-body .body-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 27px;
+}
+.modal-body .forgot-pass {
+    height: 7%;
+    position: relative;
+}
+.modal-body .forgot-pass span{
+    right: 0px;
+}
+.btn-wrapper button{
+    width: 100%;
+}
+
+@keyframes modalShow{
+    from {
+        top: -200px;
+        opacity: 0;
+        transform: translateY(-110%);
+
+    }
+    to {
+        top: 0;
+        opacity: 1;
+        transform: translateY(0%);
+    }
+}
+@keyframes hide{
+    to {
+        transform: translateY(-110%);
+    }
+}

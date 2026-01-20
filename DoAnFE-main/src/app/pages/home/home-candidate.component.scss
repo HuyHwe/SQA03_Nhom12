@@ -1,0 +1,813 @@
+.header-up-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  background: #ffffff; // bắt buộc để không bị xuyên nền
+}
+
+
+
+.question {
+  top: -25px;
+  right: 165px;
+  width: 38px;
+}
+
+.page-wrapper {
+  overflow-x: hidden;
+  background: #fff;
+}
+
+.hero-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  align-items: center;
+  row-gap: 24px;
+}
+
+.hero-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.hero-col {
+  min-width: 0;
+}
+
+.hero-copy {
+  max-width: 720px;
+}
+
+.hero-title {
+  display: block;
+  font-size: clamp(28px, 6vw, 56px);
+  line-height: 1.1;
+}
+
+.searching-wrapper {
+  width: 100%;
+}
+
+.searching-box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 12px;
+  padding: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+  width: min(920px, 100%);
+  margin: 0 auto;
+}
+
+.selection-col,
+.location-col {
+  flex: 1 1 260px;
+  min-width: 0;
+}
+
+.divider {
+  width: 1px;
+  background: #d1d5db;
+  align-self: stretch;
+  margin: 0 4px;
+}
+
+.search-btn {
+  background-color: var(--blue-text);
+  min-width: 52px;
+  align-self: stretch;
+}
+
+.category-header {
+  padding: 0 1rem;
+  gap: 16px;
+}
+
+/* Featured Companies Section */
+.featured-companies-section {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+/* Featured companies grid with slide animation */
+.featured-companies-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 cột chia đều trong khung */
+  column-gap: 20px;
+  row-gap: 20px;
+  padding: 20px 0;
+  animation: slideInFromRight 0.8s ease-out;
+  justify-content: center;
+  justify-items: center;
+}
+
+/* Responsive columns to avoid overflow between 5 and 3 per row */
+@media (max-width: 1200px) {
+  .featured-companies-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .featured-companies-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .featured-companies-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .featured-companies-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide {
+  animation: slideInFromRight 0.8s ease-out;
+}
+
+/* Ensure hero text is not overlapped by fixed header */
+.content {
+  padding-top: 140px; /* push below header height */
+  overflow: visible; /* allow half-circle background to show fully */
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding-top: 120px;
+  }
+}
+
+/* Responsive half-circle background */
+.hero-half-bg {
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1200px, 100%);
+  max-width: 100%;
+  height: clamp(420px, 50vw, 900px);
+}
+
+@media (max-width: 1024px) {
+  .hero-half-bg {
+    height: clamp(360px, 56vw, 780px);
+  }
+
+  .hero-container {
+    padding: 0 1rem;
+  }
+
+  .hero-wrapper {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-copy {
+    text-align: center;
+  }
+
+  .question {
+    right: 36px;
+    width: 32px;
+  }
+
+  .searching-box {
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .category-header {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: center;
+  }
+
+  .category-header > div {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-half-bg {
+    height: 70vw;
+  }
+
+  .hero-title {
+    font-size: clamp(24px, 8vw, 40px);
+    text-align: center;
+  }
+
+  .hero-wrapper {
+    padding-inline: 4px;
+  }
+
+  .searching-box {
+    padding: 12px 10px;
+  }
+
+  .selection-col,
+  .location-col {
+    flex-basis: 100%;
+  }
+}
+
+/* Top 5 ticker continuous */
+.featured-top-ticker {
+  overflow: hidden;
+}
+
+.featured-top-track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  animation: featuredTopScroll 30s linear infinite;
+}
+
+@keyframes featuredTopScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.top-company-card {
+  width: 100%;
+  max-width: 270px; /* giữ độ rộng tối đa như ban đầu */
+  margin: 0 auto;    /* căn giữa trong ô */
+  height: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+@media (max-width: 992px) {
+  .top-company-card { max-width: 240px; }
+}
+
+@media (max-width: 768px) {
+  .top-company-card { max-width: 220px; height: 160px; }
+}
+
+.top-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #22c55e;
+  color: #fff;
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+/* Full width marquee wrapper */
+.full-width-marquee-wrapper {
+  overflow: hidden;
+  position: relative;
+  background: transparent; /* trùng với nền ngoài */
+  padding: 30px 0;
+  width: 100%;
+  margin-left: 0;
+  min-height: 210px;
+}
+
+.full-width-marquee {
+  display: flex;
+  width: max-content; /* đảm bảo chiều rộng bao theo nội dung để không ngắt quãng */
+  gap: 30px; /* dùng gap thay cho margin rời rạc để đều nhau */
+  animation: scrollMarquee 250s linear infinite;
+}
+
+@keyframes scrollMarquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.marquee-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+}
+
+.company-logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+  margin-right: 30px;
+  height: 150px;
+  transition: all 0.3s ease;
+}
+
+.company-logo-container.cursor-pointer:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+}
+
+.company-logo {
+  object-fit: cover;
+  border: 3px solid #e2e8f0;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo hình chữ nhật cho TOP 5: không cắt logo, giữ tỉ lệ */
+.top-logo-box {
+  width: 200px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.company-logo-rect {
+  max-width: 180px;
+  max-height: 60px;
+  object-fit: contain;
+}
+
+.company-logo:hover {
+  transform: scale(1.15);
+  border-color: #e6f7ef;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+}
+
+/* Logo size variations */
+.logo-small .company-logo {
+  width: 60px;
+  height: 60px;
+}
+
+.logo-medium .company-logo {
+  width: 85px;
+  height: 85px;
+}
+
+.logo-large .company-logo {
+  width: 110px;
+  height: 110px;
+}
+
+.company-name {
+  font-size: 11px;
+  font-weight: 500;
+  color: #64748b;
+  margin-top: 8px;
+  text-align: center;
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stagger-up {
+  transform: translateY(-20px);
+}
+
+.stagger-down {
+  transform: translateY(20px);
+}
+
+/* TOP Company Cards */
+.top-company-card {
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.top-company-card:hover {
+  transform: translateY(-4px);
+  border-color: #e6f7ef;
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+}
+
+.top-company-card.cursor-pointer:hover {
+  cursor: pointer;
+}
+
+.top-tag {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .full-width-marquee-wrapper {
+    min-height: 180px;
+    padding: 25px 0;
+  }
+
+  .logo-small .company-logo {
+    width: 50px;
+    height: 50px;
+  }
+
+  .logo-medium .company-logo {
+    width: 70px;
+    height: 70px;
+  }
+
+  .logo-large .company-logo {
+    width: 90px;
+    height: 90px;
+  }
+
+  .company-logo-container {
+    height: 130px;
+  }
+
+  .featured-companies-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .featured-companies-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero-copy {
+    text-align: center;
+  }
+
+  .searching-box {
+    flex-direction: column;
+  }
+
+  .divider {
+    display: none;
+  }
+
+  .search-btn {
+    width: 100%;
+    align-self: center;
+  }
+
+  .question {
+    position: static;
+    margin: 8px auto 0;
+    display: block;
+  }
+}
+
+@media (max-width: 640px) {
+  .full-width-marquee-wrapper {
+    min-height: 150px;
+    padding: 20px 0;
+  }
+
+  .logo-small .company-logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .logo-medium .company-logo {
+    width: 55px;
+    height: 55px;
+  }
+
+  .logo-large .company-logo {
+    width: 70px;
+    height: 70px;
+  }
+
+  .stagger-up {
+    transform: translateY(-15px);
+  }
+
+  .stagger-down {
+    transform: translateY(15px);
+  }
+
+  .marquee-content {
+    margin-right: 15px;
+  }
+
+  .company-logo-container {
+    min-width: 80px;
+    margin-right: 20px;
+    height: 110px;
+  }
+
+  .featured-companies-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.market-overview,
+.blog-section {
+  border-radius: 24px;
+}
+
+@media (max-width: 768px) {
+  .market-overview,
+  .blog-section {
+    padding: 1.25rem;
+  }
+
+  .market-overview .grid {
+    gap: 18px;
+  }
+}
+
+@media (max-width: 540px) {
+  .market-overview,
+  .blog-section {
+    border-radius: 16px;
+  }
+
+  .category-header {
+    padding: 0 0.5rem;
+  }
+
+  .featured-companies-grid {
+    row-gap: 14px;
+  }
+}
+/* ================= TOPCV BANNER ================= */
+.hero-topcv {
+  background: linear-gradient(180deg, #063a33 0%, #0b5c4d 100%);
+  padding: 48px 16px 56px;
+  color: #fff;
+}
+
+.hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero-text h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2aff8f;
+  margin-bottom: 8px;
+
+  span {
+    color: #00ff99;
+  }
+}
+
+.hero-text p {
+  font-size: 14px;
+  opacity: 0.9;
+  margin-bottom: 24px;
+}
+
+/* ================= SEARCH BOX ================= */
+.topcv-search-box {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 40px;
+  padding: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  gap: 8px;
+}
+
+.search-item {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  padding: 8px 12px;
+
+  .icon {
+    margin-right: 8px;
+    font-size: 18px;
+  }
+}
+
+.divider {
+  width: 1px;
+  height: 32px;
+  background: #e5e7eb;
+}
+
+.btn-search {
+  background: #00b14f;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 32px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-search:hover {
+  background: #009643;
+}
+
+/* ================= SUGGEST ================= */
+.topcv-suggest {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  span {
+    opacity: 0.8;
+    font-size: 13px;
+  }
+
+  button {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 16px;
+    padding: 4px 10px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .topcv-search-box {
+    flex-direction: column;
+    border-radius: 16px;
+  }
+
+  .divider {
+    display: none;
+  }
+
+  .btn-search {
+    width: 100%;
+  }
+}
+/* ================= TOPCV SLIDER ================= */
+.topcv-slider {
+  margin-top: 20px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.slider-track {
+  display: flex;
+  transition: transform 0.6s ease;
+}
+
+.slider-item {
+  min-width: 100%;
+  height: 260px;
+}
+
+.slider-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+/* dots */
+.slider-dots {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+}
+
+.slider-dots span {
+  width: 8px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.slider-dots span.active {
+  background: #00b14f;
+  width: 18px;
+  border-radius: 6px;
+}
+
+
+/* ================= SEARCH SUGGEST ================= */
+.topcv-suggest {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  span {
+    font-size: 13px;
+    opacity: 0.8;
+    color: #fff;
+  }
+
+  button {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 16px;
+    padding: 4px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  button:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+}
+
+/* ============ FORCE TOPCV GREEN HOVER (put at END of file) ============ */
+:host {
+  --topcv-green: #00b14f;
+  --topcv-green-hover: #009643;
+  --topcv-green-light: #e6f7ef;
+}
+
+/* link/menu hover */
+:host ::ng-deep a:hover,
+:host ::ng-deep .menu-item:hover,
+:host ::ng-deep .nav-item:hover {
+  color: var(--topcv-green) !important;
+}
+
+
+/* suggest tag hover */
+:host ::ng-deep .topcv-suggest button:hover {
+  background: var(--topcv-green) !important;
+  border-color: var(--topcv-green) !important;
+  color: #fff !important;
+}
+
+/* company logo hover (remove blue) */
+:host ::ng-deep .company-logo:hover {
+  border-color: var(--topcv-green) !important;
+  box-shadow: 0 4px 16px rgba(0, 177, 79, 0.3) !important;
+  transform: scale(1.12) !important;
+}
+
+/* top company card hover (remove blue) */
+:host ::ng-deep .top-company-card:hover {
+  border-color: var(--topcv-green) !important;
+  box-shadow: 0 8px 25px rgba(0, 177, 79, 0.15) !important;
+}
+
+/* tag gradient -> green */
+:host ::ng-deep .top-tag {
+  background: linear-gradient(135deg, var(--topcv-green) 0%, var(--topcv-green-hover) 100%) !important;
+  box-shadow: 0 2px 4px rgba(0, 177, 79, 0.3) !important;
+}
+/* ✅ CHỈ hover xanh cho khu vực TopCV (không đụng header) */
+:host ::ng-deep .topcv-search-box .btn-search:hover,
+:host ::ng-deep .topcv-search-box button.btn-search:hover,
+:host ::ng-deep .topcv-search-box button[type='button']:hover {
+  background-color: var(--topcv-green-hover) !important;
+  border-color: var(--topcv-green-hover) !important;
+  color: #fff !important;
+}
+
+/* ✅ Suggest tag hover xanh */
+:host ::ng-deep .topcv-suggest button:hover {
+  background-color: var(--topcv-green) !important;
+  border-color: var(--topcv-green) !important;
+  color: #fff !important;
+}
+
+.standout-candidates-wrapper {
+  margin-top: 80px;
+  padding: 96px 0;
+
+  background: linear-gradient(
+    180deg,
+
+  );
+}
+
+
+/* đảm bảo app con hiển thị block & căn giữa */
+.standout-candidates-wrapper app-standout-candidates {
+  display: block;
+  max-width: 1200px;
+  margin: 0 auto;
+}

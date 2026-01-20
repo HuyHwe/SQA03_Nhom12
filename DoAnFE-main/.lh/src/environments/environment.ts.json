@@ -1,0 +1,30 @@
+{
+    "sourceFile": "src/environments/environment.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1751425496199,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1755054645442,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,10 @@\n   URL: 'http://localhost:4200/',\r\n   //API_URI: 'https://api-dev.jober.com.vn/',\r\n   // API_URI: 'https://api.jober.com.vn/',\r\n    API_URI: 'http://localhost:2000/',\r\n-\tCDN_URI: 'https://cdn.jober.com.vn/',\r\n+\t//CDN_URI: 'https://cdn.jober.com.vn/',\r\n+  CDN_URI: 'https://',\r\n   VN_API: 'https://vn-public-apis.fpo.vn/',\r\n   FILE_API: 'F:/Docs/Book/Test/',\r\n \r\n };\r\n"
+                },
+                {
+                    "date": 1755491322747,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n   //API_URI: 'https://api-dev.jober.com.vn/',\r\n   // API_URI: 'https://api.jober.com.vn/',\r\n    API_URI: 'http://localhost:2000/',\r\n \t//CDN_URI: 'https://cdn.jober.com.vn/',\r\n-  CDN_URI: 'https://',\r\n+  CDN_URI: 'https://i.imgur.com',\r\n   VN_API: 'https://vn-public-apis.fpo.vn/',\r\n   FILE_API: 'F:/Docs/Book/Test/',\r\n \r\n };\r\n"
+                },
+                {
+                    "date": 1755499924504,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,32 @@\n+// This file can be replaced during build by using the `fileReplacements` array.\r\n+// `ng build` replaces `environment.ts` with `environment.prod.ts`.\r\n+// The list of file replacements can be found in `angular.json`.\r\n+\r\n+export const environment = {\r\n+  production: false,\r\n+  // App Config\r\n+  PORT: 4200,\r\n+  VERSION: '',\r\n+  URL: 'http://localhost:4200/',\r\n+  //API_URI: 'https://api-dev.jober.com.vn/',\r\n+  // API_URI: 'https://api.jober.com.vn/',\r\n+   API_URI: 'http://localhost:2000/',\r\n+\t//CDN_URI: 'https://cdn.jober.com.vn/',\r\n+  CDN_URI: 'https://res.cloudinary.com/dt6hbuc6l/image/upload', // Base URL của Cloudinary\r\n+  CLOUDINARY: {\r\n+    cloud_name: 'dt6hbuc6l',\r\n+    upload_preset: 'my_app_upload' // Thay bằng upload preset bạn tạo trong Cloudinary\r\n+  },\r\n+  VN_API: 'https://vn-public-apis.fpo.vn/',\r\n+  FILE_API: 'F:/Docs/Book/Test/',\r\n+\r\n+};\r\n+\r\n+/*\r\n+ * For easier debugging in development mode, you can import the following file\r\n+ * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.\r\n+ *\r\n+ * This import should be commented out in production mode because it will have a negative impact\r\n+ * on performance if an error is thrown.\r\n+ */\r\n+// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.\r\n"
+                }
+            ],
+            "date": 1751425496199,
+            "name": "Commit-0",
+            "content": "// This file can be replaced during build by using the `fileReplacements` array.\r\n// `ng build` replaces `environment.ts` with `environment.prod.ts`.\r\n// The list of file replacements can be found in `angular.json`.\r\n\r\nexport const environment = {\r\n  production: false,\r\n  // App Config\r\n  PORT: 4200,\r\n  VERSION: '',\r\n  URL: 'http://localhost:4200/',\r\n  //API_URI: 'https://api-dev.jober.com.vn/',\r\n  // API_URI: 'https://api.jober.com.vn/',\r\n   API_URI: 'http://localhost:2000/',\r\n\tCDN_URI: 'https://cdn.jober.com.vn/',\r\n  VN_API: 'https://vn-public-apis.fpo.vn/',\r\n  FILE_API: 'F:/Docs/Book/Test/',\r\n\r\n};\r\n\r\n/*\r\n * For easier debugging in development mode, you can import the following file\r\n * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.\r\n *\r\n * This import should be commented out in production mode because it will have a negative impact\r\n * on performance if an error is thrown.\r\n */\r\n// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.\r\n"
+        }
+    ]
+}

@@ -1,0 +1,71 @@
+<app-toast #appToast [messageCode]=""></app-toast>
+<div class="" *ngIf="!isDisplayDetailInfo">
+	<div class="flex flex-col items-start gap-5 mt-2 mr-5">
+		<div class="flex-row justify-between items-center py-4 px-3 gap-4 bg-white rounded-xl w-full hidden lg:flex"
+			style="box-shadow: 0 5px 6px rgba(0, 89, 255, 0.25);">
+			<p class="font-body not-italic font-semibold text-2xl text-black">{{"recruiterManagementLbl" | translate }}
+			</p>
+
+			<div class="flex items-center gap-4">
+				<!--todo in ft-->
+				<!--<div class="flex items-center justify-center gap-2 rounded-lg">
+					<button class="flex justify-center items-center gap-2 px-4 py-2">
+						<img src="../../../../assets/icons/icon-upload.svg" alt="upload-file">
+						<span class="items-center font-body not-italic font-normal text-sm underline"
+							style="color: var(&#45;&#45;green);">
+							{{ 'exportFileLbl' | translate }}
+						</span>
+					</button>
+				</div>-->
+				<div class="flex flex-col justify-center items-center gap-2 self-stretch rounded-lg"
+					style="background: var(--blue-text);">
+					<button class="flex px-4 py-2 justify-center items-center gap-2" (click)="gotoDetailInfo(null)">
+						<span class="font-body not-italic font-semibold text-xs items-center text-white">{{
+							'creatingAPost' | translate }}</span>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Filter cua candidate bi thua sang ben recruiter-->
+
+		<div class="flex lg:hidden items-center justify-between mt-3 ml-3 gap-1 w-full">
+			<div class="flex items-start gap-1">
+				<a href="/home" class="font-body not-italic text-xs font-normal items-center"
+					style="color: rgba(0, 0, 0, 0.30);">{{ 'homeLbl' | translate }}</a>
+				<span class="font-body not-italic text-xs font-normal items-center">/</span>
+				<a href="/recruiter" class="font-body not-italic text-xs font-normal items-center"
+					style="color: rgba(0, 0, 0, 0.70);">{{ 'recruiterManagementLbl' | translate }}</a>
+			</div>
+
+			<div class="flex items-start gap-5">
+				<!-- <select
+					class="flex justify-between items-center flex-1 px-4 py-1 bg-white w-[160px] text-ellipsis overflow-hidden"
+					style="border-radius: 8px 8px 0px 8px; border: 1px solid var(--blue-bluee-200); box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.02);">
+					<option value="">{{ 'candidateAppliedLbl' | translate }}</option>
+					<option value="">{{ 'candidateAcceptedLbl' | translate }}</option>
+					<option value="">{{ 'candidateSelectedLbl' | translate }}</option>
+				</select> -->
+				<div class="flex flex-col justify-center items-center gap-2 self-stretch rounded-lg"
+					style="background: var(--blue-text);">
+					<button class="flex px-4 py-2 justify-center items-center gap-2" (click)="gotoDetailInfo(null)">
+						<span class="font-body not-italic font-semibold text-xs items-center text-white">{{
+							'creatingAPost' | translate }}</span>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="flex flex-col items-start rounded-xl w-full sm:-mt-10 -mt-7"
+			style="border: 1px solid var(--background-colapse-bar);">
+			<app-table-recruiter class="w-full" #appTableCandidate (onViewDetailItem)="gotoDetailInfo($event)"
+				(changePage)="changePage($event)" [displayedColumns]="displayedColumns"
+				[dataSource]="dataOrg"></app-table-recruiter>
+		</div>
+	</div>
+</div>
+<div *ngIf="isDisplayDetailInfo">
+	<app-recruitment-detail (back)="afterCreateJobDone()" [item]="updatedItem" [isEditMode]="true"
+		(validate)="afterCreateJobDone()"></app-recruitment-detail>
+</div>
+<app-loading></app-loading>

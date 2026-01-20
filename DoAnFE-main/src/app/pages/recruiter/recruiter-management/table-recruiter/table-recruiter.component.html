@@ -1,0 +1,94 @@
+<div>
+	<div class="">
+		<div class="table-wrapper">
+			<table id="dtOrderExample" class="table table-striped table-bordered table-sm dataTable table-body-wrapper"
+				cellspacing="0" width="100%">
+				<thead>
+					<tr class="tr-header-wrapper">
+						<th class="heading-table md:w-[100px] w-[150px]">
+							<div class="col-title-wrapper flex items-center md:w-[40px] w-[40px] justify-center">
+								<span>{{ sequenceIndexLbl |translate}}</span>
+							</div>
+
+						</th>
+						<th *ngFor="let col of displayedColumns" class="sorting">
+							<div class="col-title-wrapper flex items-center md:w-[100px] w-[150px] " ngClass="{{ col.key }}">
+								<div class="col-name-wrapper">
+									<span class="font-body not-italic text-base font-semibold" style="color: #082639;">{{
+										col.name }}</span>
+									<div class="" *ngIf="col.key == selectField">
+										<input type="checkbox" class="form-check-input form-check-input-all" id=""
+											(click)="onCheckAll($event)" />
+									</div>
+								</div>
+								<div class="px-2" *ngIf="isNotInFields(col.key)">
+									<i *ngIf="col.isAsc" class="fa-solid fa-sort-down sort-icon mb-1"
+										(click)="onSortDESC(col, false)"></i>
+									<i *ngIf="!col.isAsc" class="fa-solid fa-sort-up sort-icon mt-2" (click)="onSortASC(col, true)"></i>
+								</div>
+							</div>
+						</th>
+						<!-- <th class="flex justify-center items-center">
+							<input type="checkbox" class="form-check-input form-check-input-all" id="" (click)="onCheckAll($event)" />
+						</th> -->
+					</tr>
+				</thead>
+				<tbody class="items-center justify-center">
+					<tr class="" *ngFor="let rowData of dataTable; index as i" (click)="openDetailForm(rowData)">
+						<td class="" style="--bs-table-accent-bg: white">
+							<div class="col-title-wrapper flex items-center md:w-[40px] w-[40px] justify-center">
+								<span>{{(currentPage - 1) * pageSize + i + 1 }}</span>
+							</div>
+						</td>
+						<td class="" *ngFor="let col of displayedColumns" style="--bs-table-accent-bg: white">
+							<div *ngIf="col.key != statusField">
+								<span>{{rowData[col.key] |translate}}</span>
+							</div>
+							<div *ngIf="col.key == statusField">
+								<div class="selection-wrapper">
+									<select class="form-select px-2"
+										(change)="onChangeSelected($event, rowData);$event.stopPropagation()">
+										<option class="" *ngFor="let item of statuses" [value]="item.code">
+											{{item.name |translate}}
+										</option>
+									</select>
+								</div>
+							</div>
+						</td>
+						<!-- <td class="md:px-2 px-1">
+							<div class="flex justify-center">
+								<input type="checkbox" class="checkbox-item form-check-input"
+									(click)="onCheckBox($event, rowData);$event.stopPropagation()" />
+							</div>
+						</td> -->
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="flex justify-center mt-6">
+		<ul class="flex items-center gap-2 pagination-custom">
+			<!-- Prev -->
+			<li>
+				<button (click)="onPrePageClick()" [disabled]="!isPrePageActive()" class="page-btn">
+					‹
+				</button>
+			</li>
+
+			<!-- Page numbers -->
+			<li *ngFor="let i of arrPage">
+				<button *ngIf="isDisplayPageNumber(i)" (click)="onCurrentPageClick(i)" class="page-btn"
+					[class.active]="currentPage === i">
+					{{ i }}
+				</button>
+			</li>
+
+			<!-- Next -->
+			<li>
+				<button (click)="onNextPageClick()" [disabled]="!isNextPageActive()" class="page-btn">
+					›
+				</button>
+			</li>
+		</ul>
+	</div>
+	</div>
+</div>

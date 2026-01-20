@@ -1,0 +1,83 @@
+<app-toast #appToast [messageCode]="messageCode"></app-toast>
+<div class="user-detail-wrapper">
+	<form action="" [formGroup]="detailUserForm" (keyup.enter)="signUpUser()">
+		<div class="row mt-5">
+			<!-- name -->
+			<div class="mb-3">
+				<div class="form-label"><span class="color-ink-text font-size-small font-weight-bold">{{'registerNameLbl' |
+						translate}}</span></div>
+				<input type="text" [(ngModel)]="userItem.name" class="form-control p-2" formControlName="name"
+					placeholder="{{'registerNameLbl' | translate}}" />
+
+			</div>
+      <div class="forgot-pass h-10" *ngIf="nameisNull">
+				<span class="text-sm text-red-600 text-link cursor-pointer">{{"nameCantNull" | translate}}</span>
+			</div>
+			<!-- phone -->
+			<div class="mb-3">
+				<div class="form-label"><span class="color-ink-text font-size-small font-weight-bold">{{"phoneNumberLbl" |
+						translate}}</span>
+				</div>
+				<input [(ngModel)]="userItem.phone" [ngClass]="(phone.invalid||!loginState)? 'inValid-border': 'valid-border'"
+					class="form-control p-2" type="text" formControlName="phone" placeholder="0987654321" />
+			</div>
+
+			<div class="forgot-pass h-10" *ngIf="phone.invalid">
+				<span class="text-sm text-red-600 text-link cursor-pointer">{{"invalidPhone" | translate}}</span>
+			</div>
+			<div class="forgot-pass h-10" *ngIf="phoneisNull&&!phone.invalid">
+				<span class="text-sm text-red-600 text-link cursor-pointer">{{"phoneCantNull" | translate}}</span>
+			</div>
+			<!-- email -->
+			<div class="mb-3">
+				<div class="form-label"><span class="color-ink-text font-size-small font-weight-bold">{{"registerEmailLbl" |
+						translate}}</span></div>
+				<input type="text" [(ngModel)]="userItem.email" [ngClass]="email.invalid? 'inValid-border': 'valid-border'"
+					class="form-control p-2" formControlName="email" placeholder="{{'placeHolderEmail' | translate}}" />
+
+			</div>
+			<div class="forgot-pass h-10" *ngIf="emailisNull&&!email.invalid">
+				<span class="text-sm text-red-600 text-link cursor-pointer">{{'emailCantNull' | translate}}</span>
+			</div>
+			<div class="forgot-pass h-10" *ngIf="email.invalid">
+				<span class="text-sm text-red-600 text-link cursor-pointer">{{"invalidEmail" | translate}}</span>
+			</div>
+			<!-- email -->
+			<!-- tochuc -->
+			<div class="mb-3">
+				<div class="form-label"><span class="color-ink-text font-size-small font-weight-bold">{{"organizationLbl" |
+						translate }}</span></div>
+				<!-- <input type="text" [(ngModel)]="userItem.organization"
+					class="form-control p-2"
+					formControlName="organization" placeholder="{{'placeHolderOrgan'| translate}}" /> -->
+					<app-selection 
+					[selectedItem]="selectedOrg" [items]="orgList" (onChangeSelected)="onSelectOrg($event)" 
+					[pageMenu]="pageMenu" (refetchScrollMenu)="refetchScrollMenu($event)">
+                    </app-selection>
+			</div>
+			<div class="forgot-pass h-10" *ngIf="organizationisNull">
+				<span class="text-sm text-red-600 text-link cursor-pointer">{{"organizationCanNullLbl" | translate}}</span>
+			</div>
+			<!-- to chuc -->
+
+			<div>
+				<app-radio-button [items]="radioItems" (radioOnChecked)="radioOnChecked($event)"></app-radio-button>
+			</div>
+			<div class="forgot-pass h-10" *ngIf="emailOrPhoneExisted">
+				<span class="text-sm text-red-600 text-link cursor-pointer">{{"emailOrPhoneExistedLbl" | translate}}</span>
+			</div>
+			<div class="mt-4">
+				<button [ngClass]="'active-btn-save'" class="btn
+          border-none
+          font-size-small
+          font-weight-bold
+          global-text-color-white
+          bg-green
+          px-3" (click)="signUpUser()" type="button" aria-expanded="false" aria-controls="collapseDetailInfo">
+
+					<span class="px-2">{{"signUpBtnLbl" | translate}}</span>
+				</button>
+			</div>
+		</div>
+	</form>
+</div>

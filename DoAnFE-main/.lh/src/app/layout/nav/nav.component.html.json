@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/app/layout/nav/nav.component.html",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1752150539359,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1754896363801,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,32 +1,33 @@\n-<div class=\"sidebar-wrapper\">\r\n-    <div class=\"sidebar\">\r\n-        <div class=\"logo-content\">\r\n-            <div class=\"logo\">\r\n-                <i class=\"bx bxl-c-plus-plus\"></i>\r\n-                <div class=\"logo-name\">FJob</div>\r\n-            </div>\r\n-            <i class=\"fa-regular fa-bars\" id=\"btn-menu\" (click)=\"onToggle()\"></i>\r\n-        </div>\r\n-        <ul class=\"nav-list\">\r\n-            <li>\r\n-                <a href=\"#\">\r\n-                    <i class=\"bx bx-grid-alt\"></i>\r\n-                    <span class=\"links-name\">Demo</span>\r\n-                </a>\r\n-                <!-- <span class=\"tooltip\">demo</span> -->\r\n-            </li>\r\n-            <li>\r\n-                <a href=\"#\">\r\n-                    <i class=\"bx bx-grid-alt\"></i>\r\n-                    <span class=\"links-name\">Demo 1</span>\r\n-                </a>\r\n-                <!-- <span class=\"tooltip\">demo</span> -->\r\n-            </li>\r\n-        </ul>\r\n-        <div class=\"website-info-wrapper\">\r\n-            <div class=\"website-info\">\r\n-                Website info\r\n-            </div>\r\n-        </div>\r\n-    </div>\r\n+<div class=\"sidebar-wrapper\">\n+    <div class=\"sidebar\">\n+        <div class=\"logo-content\">\n+            <div class=\"logo\">\n+                <i class=\"bx bxl-c-plus-plus\"></i>\n+                <div class=\"logo-name\">FJob</div>\n+                <div class=\"logo-name\">FJob</div>\n+            </div>\n+            <i class=\"fa-regular fa-bars\" id=\"btn-menu\" (click)=\"onToggle()\"></i>\n+        </div>\n+        <ul class=\"nav-list\">\n+            <li>\n+                <a href=\"#\">\n+                    <i class=\"bx bx-grid-alt\"></i>\n+                    <span class=\"links-name\">Demo</span>\n+                </a>\n+                <!-- <span class=\"tooltip\">demo</span> -->\n+            </li>\n+            <li>\n+                <a href=\"#\">\n+                    <i class=\"bx bx-grid-alt\"></i>\n+                    <span class=\"links-name\">Demo 1</span>\n+                </a>\n+                <!-- <span class=\"tooltip\">demo</span> -->\n+            </li>\n+        </ul>\n+        <div class=\"website-info-wrapper\">\n+            <div class=\"website-info\">\n+                Website info\n+            </div>\n+        </div>\n+    </div>\n </div>\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1752150539359,
+            "name": "Commit-0",
+            "content": "<div class=\"sidebar-wrapper\">\r\n    <div class=\"sidebar\">\r\n        <div class=\"logo-content\">\r\n            <div class=\"logo\">\r\n                <i class=\"bx bxl-c-plus-plus\"></i>\r\n                <div class=\"logo-name\">FJob</div>\r\n            </div>\r\n            <i class=\"fa-regular fa-bars\" id=\"btn-menu\" (click)=\"onToggle()\"></i>\r\n        </div>\r\n        <ul class=\"nav-list\">\r\n            <li>\r\n                <a href=\"#\">\r\n                    <i class=\"bx bx-grid-alt\"></i>\r\n                    <span class=\"links-name\">Demo</span>\r\n                </a>\r\n                <!-- <span class=\"tooltip\">demo</span> -->\r\n            </li>\r\n            <li>\r\n                <a href=\"#\">\r\n                    <i class=\"bx bx-grid-alt\"></i>\r\n                    <span class=\"links-name\">Demo 1</span>\r\n                </a>\r\n                <!-- <span class=\"tooltip\">demo</span> -->\r\n            </li>\r\n        </ul>\r\n        <div class=\"website-info-wrapper\">\r\n            <div class=\"website-info\">\r\n                Website info\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
+        }
+    ]
+}

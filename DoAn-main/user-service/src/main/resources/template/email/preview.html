@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Opportunities Preview</title>
+    <style>
+        /* Base styles */
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        /* Container */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Header */
+        .header {
+            background-color: #164e33;
+            /* Dark Green */
+            color: #ffffff;
+            padding: 20px 30px;
+            text-align: left;
+            border-bottom: 4px solid #00b14f;
+            /* Bright Green Accent */
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        /* Content */
+        .content {
+            padding: 30px 20px;
+        }
+
+        .intro-text {
+            color: #333333;
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .intro-text strong {
+            color: #00b14f;
+        }
+
+        /* Job Card */
+        .job-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: #ffffff;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .job-card:hover {
+            border-color: #00b14f;
+        }
+
+        .logo-cell {
+            width: 80px;
+            vertical-align: top;
+            padding-right: 15px;
+        }
+
+        .logo-img {
+            width: 80px;
+            height: 80px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .job-info-cell {
+            vertical-align: top;
+        }
+
+        .job-title {
+            color: #1f2937;
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0 0 5px 0;
+            text-decoration: none;
+            display: block;
+        }
+
+        .company-name {
+            color: #6b7280;
+            font-size: 14px;
+            font-weight: 400;
+            margin: 0 0 10px 0;
+        }
+
+        .tags-row {
+            margin-top: 10px;
+        }
+
+        .tag {
+            display: inline-block;
+            background-color: #e5f7ed;
+            color: #00b14f;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 12px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            white-space: nowrap;
+        }
+
+        .btn-cell {
+            vertical-align: middle;
+            text-align: right;
+            width: 100px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #00b14f;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #f9fafb;
+            padding: 20px;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 12px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .footer a {
+            color: #00b14f;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Jober<span style="color:#00b14f">®</span></h1>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <p class="intro-text">
+                Xin chào <strong>Bạn</strong>,<br>
+                Chúng tôi vừa tìm thấy <strong th:text="${jobs.size()} + ' việc làm mới nhất'">20 việc làm mới
+                    nhất</strong> tương tự với các việc làm mà bạn đã xem gần
+                đây:
+            </p>
+
+            <!-- Job List -->
+            <div class="job-card" th:each="job : ${jobs}">
+                <table role="presentation">
+                    <tr>
+                        <td class="logo-cell">
+                            <img th:src="${job.img != null ? job.img : 'https://via.placeholder.com/80x80?text=Logo'}"
+                                alt="Company Logo" class="logo-img" width="80" height="80">
+                        </td>
+                        <td class="job-info-cell">
+                            <h2 class="job-title" th:text="${job.name}">Kỹ Sư Lập Trình Golang</h2>
+                            <p class="company-name" th:text="${job.companyName}">Công ty TNHH Công Nghệ Dicom</p>
+
+                            <div class="tags-row">
+                                <span class="tag" th:text="${job.salary}">Thoả thuận</span>
+                                <span class="tag" th:text="${job.address}">Hà Nội, Thanh Xuân</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding-top: 10px; text-align: right;">
+                            <a th:href="${'http://localhost:3000/job-detail/' + job.id}" class="btn">Ứng tuyển</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>&copy; 2025 Jober. All rights reserved.</p>
+            <p>
+                <a href="#">Hủy đăng ký</a> | <a href="#">Xem trên trình duyệt</a>
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

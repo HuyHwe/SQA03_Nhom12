@@ -1,0 +1,39 @@
+<div class="listjob-wrapper">
+	<div *ngIf="!isShowDetail" class="flex flex-col items-start mt-2 mr-5">
+    <div class="flex-row items-center gap-4 w-full hidden lg:flex">
+      <div class="flex-row py-4 px-3 justify-between items-center bg-white rounded-xl gap-4 w-full hidden lg:flex" 
+      style="box-shadow: 0 5px 6px rgba(0, 89, 255, 0.25);">
+        <p class="font-body not-italic font-semibold text-2xl text-black">
+          {{"listCVLbl" | translate }}</p>
+        <div class="flex flex-row items-start gap-4">
+          <button class="flex flex-col justify-center items-center gap-2" (click)="delete()"
+            [ngClass]="checkedItems && checkedItems.length > 0 ? 'bg-blue global-text-color-white' : 'bg-disable color-disable-text'">
+            <p class="flex items-center text-center font-body not-italic font-semibold text-xs px-4 py-2"
+              style="background: rgba(28, 27, 31, 0.12); border-radius: 8px;">{{"deleteLbl" | translate }}</p>
+          </button>
+          <button (click)="exportFile()"
+            [ngClass]="this.checkedItems && this.checkedItems.length > 0 ? 'bg-blue global-text-color-white' : 'bg-disable color-disable-text'"
+            class="flex flex-row justify-center items-center gap-2 rounded-lg">
+            <p class="flex items-center text-center font-body not-italic font-semibold text-xs px-4 py-2">
+              {{"exportExcelLbl" | translate }}</p>
+          </button>
+        </div>
+      </div>
+		</div>
+    <div class="pl-2">
+      <img class="cursor-pointer w-10 back-icon" src="../assets/icons/back.svg" alt="back-icon"
+        (click)="closePage()" />
+    </div>
+		<div class="flex flex-col items-start container-main w-full pl-2">
+			<div *ngIf="!isShowDetail" class="w-full">
+				<app-table-cv class="w-full" #appTable [displayedColumns]="displayedColumns" [dataSource]="dataOrg"
+					(onChecked)="getCheckedItems($event)"></app-table-cv>
+			</div>
+		</div>
+		<div class="lg:hidden flex overflow-x-auto md:h-[5px] md:max-w-[900px]">
+		</div>
+	</div>
+	<!-- <div *ngIf="isShowDetail">
+		<app-job-detail [isDisplayBackBtn]="true" [itemParam]="item" (onBack)="init()"></app-job-detail>
+	</div> -->
+</div>
