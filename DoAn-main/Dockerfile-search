@@ -11,7 +11,7 @@ COPY /search-service/pom.xml /tmp/search-service
 RUN mvn -f /tmp/search-service/pom.xml clean package install:install-file -Dfile=/tmp/utils-service/target/utils-service-0.0.1-SNAPSHOT.jar -DgroupId=com.jober -DartifactId=utils-service -Dversion=0.0.1-SNAPSHOT -Dpackaging=jar -DgeneratePom=true -Dmaven.test.skip=true
 
 #pull base image
-FROM eclipse-temurin:11-jre-alpine
+FROM eclipse-temurin:11-jre
 COPY --from=maven_build /tmp/search-service/target/*.jar /app.jar
 EXPOSE 2002
 ENV JAVA_OPTS="-Xms3072m -Xmx4096m -XX:PermSize=512m -XX:MaxPermSize=1024m"

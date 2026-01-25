@@ -9,7 +9,7 @@ RUN mvn package -Dmaven.test.skip=true
 VOLUME F:/Docs/Book/Test/
 
 #pull base image
-FROM eclipse-temurin:11-jdk-alpine
+FROM eclipse-temurin:11-jre
 EXPOSE 2007
 ENV JAVA_OPTS="-Xms3072m -Xmx4096m -XX:PermSize=512m -XX:MaxPermSize=1024m"
 ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -Dlog4j2.formatMsgNoLookups=true -jar /app.jar" ]
