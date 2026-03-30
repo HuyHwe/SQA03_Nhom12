@@ -5,6 +5,7 @@ Tài liệu này ánh xạ chi tiết các Use Case tới Controller, API Endpoi
 ## 1. Quản lý tài khoản (Account Management)
 *Hình 2.2*
 
+User tổng quát
 **Backend Flow:**
 - **Controller:** `com.resourceservice.controller.UserCommonCtrl`
     - `POST /bs-user/login`: Đăng nhập -> `UserCommonService.login`
@@ -22,7 +23,7 @@ Tài liệu này ánh xạ chi tiết các Use Case tới Controller, API Endpoi
 
 ## 2. Quản lý bài đăng (Post Management) & Tuyển dụng (Recruitment)
 *Hình 2.3, 2.11*
-
+Nhà tuyển dụng
 **Backend Flow:**
 - **Controller:** `com.resourceservice.controller.JobCtrl`
     - `POST /bs-user/bs-job/_save`: Tạo/Sửa bài đăng -> `JobService.saveJob`
@@ -45,7 +46,7 @@ Tài liệu này ánh xạ chi tiết các Use Case tới Controller, API Endpoi
 
 ## 3. Huấn luyện mô hình & Tìm ứng viên phù hợp (Model Training & Matching)
 *Hình 2.4, 2.13*
-
+Admin
 **Backend Flow:**
 - **External Service:** Python Scripts (`train_gnn_and_export.py`, `fastapi_recommend.py`)
 - **Controller (Java Integration):**
@@ -61,7 +62,7 @@ Tài liệu này ánh xạ chi tiết các Use Case tới Controller, API Endpoi
 
 ## 4. Trò chuyện với trợ lý ảo (Chat with Virtual Assistant)
 *Hình 2.5*
-
+User tổng quát
 **Backend Flow:**
 - **Controller:** `com.resourceservice.controller.ChatController`
     - `POST /bs-user/api/chat`: Chat với bot -> Gọi trực tiếp private method `callOllama` (Tích hợp LLM Ollama tại local)
@@ -74,7 +75,7 @@ Tài liệu này ánh xạ chi tiết các Use Case tới Controller, API Endpoi
 
 ## 5. Nạp tiền vào ví (Top up wallet)
 *Hình 2.6*
-
+Bỏ
 **Backend Flow:**
 - **Controller:** `com.paymentservice.controller.WalletCtrl`
     - `GET /wallet/_get_by_user_id`: Xem số dư -> `WalletService.getWalletBalanceByUserPhone`
@@ -97,7 +98,7 @@ Tài liệu này ánh xạ chi tiết các Use Case tới Controller, API Endpoi
 
 ## 6. Nhận thông báo (Receive Notifications)
 *Hình 2.7*
-
+User tổng quát
 **Backend Flow:**
 - **Controller:** `com.resourceservice.controller.NotificationController`
     - `GET /bs-user/notifications/{userId}/{role}`: Lấy thông báo -> `NotificationService.getNotifications`
@@ -111,7 +112,7 @@ Tài liệu này ánh xạ chi tiết các Use Case tới Controller, API Endpoi
 
 ## 7. Tìm kiếm việc làm (Job Search)
 *Hình 2.8*
-
+NGười tìm việc
 **Backend Flow:**
 - **Controller:** `com.resourceservice.controller.JobCtrl`
     - `POST /bs-user/bs-job/_search`: Tìm kiếm cơ bản -> `JobService.getListJobs`
@@ -129,7 +130,7 @@ Tài liệu này ánh xạ chi tiết các Use Case tới Controller, API Endpoi
 
 ## 8. Lưu công việc (Save Job)
 *Hình 2.9*
-
+NGười tìm việc
 **Backend Flow:**
 - **Controller:** `com.resourceservice.controller.CandidateController`
     - `POST /bs-user/candidate/jobs/save`: Lấy danh sách đã lưu -> `JobService.listJobsByNote("5", ...)`
@@ -144,7 +145,7 @@ Tài liệu này ánh xạ chi tiết các Use Case tới Controller, API Endpoi
 
 ## 9. Ứng tuyển công việc (Apply for Job)
 *Hình 2.10*
-
+NGười tìm việc
 **Backend Flow:**
 - **Controller:** `com.resourceservice.controller.JobCtrl`
     - `POST /bs-user/bs-job/_apply_job`: Nộp đơn -> `JobService.applyJob`
@@ -157,7 +158,7 @@ Tài liệu này ánh xạ chi tiết các Use Case tới Controller, API Endpoi
 
 ## 10. Quản lý ứng viên ứng tuyển (Manage Applicants)
 *Hình 2.12*
-
+Nhà tuyển dụng
 **Backend Flow:**
 - **Controller:** `com.resourceservice.controller.RecruiterController`
     - `POST /bs-user/recruiter/_get_applied_candidate`: Lấy ds ứng viên -> `RecruiterService.findAppliedCandidate`
@@ -169,11 +170,12 @@ Tài liệu này ánh xạ chi tiết các Use Case tới Controller, API Endpoi
 **Frontend:**
 - `src/app/pages/recruiter/candidate-management`
 
+
 ---
 
 ## 11. Đặt lịch phỏng vấn (Schedule Interview)
 *Hình 2.14*
-
+Nhà tuyển dụng
 **Backend Flow:**
 - **Controller:** `com.resourceservice.controller.ScheduleCtrl`
     - `POST /bs-user/schedule/_save`: Tạo lịch -> `ScheduleService.saveSchedule`
