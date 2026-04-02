@@ -107,8 +107,8 @@ public class RecommendationServiceImpl implements RecommendationService {
       }
 
       List<JobDTO> nearDeadlineJobs = jobs.stream().filter(
-              job -> job.getExpDate() != null && !job.getExpDate().toLocalDate().isBefore(now)
-                  && job.getExpDate().toLocalDate().isBefore(now.plusDays(2)))
+          job -> job.getExpDate() != null && !job.getExpDate().toLocalDate().isBefore(now)
+              && job.getExpDate().toLocalDate().isBefore(now.plusDays(2)))
           .collect(Collectors.toList());
 
       if (nearDeadlineJobs.isEmpty()) {

@@ -14,6 +14,6 @@ RUN mvn -f /tmp/configuration-service/pom.xml clean package install:install-file
 FROM eclipse-temurin:11-jre
 COPY --from=maven_build /tmp/configuration-service/target/*.jar /app.jar
 EXPOSE 2007
-ENV JAVA_OPTS="-Xms3072m -Xmx4096m -XX:PermSize=512m -XX:MaxPermSize=1024m"
+ENV JAVA_OPTS="-Xms256m -Xmx512m"
 ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -Dlog4j2.formatMsgNoLookups=true -jar /app.jar" ]
 
