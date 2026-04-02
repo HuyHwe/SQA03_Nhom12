@@ -43,6 +43,16 @@
 				<span class="text-sm text-red-600 text-link cursor-pointer">{{"invalidEmail" | translate}}</span>
 			</div>
 			<!-- email -->
+			<!-- password -->
+			<div class="mb-3">
+				<div class="form-label"><span class="color-ink-text font-size-small font-weight-bold">{{"passLbl" | translate}}</span></div>
+				<input [(ngModel)]="userItem.password" [ngClass]="password.invalid ? 'inValid-border': 'valid-border'"
+					class="form-control p-2" type="password" formControlName="password" placeholder="********" />
+			</div>
+			<div class="forgot-pass h-10" *ngIf="passwordisNull && !password.invalid">
+				<span class="text-sm text-red-600 text-link cursor-pointer">{{"passwordCantNull" | translate}}</span>
+			</div>
+			<!-- password -->
 			<!-- tochuc -->
 			<div class="mb-3">
 				<div class="form-label"><span class="color-ink-text font-size-small font-weight-bold">{{"organizationLbl" |

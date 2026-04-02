@@ -72,6 +72,8 @@ export class RegisterForm implements OnInit {
     nameCantNull = Constants.nameCantNull;
     emailCantNull = Constants.emailCantNull;
     phoneCantNull = Constants.phoneCantNull;
+    passwordCantNull = Constants.passwordCantNull;
+    passLbl = Constants.passLbl;
 
     role: any;
     inputRoleVal: any;
@@ -103,6 +105,7 @@ export class RegisterForm implements OnInit {
 		organizationisNull:boolean;
     phoneisNull:boolean;
     nameisNull:boolean;
+    passwordisNull:boolean;
     bodyOrg: any;
     orgList: any;
     dataSource: any;
@@ -138,6 +141,7 @@ export class RegisterForm implements OnInit {
         this.emailOrPhoneExisted = false;
         this.emailisNull = false;
         this.phoneisNull =false;
+        this.passwordisNull = false;
 		this.organizationisNull=false
         this.roleItem = this.radioItems[0];
     }
@@ -177,6 +181,7 @@ export class RegisterForm implements OnInit {
             phone: '',
             name: '',
             email: '',
+            password: '',
 			organization:''
         }
 
@@ -185,6 +190,7 @@ export class RegisterForm implements OnInit {
             phone: new FormControl('', [Validators.pattern(this.utilsService.phonePattern)]),
             name: new FormControl(''),
             email: new FormControl('', [Validators.pattern(this.utilsService.emailPattern)]),
+            password: new FormControl('', Validators.required),
 			organization: new FormControl(''),
         });
 
@@ -203,6 +209,9 @@ export class RegisterForm implements OnInit {
 	get organization(): any {
 		return this.detailUserForm.get('organization');
 	}	
+    get password(): any {
+        return this.detailUserForm.get('password');
+    }
     gotoLoginForm() {
         this.isRegister = false;
         this.isLogin = true;
@@ -232,6 +241,12 @@ export class RegisterForm implements OnInit {
         } else {
             this.emailisNull=false;
         }
+        if (this.detailUserForm.get('password').value == ""|| this.detailUserForm.get('password').value == null ){
+            this.passwordisNull=true;
+            return
+        } else {
+            this.passwordisNull=false;
+        }
         if(this.roleItem.checked == false && (this.detailUserForm.get('organization').value == "" || this.detailUserForm.get('organization').value == null)) {
             this.organizationisNull = true;
         } else {
@@ -242,6 +257,7 @@ export class RegisterForm implements OnInit {
                 name: this.detailUserForm.get("name").value,
                 phone: this.detailUserForm.get("phone").value,
                 email: this.detailUserForm.get("email").value,
+                password: btoa(this.detailUserForm.get("password").value),
                 organization: this.detailUserForm.get("organization").value,
                 role: this.roleItem.val,
             }

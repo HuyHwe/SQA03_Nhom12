@@ -80,8 +80,7 @@ public class EmailServiceImpl implements EmailService {
                 job -> job.getCandidates() != null ? job.getCandidates().stream() : Stream.empty())
             .collect(Collectors.toList());
 
-        String subject =
-            "Tìm thấy " + totalCandidates + " ứng viên tiềm năng cho các công việc của bạn";
+        String subject = "Tìm thấy " + totalCandidates + " ứng viên tiềm năng cho các công việc của bạn";
 
         org.thymeleaf.context.Context context = new org.thymeleaf.context.Context();
 

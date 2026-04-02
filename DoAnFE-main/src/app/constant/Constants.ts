@@ -29,6 +29,7 @@ export class Constants {
   public static nameCantNull = 'Họ và Tên không được bỏ trống!';
   public static emailCantNull = 'Email không được bỏ trống!';
   public static phoneCantNull = 'Số điện thoại không được bỏ trống!';
+  public static passwordCantNull = 'Mật khẩu không được bỏ trống!';
 
   public static recruiterLbl = 'Nhà tuyển dụng';
   public static recruitLbl = 'Tuyển dụng';
