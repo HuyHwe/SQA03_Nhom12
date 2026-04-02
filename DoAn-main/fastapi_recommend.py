@@ -1,3 +1,7 @@
+import os
+from contextlib import asynccontextmanager
+os.environ["OMP_NUM_THREADS"] = "1"
+
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException,BackgroundTasks
 from fastapi.responses import JSONResponse
 from io import BytesIO
@@ -29,7 +33,36 @@ from sentence_transformers import SentenceTransformer
 from transformers import AutoTokenizer, AutoModelForTokenClassification, pipeline
 import time
 import threading
-app = FastAPI()
+
+# Global model placeholders
+model = None
+resume_tokenizer = None
+resume_model = None
+resume_ner_pipeline = None
+
+RESUME_MODEL_NAME = "AventIQ-AI/Resume-Parsing-NER-AI-Model"
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    global model, resume_tokenizer, resume_model, resume_ner_pipeline
+    print("🚀 Loading models...")
+    # Load SentenceTransformer
+    model = SentenceTransformer("sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
+    
+    # Load Resume NER Models
+    resume_tokenizer = AutoTokenizer.from_pretrained(RESUME_MODEL_NAME)
+    resume_model = AutoModelForTokenClassification.from_pretrained(RESUME_MODEL_NAME)
+    resume_ner_pipeline = pipeline(
+        "ner",
+        model=resume_model,
+        tokenizer=resume_tokenizer,
+        aggregation_strategy="simple"
+    )
+    print("✅ Models loaded successfully.")
+    yield
+    # Clean up (if needed)
+
+app = FastAPI(lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -45,17 +78,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-model = SentenceTransformer("sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
-RESUME_MODEL_NAME = "AventIQ-AI/Resume-Parsing-NER-AI-Model"
-
-resume_tokenizer = AutoTokenizer.from_pretrained(RESUME_MODEL_NAME)
-resume_model = AutoModelForTokenClassification.from_pretrained(RESUME_MODEL_NAME)
-resume_ner_pipeline = pipeline(
-    "ner",
-    model=resume_model,
-    tokenizer=resume_tokenizer,
-    aggregation_strategy="simple"  # gom token liền nhau thành entity
-)
 origins = [
     "http://localhost:4200"
 ]
