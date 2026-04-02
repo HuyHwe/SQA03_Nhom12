@@ -1,7 +1,3 @@
-import os
-from contextlib import asynccontextmanager
-os.environ["OMP_NUM_THREADS"] = "1"
-
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException,BackgroundTasks
 from fastapi.responses import JSONResponse
 from io import BytesIO
@@ -14,42 +10,26 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, ConfigDict
 from typing import Optional, List, Dict, Any
 import psycopg2, math, numpy as np
+from sentence_transformers import SentenceTransformer
+from sklearn.metrics.pairwise import cosine_similarity
 from psycopg2.extras import Json
 import json
 import re
+import fitz  # PyMuPDF (pip install PyMuPDF nếu chưa)
 import traceback
+import pytesseract  # OCR (pip install pytesseract)
+from PIL import Image  # (pip install pillow)
+
+from docx import Document  # pip install python-docx cho DOCX
+from io import BytesIO
+from datetime import datetime, timezone
+from numpy import dot
+from numpy.linalg import norm
+from sentence_transformers import SentenceTransformer
+from transformers import AutoTokenizer, AutoModelForTokenClassification, pipeline
 import time
 import threading
-
-# Global model placeholders
-model = None
-resume_tokenizer = None
-resume_model = None
-resume_ner_pipeline = None
-
-RESUME_MODEL_NAME = "AventIQ-AI/Resume-Parsing-NER-AI-Model"
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    global model, resume_tokenizer, resume_model, resume_ner_pipeline
-    print("🚀 Loading models...")
-    # Load SentenceTransformer
-    model = SentenceTransformer("sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
-    
-    # Load Resume NER Models
-    resume_tokenizer = AutoTokenizer.from_pretrained(RESUME_MODEL_NAME)
-    resume_model = AutoModelForTokenClassification.from_pretrained(RESUME_MODEL_NAME)
-    resume_ner_pipeline = pipeline(
-        "ner",
-        model=resume_model,
-        tokenizer=resume_tokenizer,
-        aggregation_strategy="simple"
-    )
-    print("✅ Models loaded successfully.")
-    yield
-    # Clean up (if needed)
-
-app = FastAPI(lifespan=lifespan)
+app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -65,58 +45,27 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# =====================================================
-# LAZY LOADING: Không load model lúc startup
-# Model chỉ được load khi endpoint đầu tiên gọi đến
-# => Server khởi động nhanh, mở port 8000 ngay lập tức
-# =====================================================
-_sentence_model = None
-_sentence_model_lock = threading.Lock()
-
-def get_sentence_model():
-    global _sentence_model
-    if _sentence_model is None:
-        with _sentence_model_lock:
-            if _sentence_model is None:
-                print("[INFO] Loading SentenceTransformer model (first use)...")
-                # Lazy import to avoid heavy loading at startup
-                from sentence_transformers import SentenceTransformer
-                _sentence_model = SentenceTransformer(
-                    "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
-                )
-                print("[INFO] SentenceTransformer model loaded.")
-    return _sentence_model
-
-# Alias để backward compatible với code dùng model.encode(...)
-class _LazyModel:
-    def encode(self, *args, **kwargs):
-        return get_sentence_model().encode(*args, **kwargs)
-
-model = _LazyModel()
-
+model = SentenceTransformer("sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
 RESUME_MODEL_NAME = "AventIQ-AI/Resume-Parsing-NER-AI-Model"
-_resume_ner_pipeline = None
-_resume_lock = threading.Lock()
 
-def get_resume_ner_pipeline():
-    global _resume_ner_pipeline
-    if _resume_ner_pipeline is None:
-        with _resume_lock:
-            if _resume_ner_pipeline is None:
-                print("[INFO] Loading Resume NER model (first use)...")
-                # Lazy import transformers to avoid heavy load at startup
-                from transformers import AutoTokenizer, AutoModelForTokenClassification, pipeline
-                tokenizer = AutoTokenizer.from_pretrained(RESUME_MODEL_NAME)
-                ner_model = AutoModelForTokenClassification.from_pretrained(RESUME_MODEL_NAME)
-                _resume_ner_pipeline = pipeline(
-                    "ner",
-                    model=ner_model,
-                    tokenizer=tokenizer,
-                    aggregation_strategy="simple"
-                )
-                print("[INFO] Resume NER model loaded.")
-    return _resume_ner_pipeline
-
+resume_tokenizer = AutoTokenizer.from_pretrained(RESUME_MODEL_NAME)
+resume_model = AutoModelForTokenClassification.from_pretrained(RESUME_MODEL_NAME)
+resume_ner_pipeline = pipeline(
+    "ner",
+    model=resume_model,
+    tokenizer=resume_tokenizer,
+    aggregation_strategy="simple"  # gom token liền nhau thành entity
+)
+origins = [
+    "http://localhost:4200"
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,      # cho phép FE truy cập
+    allow_credentials=True,
+    allow_methods=["*"],        # GET, POST, PUT, DELETE
+    allow_headers=["*"],        # cho phép tất cả header
+)
 DB_CONFIG = {
     "dbname": "jober_test",
     "user": "admin",
@@ -1221,8 +1170,27 @@ def recommend_candidates_for_job(req: RecruiterJobRequest):
 
 ############################
 
-# safe_str đã được định nghĩa ở đầu file, không cần lại
-# CandidateResult đã được định nghĩa ở trên (dòng ~966), không cần duplicate
+class CandidateResult(BaseModel):
+    id: int
+    name: str
+    job: str
+    skillDes: Optional[str]
+    experienceDes: Optional[str]
+    jobTarget: Optional[str]
+    experienceLevel: int
+    skillLevel: int
+    avatar: Optional[str]
+    phone: Optional[str]
+    email: Optional[str]
+    score: float
+    similarityScore: float
+    gnnScore: float
+    behaviorBoost: float
+    cvMatchScore: float
+
+# Hàm Utility để xử lý chuỗi (giả định)
+def safe_str(s):
+    return s if s is not None else ""
 
 # Hàm tính khoảng cách cosine (1 - similarity)
 def cosine_distance(vec1, vec2):

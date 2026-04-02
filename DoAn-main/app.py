@@ -6,7 +6,7 @@ import numpy as np
 import psycopg2
 from psycopg2.extras import Json
 from sentence_transformers import SentenceTransformer
-os.environ["OMP_NUM_THREADS"] = "1"
+import os
 
 DB_CONFIG = {
     "dbname": "jober_test",
@@ -17,14 +17,7 @@ DB_CONFIG = {
 }
 
 MODEL_PATH = "gnn_model.pt"
-TEXT_MODEL = None  # Loaded lazily
-
-def get_text_model():
-    global TEXT_MODEL
-    if TEXT_MODEL is None:
-        print("📦 Loading SentenceTransformer...")
-        TEXT_MODEL = SentenceTransformer("sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
-    return TEXT_MODEL
+TEXT_MODEL = SentenceTransformer("sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
 
 class SimpleGNN(nn.Module):
     def __init__(self, in_feats, hidden_feats, out_feats):
@@ -38,7 +31,7 @@ class SimpleGNN(nn.Module):
 
 def get_embedding_from_texts(texts):
     """ Encode nhiều đoạn text cùng lúc bằng SentenceTransformer """
-    return get_text_model().encode(texts, convert_to_tensor=True)
+    return TEXT_MODEL.encode(texts, convert_to_tensor=True)
 
 def load_data_from_db():
     conn = psycopg2.connect(**DB_CONFIG)

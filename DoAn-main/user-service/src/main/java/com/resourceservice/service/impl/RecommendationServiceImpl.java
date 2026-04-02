@@ -59,9 +59,7 @@ public class RecommendationServiceImpl implements RecommendationService {
             .topK(20)
             .build();
 
-        // List<CandidateDto> candidates =
-        // recommendationFeignClient.getCandidateRecommendByJob(request);
-        List<CandidateDto> candidates = null; // Tạm thời ngắt gọi service recommendation
+        List<CandidateDto> candidates = recommendationFeignClient.getCandidateRecommendByJob(request);
 
         if (candidates != null && !candidates.isEmpty()) {
           JobRecommendationResult resultItem = JobRecommendationResult.builder()
@@ -99,9 +97,8 @@ public class RecommendationServiceImpl implements RecommendationService {
           .build();
 
       try {
-        // jobs = recommendationFeignClient.getJobRecommendByUser(request);
-        jobs = new ArrayList<>(); // Tạm thời ngắt gọi service recommendation
-      } catch (Exception ex) {
+        jobs = recommendationFeignClient.getJobRecommendByUser(request);
+      } catch (FeignException ex) {
         return;
       }
 
@@ -110,8 +107,8 @@ public class RecommendationServiceImpl implements RecommendationService {
       }
 
       List<JobDTO> nearDeadlineJobs = jobs.stream().filter(
-          job -> job.getExpDate() != null && !job.getExpDate().toLocalDate().isBefore(now)
-              && job.getExpDate().toLocalDate().isBefore(now.plusDays(2)))
+              job -> job.getExpDate() != null && !job.getExpDate().toLocalDate().isBefore(now)
+                  && job.getExpDate().toLocalDate().isBefore(now.plusDays(2)))
           .collect(Collectors.toList());
 
       if (nearDeadlineJobs.isEmpty()) {
