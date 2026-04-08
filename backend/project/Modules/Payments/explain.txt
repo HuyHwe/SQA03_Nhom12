@@ -1,0 +1,41 @@
+
+User mua khóa học → Tạo Order -> Backend tạo Payment (pending)
+
+POST   http://localhost:5102/api/Orders :
+{
+  "orderDetails": [
+    {
+      "courseId": "string"  // truyền mã course
+    },
+    {
+      "courseId": "string"  // truyền mã course
+    }
+  ]
+}
+
+
+
+Backend sinh QR và trả về URL 
+GET   /api/Payment/{paymentId}/qr  : 
+return {
+  "paymentId": "c3779d43-795d-4be2-8bbd-c7788b2c3180",
+  "transactionId": "86d1cfe7-b5af-4818-a01f-b3df650703df",
+  "orderId": "70d5534d-b43e-4cb7-812a-b810c44ca709",
+  "amount": 262.36,
+  "status": "paid",
+  "createdAt": "2025-11-28T18:14:39.9856532",
+  "qrCode": "...."
+}
+
+
+User quét QR → Thanh toán 
+Cổng thanh toán gửi callback webhook về server
+Cập nhật Order = Paid ( nếu status = suceess)
+(amount và status là server tự truyền)
+
+POST http://localhost:5102/api/Payment/webhook
+{
+  "transactionId": "7f29f1fd-83ed-4855-8a29-5ff6a9f3e30a",
+  "amount": 2,
+  "status": "success"
+}

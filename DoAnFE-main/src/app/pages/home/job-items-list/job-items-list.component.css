@@ -1,9 +1,0 @@
-.left-panel {
-    width: 30%;
-}
-
-@media (max-width: 1024px) {
-    .left-panel {
-        width: 100%;
-    }
-}

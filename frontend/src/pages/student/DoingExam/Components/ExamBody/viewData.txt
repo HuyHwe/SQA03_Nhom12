@@ -1,0 +1,15 @@
+{
+    "status": "success",
+    "message": "Fetch saved answers successfully",
+    "data": {
+        "id": "7f9e4f4a-fb30-4c6a-8aa9-ee19bdb6862c",
+        "examId": "ab1d2654-3004-48f5-b273-7ca6c8395e03",
+        "studentId": "3949e1f9-22ec-49e2-9509-e5e13ca6fbf2",
+        "startTime": "2025-11-22T11:39:04.3715544",
+        "endTime": "2025-11-22T12:47:04.3715946",
+        "attemptedAt": "2025-11-22T11:39:04.371506",
+        "submittedAt": "0001-01-01T00:00:00",
+        "savedAnswers": "[\n  {\n    \"questionId\": \"1b465153-76f2-43c1-b283-9bf41e401aa9\",\n    \"choices\": [\n      {\n        \"id\": \"9d9f2596-3851-4ee6-bd38-3bf6a5c0befc\"\n      }\n    ]\n  },\n  {\n    \"questionId\": \"47cdf1e0-b8b7-4eeb-9653-ecab28f816d6\",\n    \"choices\": [\n      {\n        \"id\": \"9110bbf9-c8f2-488d-bb9e-32e0ccd2ee16\"\n      },\n      {\n        \"id\": \"7fa64ea6-3198-4d33-aee8-0aecf0e3a99d\"\n      },\n      {\n        \"id\": \"68d01c93-3135-4dc1-9d13-82e0f69d4fd7\"\n      }\n    ]\n  }\n]",
+        "isSubmitted": false
+    }
+}
