@@ -13,7 +13,7 @@
 ### Trên Windows
 
 * Tải **.NET 8.0 SDK**:
-  [https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-8.0.419-windows-x86-installer](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-8.0.419-windows-x86-installer)
+  [https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-8.0.420-windows-x64-installer](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-8.0.420-windows-x64-installer)
 
 * Nếu gặp lỗi thiếu **ASP.NET Core Runtime**, cài thêm:
   [https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-aspnetcore-8.0.25-windows-x86-installer](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-aspnetcore-8.0.25-windows-x86-installer)
@@ -55,6 +55,7 @@ docker run \
 
 ```bash
 cd backend/project
+dotnet tool install --global dotnet-ef
 dotnet ef database update
 dotnet run
 ```
