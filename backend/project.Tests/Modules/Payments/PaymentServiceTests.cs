@@ -228,5 +228,374 @@ namespace project.Tests.Modules.Payments
                 await dbContext.SaveChangesAsync();
             }
         }
+
+        // ================= HELPER METHODS: Quản lý Test Data =================
+
+        private async Task<(string UserId, string StudentId, string OrderId)> InsertDummyOrderAsync(DBContext dbContext, string status, decimal totalPrice)
+        {
+            var userId = "user_" + Guid.NewGuid().ToString().Substring(0, 8);
+            var stuId = "stu_" + Guid.NewGuid().ToString().Substring(0, 8);
+            var orderId = Guid.NewGuid().ToString();
+
+            dbContext.Users.Add(new User { Id = userId, FullName = "U", UserName = userId, Email = userId + "@fake.com" });
+            dbContext.Students.Add(new Student { StudentId = stuId, UserId = userId });
+            dbContext.Orders.Add(new Orders { Id = orderId, StudentId = stuId, TotalPrice = totalPrice, Status = status });
+            await dbContext.SaveChangesAsync();
+
+            return (userId, stuId, orderId);
+        }
+
+        private async Task<(string UserId, string StudentId, string OrderId, string PaymentId, string TransactionId)> InsertDummyOrderWithPaymentAsync(DBContext dbContext, string orderStatus)
+        {
+            var userId = "user_" + Guid.NewGuid().ToString().Substring(0, 8);
+            var stuId = "stu_" + Guid.NewGuid().ToString().Substring(0, 8);
+            var orderId = Guid.NewGuid().ToString();
+            var paymentId = Guid.NewGuid().ToString();
+            var txId = "TX_" + Guid.NewGuid().ToString().Substring(0, 8);
+
+            dbContext.Users.Add(new User { Id = userId, FullName = "U", UserName = userId, Email = userId + "@fake.com" });
+            dbContext.Students.Add(new Student { StudentId = stuId, UserId = userId });
+            dbContext.Orders.Add(new Orders { Id = orderId, StudentId = stuId, TotalPrice = 100000, Status = orderStatus });
+            dbContext.Payments.Add(new Payment { Id = paymentId, OrderId = orderId, Amount = 100000, TransactionId = txId });
+            await dbContext.SaveChangesAsync();
+
+            return (userId, stuId, orderId, paymentId, txId);
+        }
+
+        private async Task CleanupDummyOrderAsync(DBContext dbContext, string stuId, string userId)
+        {
+            var orders = dbContext.Orders.Where(o => o.StudentId == stuId).ToList();
+            var dbPayments = dbContext.Payments.Where(p => orders.Select(o => o.Id).Contains(p.OrderId)).ToList();
+            var dbDetails = dbContext.OrderDetails.Where(d => orders.Select(o => o.Id).Contains(d.OrderId)).ToList();
+
+            dbContext.Payments.RemoveRange(dbPayments);
+            dbContext.OrderDetails.RemoveRange(dbDetails);
+            dbContext.Orders.RemoveRange(orders);
+
+            var students = dbContext.Students.Where(s => s.StudentId == stuId).ToList();
+            dbContext.Students.RemoveRange(students);
+
+            var users = dbContext.Users.Where(u => u.Id == userId).ToList();
+            dbContext.Users.RemoveRange(users);
+
+            await dbContext.SaveChangesAsync();
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_PS_06]
+        // [Mục đích: Báo lỗi nếu mã giao dịch không trích xuất được OrderId từ Content]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task HandleSepayWebhookAsync_ShouldThrowException_WhenOrderIdCannotBeExtracted()
+        {
+            var dbContext = GetDatabaseContext();
+            var paymentRepo = new PaymentRepository(dbContext);
+            var service = new PaymentService(paymentRepo, dbContext, _mockConfig.Object);
+
+            var dto = new SepayWebhookDto
+            {
+                TransferType = "in",
+                TransferAmount = 100000,
+                Content = "CHUYEN KHOAN HOC PHI" // Không chứa ký pháp ELN
+            };
+
+            Func<Task> act = async () => await service.HandleSepayWebhookAsync(dto);
+
+            await act.Should().ThrowAsync<Exception>().WithMessage("Cannot extract OrderId from transaction. Format: ELN<orderId>");
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_PS_07]
+        // [Mục đích: Báo lỗi nếu mã đơn hàng hợp lệ nhưng không tồn tại trong CSDL]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task HandleSepayWebhookAsync_ShouldThrowException_WhenOrderNotFound()
+        {
+            var dbContext = GetDatabaseContext();
+            var paymentRepo = new PaymentRepository(dbContext);
+            var service = new PaymentService(paymentRepo, dbContext, _mockConfig.Object);
+
+            var orderId = Guid.NewGuid().ToString();
+
+            var dto = new SepayWebhookDto
+            {
+                TransferType = "in",
+                TransferAmount = 100000,
+                Content = $"ELN{orderId}"
+            };
+
+            Func<Task> act = async () => await service.HandleSepayWebhookAsync(dto);
+
+            await act.Should().ThrowAsync<Exception>().WithMessage($"Order {orderId} not found.");
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_PS_08]
+        // [Mục đích: Idempotent - Giao dịch webhook đi vào lần 2 thì bỏ qua không làm thêm gì cả thay vì ném lỗi]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task HandleSepayWebhookAsync_ShouldReturnTrueImmediately_WhenOrderIsAlreadyPaid()
+        {
+            var dbContext = GetDatabaseContext();
+            var paymentRepo = new PaymentRepository(dbContext);
+            var service = new PaymentService(paymentRepo, dbContext, _mockConfig.Object);
+
+            var data = await InsertDummyOrderAsync(dbContext, "paid", 100000);
+
+            try
+            {
+                var dto = new SepayWebhookDto
+                {
+                    TransferType = "in",
+                    TransferAmount = 100000,
+                    Content = $"ELN{data.OrderId}"
+                };
+
+                var result = await service.HandleSepayWebhookAsync(dto);
+                result.Should().BeTrue();
+            }
+            finally
+            {
+                await CleanupDummyOrderAsync(dbContext, data.StudentId, data.UserId);
+            }
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_PS_09]
+        // [Mục đích: Báo lỗi nếu nội dung chuyển tiếp thiếu tiền (Amount mismatch)]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task HandleSepayWebhookAsync_ShouldThrowException_WhenTransferAmountIsLessThanTotalPrice()
+        {
+            var dbContext = GetDatabaseContext();
+            var paymentRepo = new PaymentRepository(dbContext);
+            var service = new PaymentService(paymentRepo, dbContext, _mockConfig.Object);
+
+            var data = await InsertDummyOrderAsync(dbContext, "pending", 100000);
+
+            try
+            {
+                var dto = new SepayWebhookDto
+                {
+                    TransferType = "in",
+                    TransferAmount = 50000, // Chuyển thiếu tiền
+                    Content = $"ELN{data.OrderId}"
+                };
+
+                Func<Task> act = async () => await service.HandleSepayWebhookAsync(dto);
+
+                await act.Should().ThrowAsync<Exception>().WithMessage($"Amount mismatch. Expected: 100000, Received: 50000");
+            }
+            finally
+            {
+                await CleanupDummyOrderAsync(dbContext, data.StudentId, data.UserId);
+            }
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_PS_10]
+        // [Mục đích: GetBankInfo ném lỗi nếu đơn hàng không tồn tại]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task GetBankInfoForOrderAsync_ShouldThrowException_WhenOrderNotFound()
+        {
+            var dbContext = GetDatabaseContext();
+            var paymentRepo = new PaymentRepository(dbContext);
+            var service = new PaymentService(paymentRepo, dbContext, _mockConfig.Object);
+
+            Func<Task> act = async () => await service.GetBankInfoForOrderAsync("fake-order", "fake-student");
+
+            await act.Should().ThrowAsync<Exception>().WithMessage("Order not found or access denied.");
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_PS_11]
+        // [Mục đích: Không sinh Bank Info mã QR nếu hóa đơn đã được thanh toán]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task GetBankInfoForOrderAsync_ShouldThrowException_WhenOrderAlreadyPaid()
+        {
+            var dbContext = GetDatabaseContext();
+            var paymentRepo = new PaymentRepository(dbContext);
+            var service = new PaymentService(paymentRepo, dbContext, _mockConfig.Object);
+
+            var data = await InsertDummyOrderAsync(dbContext, "paid", 100000);
+
+            try
+            {
+                Func<Task> act = async () => await service.GetBankInfoForOrderAsync(data.OrderId, data.StudentId);
+                await act.Should().ThrowAsync<Exception>().WithMessage("Order already paid.");
+            }
+            finally
+            {
+                await CleanupDummyOrderAsync(dbContext, data.StudentId, data.UserId);
+            }
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_PS_12]
+        // [Mục đích: Sinh ra QR CODE thành công của phương thức GenerateSepayQrCode]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task GetBankInfoForOrderAsync_ShouldReturnBankInfo_WithValidSepayQrCode()
+        {
+            var dbContext = GetDatabaseContext();
+            var paymentRepo = new PaymentRepository(dbContext);
+            
+            // Set mock values for IConfiguration
+            _mockConfig.Setup(c => c["Sepay:BankAccount"]).Returns("0972229142");
+            _mockConfig.Setup(c => c["Sepay:BankName"]).Returns("MB");
+            _mockConfig.Setup(c => c["Sepay:AccountHolder"]).Returns("TESTER");
+
+            var service = new PaymentService(paymentRepo, dbContext, _mockConfig.Object);
+
+            var data = await InsertDummyOrderAsync(dbContext, "pending", 500000);
+
+            try
+            {
+                var result = await service.GetBankInfoForOrderAsync(data.OrderId, data.StudentId);
+
+                result.Should().NotBeNull();
+                result.Amount.Should().Be(500000);
+                result.BankAccount.Should().Be("0972229142");
+                result.BankName.Should().Be("MB");
+                result.AccountHolder.Should().Be("TESTER");
+                result.TransferContent.Should().Be($"ELN{data.OrderId.Replace("-", "")}");
+                
+                // Assert generated URL format
+                result.QrCodeUrl.Should().Contain("https://qr.sepay.vn/img");
+                result.QrCodeUrl.Should().Contain("acc=0972229142");
+                result.QrCodeUrl.Should().Contain("bank=MB");
+                result.QrCodeUrl.Should().Contain("amount=500000");
+                result.QrCodeUrl.Should().Contain(Uri.EscapeDataString(result.TransferContent));
+            }
+            finally
+            {
+                await CleanupDummyOrderAsync(dbContext, data.StudentId, data.UserId);
+            }
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_PS_13]
+        // [Mục đích: Báo lỗi nếu Webhook gọi tới TransactionId không tồn tại trong hệ thống]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task HandleWebhookAsync_ShouldThrowException_WhenPaymentNotFound()
+        {
+            var dbContext = GetDatabaseContext();
+            var paymentRepo = new PaymentRepository(dbContext);
+            var service = new PaymentService(paymentRepo, dbContext, _mockConfig.Object);
+
+            var dto = new PaymentWebhookDto
+            {
+                TransactionId = "invalid_tx",
+                Status = "success"
+            };
+
+            Func<Task> act = async () => await service.HandleWebhookAsync(dto);
+
+            await act.Should().ThrowAsync<Exception>().WithMessage("Payment not found.");
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_PS_14]
+        // [Mục đích: Báo lỗi nếu trạng thái thanh toán từ webhook không phải là 'success']
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task HandleWebhookAsync_ShouldThrowException_WhenStatusIsNotSuccess()
+        {
+            var dbContext = GetDatabaseContext();
+            var paymentRepo = new PaymentRepository(dbContext);
+            var service = new PaymentService(paymentRepo, dbContext, _mockConfig.Object);
+
+            var data = await InsertDummyOrderWithPaymentAsync(dbContext, "pending");
+
+            try
+            {
+                var dto = new PaymentWebhookDto
+                {
+                    TransactionId = data.TransactionId,
+                    Status = "failed"
+                };
+
+                Func<Task> act = async () => await service.HandleWebhookAsync(dto);
+
+                await act.Should().ThrowAsync<Exception>().WithMessage("Payment not successful.");
+            }
+            finally
+            {
+                await CleanupDummyOrderAsync(dbContext, data.StudentId, data.UserId);
+            }
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_PS_15]
+        // [Mục đích: Đảm bảo tính Idempotent - Nếu Order đã trả tiền trước đó rồi thì webhook trả về true luôn]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task HandleWebhookAsync_ShouldReturnTrueImmediately_WhenOrderIsAlreadyPaid()
+        {
+            var dbContext = GetDatabaseContext();
+            var paymentRepo = new PaymentRepository(dbContext);
+            var service = new PaymentService(paymentRepo, dbContext, _mockConfig.Object);
+
+            var data = await InsertDummyOrderWithPaymentAsync(dbContext, "paid");
+
+            try
+            {
+                var dto = new PaymentWebhookDto
+                {
+                    TransactionId = data.TransactionId,
+                    Status = "success"
+                };
+
+                var result = await service.HandleWebhookAsync(dto);
+
+                result.Should().BeTrue();
+            }
+            finally
+            {
+                await CleanupDummyOrderAsync(dbContext, data.StudentId, data.UserId);
+            }
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_PS_16]
+        // [Mục đích: Happy path - Webhook chuẩn thì cập nhật trạng thái đơn và ngày đóng tiền]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task HandleWebhookAsync_ShouldUpdateOrderAndPayment_HappyPath()
+        {
+            var dbContext = GetDatabaseContext();
+            var paymentRepo = new PaymentRepository(dbContext);
+            var service = new PaymentService(paymentRepo, dbContext, _mockConfig.Object);
+
+            var data = await InsertDummyOrderWithPaymentAsync(dbContext, "pending");
+
+            try
+            {
+                var dto = new PaymentWebhookDto
+                {
+                    TransactionId = data.TransactionId,
+                    Status = "success"
+                };
+
+                var result = await service.HandleWebhookAsync(dto);
+
+                result.Should().BeTrue();
+
+                var order = await dbContext.Orders.FindAsync(data.OrderId);
+                order.Should().NotBeNull();
+                order.Status.Should().Be("paid");
+
+                var payment = await dbContext.Payments.FindAsync(data.PaymentId);
+                payment.Should().NotBeNull();
+                // We could check UpdatedAt, but enough to know it succeeded
+            }
+            finally
+            {
+                await CleanupDummyOrderAsync(dbContext, data.StudentId, data.UserId);
+            }
+        }
     }
 }
