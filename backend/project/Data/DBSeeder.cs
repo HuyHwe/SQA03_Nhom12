@@ -3,14 +3,34 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using project.Models;
 using project.Models.Posts;
+using Microsoft.AspNetCore.Identity;
+
 
 public static class DBSeeder
 {
     public static void Seed(DBContext context)
     {
+        // Xóa toàn bộ DB rồi tạo lại từ migrations
+        context.Database.EnsureDeleted();
         context.Database.Migrate();
 
         var faker = new Bogus.Faker();
+
+        // 0. Đảm bảo Role tồn tại sau khi Migrate
+        string[] roleNames = { "Student", "Teacher", "Admin" };
+        foreach (var roleName in roleNames)
+        {
+            if (!context.Roles.Any(r => r.Name == roleName))
+            {
+                context.Roles.Add(new IdentityRole
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Name = roleName,
+                    NormalizedName = roleName.ToUpper()
+                });
+            }
+        }
+        context.SaveChanges();
 
         // Seed Users, Students, Teachers, Admins
         if (!context.Students.Any() || !context.Teachers.Any())
@@ -39,6 +59,58 @@ public static class DBSeeder
             var teacherUsers = users.Skip(30).Take(15).ToList();
             var adminUsers = users.Skip(45).Take(5).ToList();
 
+            var hasher = new PasswordHasher<User>();
+            
+            // 1. Create Demo Teacher
+            var specificTeacherUser = new User
+            {
+                Id = Guid.NewGuid().ToString(),
+                FullName = "Default Teacher",
+                Email = "teacher@gmail.com",
+                NormalizedEmail = "TEACHER@GMAIL.COM",
+                UserName = "teacher@gmail.com",
+                NormalizedUserName = "TEACHER@GMAIL.COM",
+                PasswordHash = hasher.HashPassword(null!, "Teacher@123"),
+                SecurityStamp = Guid.NewGuid().ToString(),
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+                Status = "Active"
+            };
+
+            // 2. Create Demo Student
+            var specificStudentUser = new User
+            {
+                Id = Guid.NewGuid().ToString(),
+                FullName = "Default Student",
+                Email = "student@gmail.com",
+                NormalizedEmail = "STUDENT@GMAIL.COM",
+                UserName = "student@gmail.com",
+                NormalizedUserName = "STUDENT@GMAIL.COM",
+                PasswordHash = hasher.HashPassword(null!, "Student@123"),
+                SecurityStamp = Guid.NewGuid().ToString(),
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+                Status = "Active"
+            };
+
+            // 3. Create Demo Admin
+            var specificAdminUser = new User
+            {
+                Id = Guid.NewGuid().ToString(),
+                FullName = "Default Admin",
+                Email = "admin@gmail.com",
+                NormalizedEmail = "ADMIN@GMAIL.COM",
+                UserName = "admin@gmail.com",
+                NormalizedUserName = "ADMIN@GMAIL.COM",
+                PasswordHash = hasher.HashPassword(null!, "Admin@123"),
+                SecurityStamp = Guid.NewGuid().ToString(),
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+                Status = "Active"
+            };
+
+            context.Users.AddRange(specificTeacherUser, specificStudentUser, specificAdminUser);
+
             var students = studentUsers.Select(u => new Student
             {
                 StudentId = Guid.NewGuid().ToString(),
@@ -63,10 +135,60 @@ public static class DBSeeder
                 User = u
             }).ToList();
 
+            var specificStudent = new Student
+            {
+                StudentId = Guid.NewGuid().ToString(),
+                UserId = specificStudentUser.Id,
+                User = specificStudentUser,
+                Bio = "Default Student record"
+            };
+            
+            var specificTeacher = new Teacher
+            {
+                TeacherId = Guid.NewGuid().ToString(),
+                UserId = specificTeacherUser.Id,
+                User = specificTeacherUser,
+                EmployeeCode = "TCH001",
+                instruction = "Default Teacher"
+            };
+
+            var specificAdmin = new Admin
+            {
+                AdminId = Guid.NewGuid().ToString(),
+                UserId = specificAdminUser.Id,
+                User = specificAdminUser
+            };
+
             context.Students.AddRange(students);
+            context.Students.Add(specificStudent);
+            
             context.Teachers.AddRange(teachers);
+            context.Teachers.Add(specificTeacher);
+            
             context.Admins.AddRange(admins);
+            context.Admins.Add(specificAdmin);
+            
             context.SaveChanges();
+            
+            var userRolesToAdd = new List<IdentityUserRole<string>>();
+
+            var teacherRole = context.Roles.FirstOrDefault(r => r.NormalizedName == "TEACHER");
+            if (teacherRole != null)
+                userRolesToAdd.Add(new IdentityUserRole<string> { UserId = specificTeacherUser.Id, RoleId = teacherRole.Id });
+
+            var studentRole = context.Roles.FirstOrDefault(r => r.NormalizedName == "STUDENT");
+            if (studentRole != null)
+                userRolesToAdd.Add(new IdentityUserRole<string> { UserId = specificStudentUser.Id, RoleId = studentRole.Id });
+
+            var adminRole = context.Roles.FirstOrDefault(r => r.NormalizedName == "ADMIN");
+            if (adminRole != null)
+                userRolesToAdd.Add(new IdentityUserRole<string> { UserId = specificAdminUser.Id, RoleId = adminRole.Id });
+
+            if (userRolesToAdd.Any())
+            {
+                context.UserRoles.AddRange(userRolesToAdd);
+                context.SaveChanges();
+            }
         }
 
         string[] subjects = new[]
