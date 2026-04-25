@@ -72,9 +72,10 @@ public class AuthService : IAuthService
 
         // Kiểm tra xem user có phải teacher không (mới đăng ký thì thường chưa)
         var teacher = await _context.Teachers.FirstOrDefaultAsync(t => t.UserId == user.Id);
+        var admin = await _context.Admins.FirstOrDefaultAsync(a => a.UserId == user.Id);
 
         // Tạo JWT
-        var token = GenerateJwtToken(user, student.StudentId, teacher?.TeacherId);
+        var token = GenerateJwtToken(user, student.StudentId, teacher?.TeacherId, admin?.AdminId);
 
         return new AuthResponseDto
         {
@@ -82,7 +83,8 @@ public class AuthService : IAuthService
             UserId = user.Id,
             FullName = user.FullName,
             StudentId = student.StudentId,
-            TeacherId = teacher?.TeacherId
+            TeacherId = teacher?.TeacherId,
+            AdminId = admin?.AdminId
         };
     }
 
@@ -98,18 +100,17 @@ public class AuthService : IAuthService
         if (!valid)
             throw new Exception("Email hoặc mật khẩu không đúng");
 
-        // Lấy StudentId tương ứng với UserId
-        var student = await _context.Students.FirstOrDefaultAsync(s => s.UserId == user.Id) ?? throw new Exception("Student not found");
-
-        // Lấy TeacherId nếu có
+        // Lấy thông tin các vai trò (nếu có)
+        var student = await _context.Students.FirstOrDefaultAsync(s => s.UserId == user.Id);
         var teacher = await _context.Teachers.FirstOrDefaultAsync(t => t.UserId == user.Id);
+        var admin = await _context.Admins.FirstOrDefaultAsync(a => a.UserId == user.Id);
 
         var refreshToken = GenerateRefreshToken();
         user.RefreshTokenHash = HashToken(refreshToken);
         user.RefreshTokenTimeExpire = DateTime.UtcNow.AddDays(7);
         await _userManager.UpdateAsync(user);
 
-        var token = GenerateJwtToken(user, student.StudentId, teacher?.TeacherId);
+        var token = GenerateJwtToken(user, student?.StudentId, teacher?.TeacherId, admin?.AdminId);
         return new AuthResponseDto
         {
             Token = token,
@@ -117,7 +118,8 @@ public class AuthService : IAuthService
             FullName = user.FullName,
             RefreshToken = refreshToken,
             StudentId = student?.StudentId,
-            TeacherId = teacher?.TeacherId
+            TeacherId = teacher?.TeacherId,
+            AdminId = admin?.AdminId
         };
     }
 
@@ -298,9 +300,10 @@ public class AuthService : IAuthService
 
         var student = await _context.Students.FirstOrDefaultAsync(s => s.UserId == user.Id);
         var teacher = await _context.Teachers.FirstOrDefaultAsync(t => t.UserId == user.Id);
+        var admin = await _context.Admins.FirstOrDefaultAsync(a => a.UserId == user.Id);
 
         // Tạo access token mới
-        var newToken = GenerateJwtToken(user, student?.StudentId ?? "", teacher?.TeacherId);
+        var newToken = GenerateJwtToken(user, student?.StudentId, teacher?.TeacherId, admin?.AdminId);
 
         // Tạo refresh token mới
         var newRefreshToken = GenerateRefreshToken();
@@ -315,13 +318,14 @@ public class AuthService : IAuthService
             FullName = user.FullName,
             RefreshToken = newRefreshToken,
             StudentId = student?.StudentId,
-            TeacherId = teacher?.TeacherId
+            TeacherId = teacher?.TeacherId,
+            AdminId = admin?.AdminId
         };
     }
 
 
     // ========================= Helper =========================
-    private string GenerateJwtToken(User user, string studentId, string? teacherId)
+    private string GenerateJwtToken(User user, string? studentId, string? teacherId, string? adminId)
     {
         // Lấy roles của user
         var roles = _userManager.GetRolesAsync(user).Result;
@@ -329,11 +333,16 @@ public class AuthService : IAuthService
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id),
             new Claim(ClaimTypes.Name, user.FullName),
-            new Claim("StudentId", studentId)
         };
+
+        if (!string.IsNullOrEmpty(studentId))
+            claims.Add(new Claim("StudentId", studentId));
 
         if (!string.IsNullOrEmpty(teacherId))
             claims.Add(new Claim("TeacherId", teacherId));
+
+        if (!string.IsNullOrEmpty(adminId))
+            claims.Add(new Claim("AdminId", adminId));
 
         //Thêm claim role
         claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));

@@ -174,8 +174,8 @@ builder.Services.AddSignalR();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("SignalRCors",
-        policy => policy.WithOrigins("http://localhost:5173", "https://localhost:7250")
+    options.AddPolicy("AllowAll",
+        policy => policy.SetIsOriginAllowed(origin => true)
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials());
@@ -216,7 +216,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors("SignalRCors");
+app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();

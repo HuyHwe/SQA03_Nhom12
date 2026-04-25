@@ -1,1 +1,6 @@
 .DS_Store
+ChiaViec.md
+backend/project/bin/
+backend/project/obj/
+node_modules/
+.env

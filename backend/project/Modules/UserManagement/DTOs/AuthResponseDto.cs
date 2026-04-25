@@ -9,7 +9,8 @@ public class AuthResponseDto
     public string FullName { get; set; } = null!;
     public string? RefreshToken { get; set; }
 
-      public string? StudentId { get; set; }  
+    public string? StudentId { get; set; }  
     public string? TeacherId { get; set; }  
+    public string? AdminId { get; set; }
 
 }
