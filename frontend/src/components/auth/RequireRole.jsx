@@ -38,15 +38,10 @@ export default function RequireRole({ roles = [] }) {
     // so checks below are safe even if no role is detected.
     let userRole = [];
 
-    // DEBUG: Log user object to see what we have
-    // console.log("🔍 [RequireRole] User object:", user);
-
     if (user) {
-        // console.log("🔍 [RequireRole] studentId:", user.studentId);
-        // console.log("🔍 [RequireRole] teacherId:", user.teacherId);
-        // console.log("🔍 [RequireRole] isTeacher:", user.isTeacher);
-
-        if (user.studentId && !user.teacherId) {
+        if (user.roles && user.roles.length > 0) {
+            userRole = user.roles;
+        } else if (user.studentId && !user.teacherId) {
             userRole = ["Student"];
         } else if (user.teacherId || user.isTeacher) {
             userRole = ["Teacher", "Student"];
@@ -55,13 +50,8 @@ export default function RequireRole({ roles = [] }) {
         }
     }
 
-    // console.log("🔍 [RequireRole] Detected role:", userRole);
-    // console.log("🔍 [RequireRole] Required roles:", roles);
-
     // Check if user role is in allowed roles
     const hasAccess = roles.length === 0 || roles.some(role => userRole.includes(role));
-
-    // console.log("🔍 [RequireRole] Has access:", hasAccess);
 
     if (!hasAccess) {
         return <Navigate to="/forbidden" replace />;

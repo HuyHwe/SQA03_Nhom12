@@ -21,7 +21,7 @@ public class AdminController : ControllerBase
     {
         try
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirstValue("sub");
             if (userId == null)
             {
                 return Unauthorized(new APIResponse("error", "User ID not found in token"));
@@ -41,7 +41,7 @@ public class AdminController : ControllerBase
     {
         try
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirstValue("sub");
             if (userId == null)
             {
                 return Unauthorized(new APIResponse("error", "User ID not found in token"));
@@ -65,7 +65,7 @@ public class AdminController : ControllerBase
     {
         try
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirstValue("sub");
             if (userId == null)
             {
                 return Unauthorized(new APIResponse("error", "User ID not found"));
@@ -93,7 +93,7 @@ public class AdminController : ControllerBase
         }
         try
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirstValue("sub");
             if (userId == null)
             {
                 return Unauthorized(new APIResponse("error", "User ID not found"));
@@ -132,7 +132,7 @@ public class AdminController : ControllerBase
     {
         try
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirstValue("sub");
             if (userId == null)
             {
                 return Unauthorized(new APIResponse("error", "User ID not found in token"));
@@ -164,7 +164,7 @@ public class AdminController : ControllerBase
     {
         try
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirstValue("sub");
             if (userId == null)
             {
                 return Unauthorized(new APIResponse("error", "User ID not found in token"));

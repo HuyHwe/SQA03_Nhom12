@@ -31,7 +31,7 @@ public class ExamController : ControllerBase
     {
         try
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = User.FindFirst("sub")?.Value;
             var exam = await _examService.GetExamByIdAsync(userId, id);
             return Ok(new APIResponse("success", "Retrieve Exam Successfully", exam));
         }

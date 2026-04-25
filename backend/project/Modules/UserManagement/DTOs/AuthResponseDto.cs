@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace project.Modules.UserManagement.DTOs;
 
@@ -12,5 +13,5 @@ public class AuthResponseDto
     public string? StudentId { get; set; }  
     public string? TeacherId { get; set; }  
     public string? AdminId { get; set; }
-
+    public List<string> Roles { get; set; } = new();
 }

@@ -91,6 +91,8 @@ function Login() {
                         userId: data?.userId || null,
                         studentId: data?.studentId || null,
                         teacherId: data?.teacherId || null,
+                        adminId: data?.adminId || null,
+                        roles: data?.roles || [],
                         fullName: data?.fullName || null,
                     })
                 );
@@ -110,9 +112,10 @@ function Login() {
             }
 
             // Role-based redirect
-            const userRole = data?.studentId && !data?.teacherId ? "Student"
+            const userRole = data?.adminId ? "Admin"
                 : data?.teacherId ? "Teacher"
-                    : null;
+                    : data?.studentId ? "Student"
+                        : null;
             const roleDashboard = getRoleBasedDashboard(userRole);
 
             nav(roleDashboard, { replace: true });

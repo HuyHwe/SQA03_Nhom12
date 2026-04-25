@@ -40,6 +40,7 @@ function AdminLoginForm(){
                         userId: data?.userId || null,
                         adminId: data?.adminId || null,
                         fullName: data?.fullName || null,
+                        roles: data?.roles || ["Admin"],
                     })
                 );
             } catch(err){

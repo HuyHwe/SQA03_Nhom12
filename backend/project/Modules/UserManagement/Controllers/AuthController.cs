@@ -58,7 +58,7 @@ public class AuthController : ControllerBase
     [Authorize] // chỉ cho user đã login
     public async Task<ActionResult> RegisterTeacher([FromBody] TeacherRegisterDto dto)
     {
-        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = User.FindFirst("sub")?.Value;
         if (string.IsNullOrEmpty(userId))
             return Unauthorized("User not found in token");
 

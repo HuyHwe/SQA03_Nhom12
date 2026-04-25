@@ -75,7 +75,7 @@ public class AuthService : IAuthService
         var admin = await _context.Admins.FirstOrDefaultAsync(a => a.UserId == user.Id);
 
         // Tạo JWT
-        var token = GenerateJwtToken(user, student.StudentId, teacher?.TeacherId, admin?.AdminId);
+        var token = await GenerateJwtToken(user, student.StudentId, teacher?.TeacherId, admin?.AdminId);
 
         return new AuthResponseDto
         {
@@ -110,7 +110,7 @@ public class AuthService : IAuthService
         user.RefreshTokenTimeExpire = DateTime.UtcNow.AddDays(7);
         await _userManager.UpdateAsync(user);
 
-        var token = GenerateJwtToken(user, student?.StudentId, teacher?.TeacherId, admin?.AdminId);
+        var token = await GenerateJwtToken(user, student?.StudentId, teacher?.TeacherId, admin?.AdminId);
         return new AuthResponseDto
         {
             Token = token,
@@ -119,7 +119,8 @@ public class AuthService : IAuthService
             RefreshToken = refreshToken,
             StudentId = student?.StudentId,
             TeacherId = teacher?.TeacherId,
-            AdminId = admin?.AdminId
+            AdminId = admin?.AdminId,
+            Roles = (await _userManager.GetRolesAsync(user)).ToList()
         };
     }
 
@@ -206,7 +207,7 @@ public class AuthService : IAuthService
 
         var admin = await _context.Admins.FirstOrDefaultAsync(a => a.UserId == user.Id) ?? throw new Exception("Admin not found");
 
-        var token = GenerateAdminJwtToken(user, admin.AdminId);
+        var token = await GenerateAdminJwtToken(user, admin.AdminId);
         var refreshToken = GenerateRefreshToken();
         user.RefreshTokenHash = HashToken(refreshToken);
         user.RefreshTokenTimeExpire = DateTime.UtcNow.AddDays(7);
@@ -218,26 +219,24 @@ public class AuthService : IAuthService
             UserId = user.Id,
             FullName = user.FullName,
             RefreshToken = refreshToken,
-            AdminId = admin.AdminId
+            AdminId = admin.AdminId,
+            Roles = (await _userManager.GetRolesAsync(user)).ToList()
         };
     }
 
-    private string GenerateAdminJwtToken(User user, string adminId)
+    private async Task<string> GenerateAdminJwtToken(User user, string adminId)
     {
         // Lấy roles của user
-        var roles = _userManager.GetRolesAsync(user).Result;
+        var roles = await _userManager.GetRolesAsync(user);
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id),
-            new Claim(ClaimTypes.Name, user.FullName),
+            new Claim("sub", user.Id),
+            new Claim("name", user.FullName),
             new Claim("AdminId", adminId)
         };
 
         //Thêm claim role
-        claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
-        claims.AddRange(roles.Select(r =>
-            new Claim("role", r) // frontend decode
-        ));
+        claims.AddRange(roles.Select(role => new Claim("role", role)));
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -269,7 +268,7 @@ public class AuthService : IAuthService
             throw new Exception("Admin not found");
 
         // Tạo access token mới
-        var newToken = GenerateAdminJwtToken(user, admin.AdminId);
+        var newToken = await GenerateAdminJwtToken(user, admin.AdminId);
         // Tạo refresh token mới
         var newRefreshToken = GenerateRefreshToken();
         user.RefreshTokenHash = HashToken(newRefreshToken);
@@ -303,7 +302,7 @@ public class AuthService : IAuthService
         var admin = await _context.Admins.FirstOrDefaultAsync(a => a.UserId == user.Id);
 
         // Tạo access token mới
-        var newToken = GenerateJwtToken(user, student?.StudentId, teacher?.TeacherId, admin?.AdminId);
+        var newToken = await GenerateJwtToken(user, student?.StudentId, teacher?.TeacherId, admin?.AdminId);
 
         // Tạo refresh token mới
         var newRefreshToken = GenerateRefreshToken();
@@ -325,14 +324,14 @@ public class AuthService : IAuthService
 
 
     // ========================= Helper =========================
-    private string GenerateJwtToken(User user, string? studentId, string? teacherId, string? adminId)
+    private async Task<string> GenerateJwtToken(User user, string? studentId, string? teacherId, string? adminId)
     {
         // Lấy roles của user
-        var roles = _userManager.GetRolesAsync(user).Result;
+        var roles = await _userManager.GetRolesAsync(user);
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id),
-            new Claim(ClaimTypes.Name, user.FullName),
+            new Claim("sub", user.Id),
+            new Claim("name", user.FullName),
         };
 
         if (!string.IsNullOrEmpty(studentId))
@@ -345,10 +344,7 @@ public class AuthService : IAuthService
             claims.Add(new Claim("AdminId", adminId));
 
         //Thêm claim role
-        claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
-        claims.AddRange(roles.Select(r =>
-            new Claim("role", r) // frontend decode
-        ));
+        claims.AddRange(roles.Select(role => new Claim("role", role)));
 
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));

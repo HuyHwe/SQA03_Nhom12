@@ -29,6 +29,8 @@ export const useAuth = create((set, get) => ({
         fullName,
         studentId = null,
         teacherId = null,
+        adminId = null,
+        roles = []
       } = res.data || {};
 
       if (!token || !userId) {
@@ -37,7 +39,7 @@ export const useAuth = create((set, get) => ({
         throw e;
       }
 
-      const user = { id: userId, fullName, studentId, teacherId };
+      const user = { id: userId, fullName, studentId, teacherId, adminId, roles };
 
       localStorage.setItem("access_token", token);
       localStorage.setItem("refresh_token", refreshToken || "");
