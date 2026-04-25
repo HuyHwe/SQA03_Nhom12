@@ -31,8 +31,7 @@ public class AdminController : ControllerBase
         }
         catch (Exception ex)
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, new
-            APIResponse("error", "An error occurred while retrieving courses", ex.Message));
+            return StatusCode(500, new { status = "error", message = ex.Message, detail = ex.InnerException?.Message });
         }
     }
 
@@ -186,7 +185,7 @@ public class AdminController : ControllerBase
         }
         catch (UnauthorizedAccessException uaEx)
         {
-            return Forbid();
+            return StatusCode(403, new { status = "error", message = uaEx.Message });
         }
         catch (Exception ex)
         {

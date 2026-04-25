@@ -19,6 +19,7 @@ using project.Modules.Payments.Repositories.Interfaces;
 using project.Modules.Payments.Service.Interfaces;
 using project.Modules.Payments.Service.Implements;
 using System.IdentityModel.Tokens.Jwt;
+using System.Text.Json.Serialization;
 
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
@@ -132,7 +133,12 @@ builder.Services.AddScoped<IStudentStatsService, StudentStatsService>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<IReportService, ReportService>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    });
 
 
 

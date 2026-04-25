@@ -237,6 +237,7 @@ public class AuthService : IAuthService
 
         //Thêm claim role
         claims.AddRange(roles.Select(role => new Claim("role", role)));
+        claims.AddRange(roles.Select(role => new Claim(System.Security.Claims.ClaimTypes.Role, role)));
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -345,6 +346,7 @@ public class AuthService : IAuthService
 
         //Thêm claim role
         claims.AddRange(roles.Select(role => new Claim("role", role)));
+        claims.AddRange(roles.Select(role => new Claim(System.Security.Claims.ClaimTypes.Role, role)));
 
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));

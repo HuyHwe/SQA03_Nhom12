@@ -12,7 +12,8 @@ export const api = axios.create({
 
 // Gắn token nếu có
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("access_token");
+  // Use the canonical key from utils/auth.js (AT_KEY = "app_access_token")
+  const token = localStorage.getItem("app_access_token") || localStorage.getItem("access_token");
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
@@ -58,11 +59,14 @@ api.interceptors.response.use(
       originalRequest._retry = true;
       isRefreshing = true;
 
-      const refreshToken = localStorage.getItem("refresh_token");
+      // Use the canonical key from utils/auth.js (RT_KEY = "app_refresh_token")
+      const refreshToken = localStorage.getItem("app_refresh_token") || localStorage.getItem("refresh_token");
 
       if (!refreshToken) {
         // No refresh token available, logout user
+        localStorage.removeItem("app_access_token");
         localStorage.removeItem("access_token");
+        localStorage.removeItem("app_refresh_token");
         localStorage.removeItem("refresh_token");
         localStorage.removeItem("auth_state");
         window.location.href = "/login";
@@ -79,10 +83,12 @@ api.interceptors.response.use(
 
         const { token: newAccessToken, refreshToken: newRefreshToken } = response.data;
 
-        // Update tokens
-        localStorage.setItem("access_token", newAccessToken);
+        // Update tokens using canonical keys from utils/auth.js
+        localStorage.setItem("app_access_token", newAccessToken);
+        localStorage.setItem("access_token", newAccessToken); // backward compat
         if (newRefreshToken) {
-          localStorage.setItem("refresh_token", newRefreshToken);
+          localStorage.setItem("app_refresh_token", newRefreshToken);
+          localStorage.setItem("refresh_token", newRefreshToken); // backward compat
         }
 
         // Update auth_state if exists
@@ -107,7 +113,9 @@ api.interceptors.response.use(
         processQueue(refreshError, null);
         isRefreshing = false;
 
+        localStorage.removeItem("app_access_token");
         localStorage.removeItem("access_token");
+        localStorage.removeItem("app_refresh_token");
         localStorage.removeItem("refresh_token");
         localStorage.removeItem("auth_state");
 
