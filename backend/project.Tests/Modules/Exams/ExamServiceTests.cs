@@ -2,6 +2,7 @@ using FluentAssertions;
 using Moq;
 using ClosedXML.Excel;
 using Microsoft.AspNetCore.Http;
+using project.Models;
 
 namespace project.Tests.Modules.Exams
 {
@@ -596,8 +597,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_ES_13
-        // [Objective]:
-        // Ensure GetAllExamsAsync maps repository entities to DTOs correctly.
+        // [Mục đích]:
+        // Đảm bảo GetAllExamsAsync ánh xạ đúng entity từ repository sang DTO.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetAllExamsAsync_ShouldReturnMappedDtos_WhenRepositoryReturnsData()
@@ -634,8 +635,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_ES_14
-        // [Objective]:
-        // Ensure GetExamsByCourseIdAsync throws when course is not found for teacher.
+        // [Mục đích]:
+        // Đảm bảo GetExamsByCourseIdAsync ném lỗi khi không tìm thấy course của teacher.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetExamsByCourseIdAsync_ShouldThrowKeyNotFoundException_WhenCourseNotFoundForTeacher()
@@ -673,8 +674,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_ES_15
-        // [Objective]:
-        // Ensure GetExamsByCourseIdAsync returns paged result with mapped fields.
+        // [Mục đích]:
+        // Đảm bảo GetExamsByCourseIdAsync trả về kết quả phân trang với các field được ánh xạ đúng.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetExamsByCourseIdAsync_ShouldReturnPagedResult_WhenInputIsValid()
@@ -751,8 +752,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_ES_16
-        // [Objective]:
-        // Ensure GetExamsInCourseAsync throws when course does not exist.
+        // [Mục đích]:
+        // Đảm bảo GetExamsInCourseAsync ném lỗi khi course không tồn tại.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetExamsInCourseAsync_ShouldThrowKeyNotFoundException_WhenCourseDoesNotExist()
@@ -785,8 +786,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_ES_17
-        // [Objective]:
-        // Ensure GetExamsInCourseAsync returns mapped exams when course exists.
+        // [Mục đích]:
+        // Đảm bảo GetExamsInCourseAsync trả về danh sách exam đã ánh xạ khi course tồn tại.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetExamsInCourseAsync_ShouldReturnMappedExams_WhenCourseExists()
@@ -826,8 +827,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_ES_18
-        // [Objective]:
-        // Ensure GetExamsInLessonAsync throws when lesson does not exist.
+        // [Mục đích]:
+        // Đảm bảo GetExamsInLessonAsync ném lỗi khi lesson không tồn tại.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetExamsInLessonAsync_ShouldThrowKeyNotFoundException_WhenLessonDoesNotExist()
@@ -860,8 +861,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_ES_19
-        // [Objective]:
-        // Ensure GetExamsInLessonAsync returns mapped exams when lesson exists.
+        // [Mục đích]:
+        // Đảm bảo GetExamsInLessonAsync trả về danh sách exam đã ánh xạ khi lesson tồn tại.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetExamsInLessonAsync_ShouldReturnMappedExams_WhenLessonExists()
@@ -902,8 +903,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_ES_20
-        // [Objective]:
-        // Ensure AddFullExamAsync validates when both CourseContentId and LessonId are missing.
+        // [Mục đích]:
+        // Đảm bảo AddFullExamAsync validate lỗi khi thiếu cả CourseContentId và LessonId.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task AddFullExamAsync_ShouldThrowArgumentException_WhenCourseContentIdAndLessonIdAreMissing()
@@ -938,8 +939,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_ES_21
-        // [Objective]:
-        // Ensure AddFullExamAsync validates when both CourseContentId and LessonId are provided.
+        // [Mục đích]:
+        // Đảm bảo AddFullExamAsync validate lỗi khi truyền đồng thời CourseContentId và LessonId.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task AddFullExamAsync_ShouldThrowArgumentException_WhenBothCourseContentIdAndLessonIdAreProvided()
@@ -976,8 +977,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_ES_22
-        // [Objective]:
-        // Ensure UploadExamExcelAsync validates when ExamId is empty.
+        // [Mục đích]:
+        // Đảm bảo UploadExamExcelAsync validate lỗi khi ExamId rỗng.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task UploadExamExcelAsync_ShouldThrowArgumentException_WhenExamIdIsEmpty()
@@ -1000,8 +1001,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_ES_23
-        // [Objective]:
-        // Ensure UploadExamExcelAsync validates invalid ExamId format.
+        // [Mục đích]:
+        // Đảm bảo UploadExamExcelAsync validate lỗi khi ExamId sai định dạng.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task UploadExamExcelAsync_ShouldThrowArgumentException_WhenExamIdFormatIsInvalid()
@@ -1024,8 +1025,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_ES_24
-        // [Objective]:
-        // Ensure UploadExamExcelAsync validates when file is missing.
+        // [Mục đích]:
+        // Đảm bảo UploadExamExcelAsync validate lỗi khi thiếu file upload.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task UploadExamExcelAsync_ShouldThrowArgumentException_WhenFileIsMissing()
@@ -1048,8 +1049,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_ES_25
-        // [Objective]:
-        // Ensure UploadExamExcelAsync rejects unsupported extension.
+        // [Mục đích]:
+        // Đảm bảo UploadExamExcelAsync từ chối file có phần mở rộng không được hỗ trợ.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task UploadExamExcelAsync_ShouldThrowArgumentException_WhenFileExtensionIsInvalid()
@@ -1074,8 +1075,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_ES_26
-        // [Objective]:
-        // Ensure UploadExamExcelAsync blocks upload to opened exam.
+        // [Mục đích]:
+        // Đảm bảo UploadExamExcelAsync chặn upload vào exam đang mở.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task UploadExamExcelAsync_ShouldThrowInvalidOperationException_WhenExamIsOpened()
@@ -1112,8 +1113,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_ES_27
-        // [Objective]:
-        // Ensure UploadExamExcelAsync validates required columns in header.
+        // [Mục đích]:
+        // Đảm bảo UploadExamExcelAsync validate lỗi khi header thiếu cột bắt buộc.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task UploadExamExcelAsync_ShouldThrowInvalidOperationException_WhenHeaderIsMissingRequiredColumn()
@@ -1157,8 +1158,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_ES_28
-        // [Objective]:
-        // Ensure UploadExamExcelAsync throws when worksheet has no question rows.
+        // [Mục đích]:
+        // Đảm bảo UploadExamExcelAsync ném lỗi khi worksheet không có dòng câu hỏi.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task UploadExamExcelAsync_ShouldThrowInvalidOperationException_WhenNoQuestionsFoundInFile()
@@ -1192,8 +1193,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_ES_29
-        // [Objective]:
-        // Ensure UploadExamExcelAsync throws when a question has zero choices.
+        // [Mục đích]:
+        // Đảm bảo UploadExamExcelAsync ném lỗi khi một câu hỏi không có lựa chọn nào.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task UploadExamExcelAsync_ShouldThrowInvalidOperationException_WhenQuestionHasNoChoices()
@@ -1238,8 +1239,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_ES_30
-        // [Objective]:
-        // Ensure UploadExamExcelAsync parses valid excel and sends parsed questions to repository.
+        // [Mục đích]:
+        // Đảm bảo UploadExamExcelAsync parse file Excel hợp lệ và gửi danh sách câu hỏi vào repository.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task UploadExamExcelAsync_ShouldUploadParsedQuestions_WhenExcelIsValid()
@@ -1302,6 +1303,495 @@ namespace project.Tests.Modules.Exams
                 Times.Once);
         }
 
+        // --------------------------------------------------------------------------------------------
+        // [Test Case ID]: SERV_ES_31
+        // [Mục đích]:
+        // Đảm bảo GetExamByIdAsync resolve exam gắn với lesson và trả về course id khi student đã enroll.
+        // --------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task GetExamByIdAsync_ShouldReturnPrivateLessonExam_WhenStudentIsEnrolled()
+        {
+            // Arrange
+            var userId = Guid.NewGuid().ToString();
+            var studentId = Guid.NewGuid().ToString();
+            var examId = Guid.NewGuid().ToString();
+            var lessonId = Guid.NewGuid().ToString();
+            var courseContentId = Guid.NewGuid().ToString();
+            var courseId = Guid.NewGuid().ToString();
+
+            var examRepositoryMock = new Mock<IExamRepository>();
+            examRepositoryMock.Setup(r => r.GetExamByIdAsync(examId))
+                .ReturnsAsync(new Exam
+                {
+                    Id = examId,
+                    Title = "Lesson Exam",
+                    Description = "Private lesson exam",
+                    DurationMinutes = 35,
+                    TotalCompleted = 4,
+                    IsOpened = true,
+                    LessonId = lessonId
+                });
+
+            var studentRepositoryMock = new Mock<IStudentRepository>();
+            studentRepositoryMock.Setup(r => r.GetStudentByUserIdAsync(userId))
+                .ReturnsAsync(new Student { StudentId = studentId, UserId = userId });
+
+            var lessonRepositoryMock = new Mock<ILessonRepository>();
+            lessonRepositoryMock.Setup(r => r.GetLessonByIdAsync(lessonId))
+                .ReturnsAsync(new Lesson { Id = lessonId, CourseContentId = courseContentId, Title = "Lesson" });
+
+            var courseContentRepositoryMock = new Mock<ICourseContentRepository>();
+            courseContentRepositoryMock.Setup(r => r.GetCourseContentByIdAsync(courseContentId))
+                .ReturnsAsync(new CourseContent { Id = courseContentId, CourseId = courseId, Title = "Content" });
+
+            var enrollmentRepositoryMock = new Mock<IEnrollmentCourseRepository>();
+            enrollmentRepositoryMock.Setup(r => r.IsEnrollmentExistAsync(studentId, courseId))
+                .ReturnsAsync(true);
+
+            using var dbContext = ExamsTestDbFactory.CreateInMemoryDbContext();
+            var examService = new ExamService(
+                examRepositoryMock.Object,
+                Mock.Of<IQuestionExamService>(),
+                Mock.Of<ICourseRepository>(),
+                lessonRepositoryMock.Object,
+                Mock.Of<IQuestionExamRepository>(),
+                studentRepositoryMock.Object,
+                courseContentRepositoryMock.Object,
+                enrollmentRepositoryMock.Object,
+                dbContext);
+
+            // Act
+            var result = await examService.GetExamByIdAsync(userId, examId);
+
+            // Assert
+            result.Should().NotBeNull();
+            result!.Id.Should().Be(examId);
+            result.CourseId.Should().Be(courseId);
+            result.LessonId.Should().Be(lessonId);
+            result.CourseContentId.Should().BeNull();
+        }
+
+        // --------------------------------------------------------------------------------------------
+        // [Test Case ID]: SERV_ES_32
+        // [Mục đích]:
+        // Đảm bảo GetExamByIdAsync ném lỗi khi exam private không resolve được course liên quan.
+        // --------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task GetExamByIdAsync_ShouldThrowKeyNotFoundException_WhenAssociatedCourseCannotBeResolved()
+        {
+            // Arrange
+            var userId = Guid.NewGuid().ToString();
+            var studentId = Guid.NewGuid().ToString();
+            var examId = Guid.NewGuid().ToString();
+            var courseContentId = Guid.NewGuid().ToString();
+
+            var examRepositoryMock = new Mock<IExamRepository>();
+            examRepositoryMock.Setup(r => r.GetExamByIdAsync(examId))
+                .ReturnsAsync(new Exam
+                {
+                    Id = examId,
+                    Title = "Course Exam",
+                    DurationMinutes = 30,
+                    CourseContentId = courseContentId
+                });
+
+            var studentRepositoryMock = new Mock<IStudentRepository>();
+            studentRepositoryMock.Setup(r => r.GetStudentByUserIdAsync(userId))
+                .ReturnsAsync(new Student { StudentId = studentId, UserId = userId });
+
+            var courseContentRepositoryMock = new Mock<ICourseContentRepository>();
+            courseContentRepositoryMock.Setup(r => r.GetCourseContentByIdAsync(courseContentId))
+                .ReturnsAsync((CourseContent?)null);
+
+            using var dbContext = ExamsTestDbFactory.CreateInMemoryDbContext();
+            var examService = new ExamService(
+                examRepositoryMock.Object,
+                Mock.Of<IQuestionExamService>(),
+                Mock.Of<ICourseRepository>(),
+                Mock.Of<ILessonRepository>(),
+                Mock.Of<IQuestionExamRepository>(),
+                studentRepositoryMock.Object,
+                courseContentRepositoryMock.Object,
+                Mock.Of<IEnrollmentCourseRepository>(),
+                dbContext);
+
+            // Act
+            Func<Task> act = () => examService.GetExamByIdAsync(userId, examId);
+
+            // Assert
+            await act.Should().ThrowAsync<KeyNotFoundException>()
+                .WithMessage("Associated course not found for this exam.");
+        }
+
+        // --------------------------------------------------------------------------------------------
+        // [Test Case ID]: SERV_ES_33
+        // [Mục đích]:
+        // Đảm bảo AddFullExamAsync lưu exam cùng các câu hỏi/lựa chọn lồng bên trong.
+        // --------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task AddFullExamAsync_ShouldPersistExamQuestionsAndChoices_WhenInputIsValid()
+        {
+            // Arrange
+            using var dbContext = ExamsTestDbFactory.CreateInMemoryDbContext(nameof(AddFullExamAsync_ShouldPersistExamQuestionsAndChoices_WhenInputIsValid));
+            var examRepository = new ExamRepository(dbContext);
+            var questionExamRepository = new QuestionExamRepository(dbContext);
+            var examService = new ExamService(
+                examRepository,
+                Mock.Of<IQuestionExamService>(),
+                Mock.Of<ICourseRepository>(),
+                Mock.Of<ILessonRepository>(),
+                questionExamRepository,
+                Mock.Of<IStudentRepository>(),
+                Mock.Of<ICourseContentRepository>(),
+                Mock.Of<IEnrollmentCourseRepository>(),
+                dbContext);
+
+            var courseContentId = Guid.NewGuid().ToString();
+            var fullExamDto = new CreateFullExamDTO
+            {
+                Title = "Full Exam",
+                Description = "Created with nested data",
+                DurationMinutes = 45,
+                CourseContentId = courseContentId,
+                Questions =
+                [
+                    new CreateFullQuestionExamDTO
+                    {
+                        Content = "Question 1",
+                        Explanation = "Explanation 1",
+                        ImageUrl = "https://example.test/image.png",
+                        IsRequired = true,
+                        Score = 2,
+                        Order = 1,
+                        Type = "SingleChoice",
+                        Answers =
+                        [
+                            new AddChoiceDTO { Content = "A", IsCorrect = true },
+                            new AddChoiceDTO { Content = "B", IsCorrect = false }
+                        ]
+                    }
+                ]
+            };
+
+            try
+            {
+                // Act
+                await examService.AddFullExamAsync(Guid.NewGuid().ToString(), fullExamDto);
+
+                // Assert - [CheckDB]
+                var savedExam = dbContext.Exams.Single(e => e.Title == "Full Exam");
+                savedExam.CourseContentId.Should().Be(courseContentId);
+                savedExam.IsOpened.Should().BeFalse();
+
+                var savedQuestion = dbContext.QuestionExams.Single(q => q.ExamId == savedExam.Id);
+                savedQuestion.Content.Should().Be("Question 1");
+                savedQuestion.Exaplanation.Should().Be("Explanation 1");
+                savedQuestion.ImageUrl.Should().Be("https://example.test/image.png");
+                savedQuestion.Score.Should().Be(2);
+                savedQuestion.IsNewest.Should().BeTrue();
+
+                var savedChoices = dbContext.Choices.Where(c => c.QuestionExamId == savedQuestion.Id).ToList();
+                savedChoices.Should().HaveCount(2);
+                savedChoices.Should().Contain(c => c.Content == "A" && c.IsCorrect == true);
+                savedChoices.Should().Contain(c => c.Content == "B" && c.IsCorrect == false);
+            }
+            finally
+            {
+                await ExamsTestDbFactory.RollbackAsync(dbContext);
+            }
+        }
+
+        // --------------------------------------------------------------------------------------------
+        // [Test Case ID]: SERV_ES_34
+        // [Mục đích]:
+        // Đảm bảo AddFullExamAsync rollback và ném lại lỗi khi upload bulk câu hỏi thất bại.
+        // --------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task AddFullExamAsync_ShouldRethrowException_WhenQuestionUploadFails()
+        {
+            // Arrange
+            using var dbContext = ExamsTestDbFactory.CreateInMemoryDbContext();
+
+            var examRepositoryMock = new Mock<IExamRepository>();
+            examRepositoryMock.Setup(r => r.AddExamAsync(It.IsAny<Exam>()))
+                .Returns(Task.CompletedTask);
+
+            var questionExamRepositoryMock = new Mock<IQuestionExamRepository>();
+            questionExamRepositoryMock.Setup(r => r.UploadBulkQuestionsAsync(It.IsAny<IEnumerable<QuestionExam>>()))
+                .ThrowsAsync(new InvalidOperationException("Bulk upload failed"));
+
+            var examService = new ExamService(
+                examRepositoryMock.Object,
+                Mock.Of<IQuestionExamService>(),
+                Mock.Of<ICourseRepository>(),
+                Mock.Of<ILessonRepository>(),
+                questionExamRepositoryMock.Object,
+                Mock.Of<IStudentRepository>(),
+                Mock.Of<ICourseContentRepository>(),
+                Mock.Of<IEnrollmentCourseRepository>(),
+                dbContext);
+
+            var fullExamDto = new CreateFullExamDTO
+            {
+                Title = "Full Exam",
+                DurationMinutes = 45,
+                CourseContentId = Guid.NewGuid().ToString(),
+                Questions =
+                [
+                    new CreateFullQuestionExamDTO
+                    {
+                        Content = "Question 1",
+                        Explanation = "Explanation 1",
+                        IsRequired = true,
+                        Score = 1,
+                        Order = 1,
+                        Type = "SingleChoice",
+                        Answers = [new AddChoiceDTO { Content = "A", IsCorrect = true }]
+                    }
+                ]
+            };
+
+            // Act
+            Func<Task> act = () => examService.AddFullExamAsync(Guid.NewGuid().ToString(), fullExamDto);
+
+            // Assert
+            await act.Should().ThrowAsync<InvalidOperationException>()
+                .WithMessage("Bulk upload failed");
+        }
+
+        // --------------------------------------------------------------------------------------------
+        // [Test Case ID]: SERV_ES_35
+        // [Mục đích]:
+        // Đảm bảo UpdateOrderQuestionInExamAsync chặn cập nhật thứ tự câu hỏi của exam đang mở.
+        // --------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task UpdateOrderQuestionInExamAsync_ShouldThrowInvalidOperationException_WhenExamIsOpened()
+        {
+            // Arrange
+            var examId = Guid.NewGuid().ToString();
+            var examRepositoryMock = new Mock<IExamRepository>();
+            examRepositoryMock.Setup(r => r.GetExamByIdAsync(examId))
+                .ReturnsAsync(new Exam
+                {
+                    Id = examId,
+                    Title = "Opened Exam",
+                    DurationMinutes = 30,
+                    IsOpened = true
+                });
+
+            using var dbContext = ExamsTestDbFactory.CreateInMemoryDbContext();
+            var examService = new ExamService(
+                examRepositoryMock.Object,
+                Mock.Of<IQuestionExamService>(),
+                Mock.Of<ICourseRepository>(),
+                Mock.Of<ILessonRepository>(),
+                Mock.Of<IQuestionExamRepository>(),
+                Mock.Of<IStudentRepository>(),
+                Mock.Of<ICourseContentRepository>(),
+                Mock.Of<IEnrollmentCourseRepository>(),
+                dbContext);
+
+            // Act
+            Func<Task> act = () => examService.UpdateOrderQuestionInExamAsync(Guid.NewGuid().ToString(), examId, []);
+
+            // Assert
+            await act.Should().ThrowAsync<InvalidOperationException>()
+                .WithMessage("Cannot update question order for an opened exam.");
+        }
+
+        // --------------------------------------------------------------------------------------------
+        // [Test Case ID]: SERV_ES_36
+        // [Mục đích]:
+        // Đảm bảo UploadExamExcelAsync validate lỗi khi index câu hỏi không hợp lệ.
+        // --------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task UploadExamExcelAsync_ShouldThrowInvalidOperationException_WhenQuestionIndexIsInvalid()
+        {
+            // Arrange
+            var examId = Guid.NewGuid().ToString();
+            var examService = CreateExamServiceForClosedExamUpload(examId);
+            var request = new UploadExamExcelRequest
+            {
+                ExamId = examId,
+                File = CreateExcelFormFile("questions.xlsx", ws =>
+                {
+                    WriteRequiredHeader(ws);
+                    ws.Cell(2, 1).Value = "abc";
+                    ws.Cell(2, 2).Value = "Question 1";
+                    ws.Cell(2, 3).Value = "SingleChoice";
+                    ws.Cell(2, 4).Value = "1";
+                    ws.Cell(2, 5).Value = "true";
+                    ws.Cell(2, 6).Value = "1";
+                    ws.Cell(2, 7).Value = "Answer A";
+                    ws.Cell(2, 8).Value = "true";
+                })
+            };
+
+            // Act
+            Func<Task> act = () => examService.UploadExamExcelAsync(Guid.NewGuid().ToString(), request);
+
+            // Assert
+            await act.Should().ThrowAsync<InvalidOperationException>()
+                .WithMessage("Invalid Index at row 2: 'abc'.");
+        }
+
+        // --------------------------------------------------------------------------------------------
+        // [Test Case ID]: SERV_ES_37
+        // [Mục đích]:
+        // Đảm bảo UploadExamExcelAsync validate lỗi khi nội dung câu hỏi bắt buộc bị rỗng.
+        // --------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task UploadExamExcelAsync_ShouldThrowInvalidOperationException_WhenQuestionContentIsEmpty()
+        {
+            // Arrange
+            var examId = Guid.NewGuid().ToString();
+            var examService = CreateExamServiceForClosedExamUpload(examId);
+            var request = new UploadExamExcelRequest
+            {
+                ExamId = examId,
+                File = CreateExcelFormFile("questions.xlsx", ws =>
+                {
+                    WriteRequiredHeader(ws);
+                    ws.Cell(2, 1).Value = "1";
+                    ws.Cell(2, 2).Value = " ";
+                    ws.Cell(2, 3).Value = "SingleChoice";
+                    ws.Cell(2, 4).Value = "1";
+                    ws.Cell(2, 5).Value = "true";
+                    ws.Cell(2, 6).Value = "1";
+                    ws.Cell(2, 7).Value = "Answer A";
+                    ws.Cell(2, 8).Value = "true";
+                })
+            };
+
+            // Act
+            Func<Task> act = () => examService.UploadExamExcelAsync(Guid.NewGuid().ToString(), request);
+
+            // Assert
+            await act.Should().ThrowAsync<InvalidOperationException>()
+                .WithMessage("Content is required for question index 1 (row 2).");
+        }
+
+        // --------------------------------------------------------------------------------------------
+        // [Test Case ID]: SERV_ES_38
+        // [Mục đích]:
+        // Đảm bảo UploadExamExcelAsync validate lỗi khi điểm số không hợp lệ.
+        // --------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task UploadExamExcelAsync_ShouldThrowInvalidOperationException_WhenPointIsInvalid()
+        {
+            // Arrange
+            var examId = Guid.NewGuid().ToString();
+            var examService = CreateExamServiceForClosedExamUpload(examId);
+            var request = new UploadExamExcelRequest
+            {
+                ExamId = examId,
+                File = CreateExcelFormFile("questions.xlsx", ws =>
+                {
+                    WriteRequiredHeader(ws);
+                    ws.Cell(2, 1).Value = "1";
+                    ws.Cell(2, 2).Value = "Question 1";
+                    ws.Cell(2, 3).Value = "SingleChoice";
+                    ws.Cell(2, 4).Value = "bad";
+                    ws.Cell(2, 5).Value = "true";
+                    ws.Cell(2, 6).Value = "1";
+                    ws.Cell(2, 7).Value = "Answer A";
+                    ws.Cell(2, 8).Value = "true";
+                })
+            };
+
+            // Act
+            Func<Task> act = () => examService.UploadExamExcelAsync(Guid.NewGuid().ToString(), request);
+
+            // Assert
+            await act.Should().ThrowAsync<InvalidOperationException>()
+                .WithMessage("Invalid number in column 'Point' at row 2: 'bad'.");
+        }
+
+        // --------------------------------------------------------------------------------------------
+        // [Test Case ID]: SERV_ES_39
+        // [Mục đích]:
+        // Đảm bảo UploadExamExcelAsync validate lỗi khi thứ tự không phải số nguyên hợp lệ.
+        // --------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task UploadExamExcelAsync_ShouldThrowInvalidOperationException_WhenOrderIsInvalid()
+        {
+            // Arrange
+            var examId = Guid.NewGuid().ToString();
+            var examService = CreateExamServiceForClosedExamUpload(examId);
+            var request = new UploadExamExcelRequest
+            {
+                ExamId = examId,
+                File = CreateExcelFormFile("questions.xlsx", ws =>
+                {
+                    WriteRequiredHeader(ws);
+                    ws.Cell(2, 1).Value = "1";
+                    ws.Cell(2, 2).Value = "Question 1";
+                    ws.Cell(2, 3).Value = "SingleChoice";
+                    ws.Cell(2, 4).Value = "1";
+                    ws.Cell(2, 5).Value = "true";
+                    ws.Cell(2, 6).Value = "bad";
+                    ws.Cell(2, 7).Value = "Answer A";
+                    ws.Cell(2, 8).Value = "true";
+                })
+            };
+
+            // Act
+            Func<Task> act = () => examService.UploadExamExcelAsync(Guid.NewGuid().ToString(), request);
+
+            // Assert
+            await act.Should().ThrowAsync<InvalidOperationException>()
+                .WithMessage("Invalid integer in column 'Order' at row 2: 'bad'.");
+        }
+
+        // --------------------------------------------------------------------------------------------
+        // [Test Case ID]: SERV_ES_40
+        // [Mục đích]:
+        // Đảm bảo UploadExamExcelAsync bỏ qua các dòng trống trước câu hỏi đầu tiên.
+        // --------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task UploadExamExcelAsync_ShouldSkipLeadingBlankRowsAndUploadValidQuestions()
+        {
+            // Arrange
+            var examId = Guid.NewGuid().ToString();
+            var questionExamRepositoryMock = new Mock<IQuestionExamRepository>();
+            var examService = CreateExamServiceForClosedExamUpload(examId, questionExamRepositoryMock);
+            var request = new UploadExamExcelRequest
+            {
+                ExamId = examId,
+                File = CreateExcelFormFile("questions.xlsx", ws =>
+                {
+                    WriteRequiredHeader(ws);
+
+                    ws.Cell(2, 7).Value = "Ignored choice";
+                    ws.Cell(2, 8).Value = "true";
+
+                    ws.Cell(3, 1).Value = "1";
+                    ws.Cell(3, 2).Value = "Question 1";
+                    ws.Cell(3, 3).Value = "";
+                    ws.Cell(3, 4).Value = "";
+                    ws.Cell(3, 5).Value = "";
+                    ws.Cell(3, 6).Value = "";
+                    ws.Cell(3, 7).Value = "Answer A";
+                    ws.Cell(3, 8).Value = "maybe";
+                })
+            };
+
+            // Act
+            await examService.UploadExamExcelAsync(Guid.NewGuid().ToString(), request);
+
+            // Assert
+            questionExamRepositoryMock.Verify(r => r.UploadBulkQuestionsAsync(
+                It.Is<IEnumerable<QuestionExam>>(questions =>
+                    questions.Count() == 1 &&
+                    questions.Single().Type == "MultiSelectChoice" &&
+                    questions.Single().Score == 1.0 &&
+                    questions.Single().IsRequired == false &&
+                    questions.Single().Order == null &&
+                    questions.Single().Choices.Single().Content == "Answer A" &&
+                    questions.Single().Choices.Single().IsCorrect == null)),
+                Times.Once);
+        }
+
         private static ExamService CreateExamServiceForUpload(
             Mock<IExamRepository>? examRepositoryMock = null,
             Mock<IQuestionExamRepository>? questionExamRepositoryMock = null)
@@ -1320,6 +1810,23 @@ namespace project.Tests.Modules.Exams
                 Mock.Of<ICourseContentRepository>(),
                 Mock.Of<IEnrollmentCourseRepository>(),
                 dbContext);
+        }
+
+        private static ExamService CreateExamServiceForClosedExamUpload(
+            string examId,
+            Mock<IQuestionExamRepository>? questionExamRepositoryMock = null)
+        {
+            var examRepositoryMock = new Mock<IExamRepository>();
+            examRepositoryMock.Setup(r => r.GetExamByIdAsync(examId))
+                .ReturnsAsync(new Exam
+                {
+                    Id = examId,
+                    Title = "Closed Exam",
+                    DurationMinutes = 30,
+                    IsOpened = false
+                });
+
+            return CreateExamServiceForUpload(examRepositoryMock, questionExamRepositoryMock);
         }
 
         private static IFormFile CreateTextFormFile(string text, string fileName)

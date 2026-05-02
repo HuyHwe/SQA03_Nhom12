@@ -7,8 +7,8 @@ namespace project.Tests.Modules.Exams
     {
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_QES_01
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o AddQuestionToExamAsync nÃ©m lá»—i khi exam khÃ´ng tá»“n táº¡i.
+        // [Mục đích]:
+        // Đảm bảo AddQuestionToExamAsync ném lỗi khi exam không tồn tại.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task AddQuestionToExamAsync_ShouldThrowKeyNotFoundException_WhenExamDoesNotExist()
@@ -47,8 +47,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_QES_02
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o AddQuestionToExamAsync nÃ©m lá»—i khi exam Ä‘Ã£ opened.
+        // [Mục đích]:
+        // Đảm bảo AddQuestionToExamAsync ném lỗi khi exam đã opened.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task AddQuestionToExamAsync_ShouldThrowInvalidOperationException_WhenExamIsOpened()
@@ -87,8 +87,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_QES_03
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o GetQuestionsByExamIdForDoingExamAsync nÃ©m lá»—i khi student chÆ°a cÃ³ active attempt.
+        // [Mục đích]:
+        // Đảm bảo GetQuestionsByExamIdForDoingExamAsync ném lỗi khi student chưa có active attempt.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetQuestionsByExamIdForDoingExamAsync_ShouldThrowInvalidOperationException_WhenNoActiveAttempt()
@@ -131,8 +131,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_QES_04
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o GetQuestionExamOrderAsync chá»‰ tráº£ vá» question cÃ³ IsNewest = true.
+        // [Mục đích]:
+        // Đảm bảo GetQuestionExamOrderAsync chỉ trả về question có IsNewest = true.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetQuestionExamOrderAsync_ShouldReturnOnlyNewestQuestions()
@@ -170,10 +170,10 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_QES_05
-        // [Má»¥c Ä‘Ã­ch]:
-        // Kiá»ƒm tra DeleteQuestionExamAsync vá»›i DB tháº­t (in-memory):
-        // - [CheckDB] XÃ³a question vÃ  toÃ n bá»™ choices cá»§a question Ä‘Ã³.
-        // - [Rollback] Dá»n DB vá» tráº¡ng thÃ¡i trÆ°á»›c test.
+        // [Mục đích]:
+        // Kiểm tra DeleteQuestionExamAsync với DB thật (in-memory):
+        // - [CheckDB] Xóa question và toàn bộ choices của question đó.
+        // - [Rollback] Dọn DB về trạng thái trước test.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task DeleteQuestionExamAsync_ShouldDeleteQuestionAndChoices_WhenInputIsValid()
@@ -248,8 +248,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_QES_06
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o AddQuestionToExamAsync táº¡o má»›i cÃ¢u há»i khi exam tá»“n táº¡i vÃ  chÆ°a opened.
+        // [Mục đích]:
+        // Đảm bảo AddQuestionToExamAsync tạo mới câu hỏi khi exam tồn tại và chưa opened.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task AddQuestionToExamAsync_ShouldPersistQuestion_WhenExamExistsAndIsClosed()
@@ -301,8 +301,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_QES_07
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o GetQuestionsByExamIdForDoingExamAsync nÃ©m unauthorized khi student khÃ´ng enroll.
+        // [Mục đích]:
+        // Đảm bảo GetQuestionsByExamIdForDoingExamAsync ném unauthorized khi student không enroll.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetQuestionsByExamIdForDoingExamAsync_ShouldThrowUnauthorizedAccessException_WhenStudentIsNotEnrolled()
@@ -370,8 +370,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_QES_08
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o GetQuestionsByExamIdForDoingExamAsync tráº£ Ä‘á»§ cÃ¢u há»i + choices khi exam public há»£p lá»‡.
+        // [Mục đích]:
+        // Đảm bảo GetQuestionsByExamIdForDoingExamAsync trả đủ câu hỏi + choices khi exam public hợp lệ.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetQuestionsByExamIdForDoingExamAsync_ShouldReturnQuestionsWithChoices_WhenInputIsValidForPublicExam()
@@ -442,8 +442,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_QES_09
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o GetQuestionInExamForDoingExamAsync nÃ©m lá»—i khi question khÃ´ng tá»“n táº¡i.
+        // [Mục đích]:
+        // Đảm bảo GetQuestionInExamForDoingExamAsync ném lỗi khi question không tồn tại.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetQuestionInExamForDoingExamAsync_ShouldThrowKeyNotFoundException_WhenQuestionDoesNotExist()
@@ -475,8 +475,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_QES_10
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o GetQuestionInExamForReviewSubmissionAsync map dá»¯ liá»‡u question + choice Ä‘Ãºng.
+        // [Mục đích]:
+        // Đảm bảo GetQuestionInExamForReviewSubmissionAsync map dữ liệu question + choice đúng.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetQuestionInExamForReviewSubmissionAsync_ShouldReturnQuestionWithChoices_WhenQuestionExists()
@@ -533,8 +533,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_QES_11
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o DeleteQuestionExamAsync cháº·n sá»­a dá»¯ liá»‡u khi exam Ä‘ang opened.
+        // [Mục đích]:
+        // Đảm bảo DeleteQuestionExamAsync chặn sửa dữ liệu khi exam đang opened.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task DeleteQuestionExamAsync_ShouldThrowInvalidOperationException_WhenExamIsOpened()
@@ -573,8 +573,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_QES_12
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o DeleteQuestionExamAsync nÃ©m lá»—i khi question khÃ´ng tá»“n táº¡i.
+        // [Mục đích]:
+        // Đảm bảo DeleteQuestionExamAsync ném lỗi khi question không tồn tại.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task DeleteQuestionExamAsync_ShouldThrowKeyNotFoundException_WhenQuestionDoesNotExist()
@@ -614,8 +614,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_QES_13
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o GetQuestionsByExamIdForDoingExamAsync nÃ©m lá»—i khi exam khÃ´ng tá»“n táº¡i.
+        // [Mục đích]:
+        // Đảm bảo GetQuestionsByExamIdForDoingExamAsync ném lỗi khi exam không tồn tại.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetQuestionsByExamIdForDoingExamAsync_ShouldThrowKeyNotFoundException_WhenExamDoesNotExist()
@@ -649,8 +649,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_QES_14
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o GetQuestionsByExamIdForDoingExamAsync nÃ©m lá»—i khi khÃ´ng resolve Ä‘Æ°á»£c course tá»« Lesson.
+        // [Mục đích]:
+        // Đảm bảo GetQuestionsByExamIdForDoingExamAsync ném lỗi khi không resolve được course từ Lesson.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetQuestionsByExamIdForDoingExamAsync_ShouldThrowKeyNotFoundException_WhenAssociatedCourseMissingForLessonBasedExam()
@@ -718,8 +718,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_QES_15
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o GetQuestionsByExamIdForReviewSubmissionAsync nÃ©m lá»—i khi exam khÃ´ng tá»“n táº¡i.
+        // [Mục đích]:
+        // Đảm bảo GetQuestionsByExamIdForReviewSubmissionAsync ném lỗi khi exam không tồn tại.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetQuestionsByExamIdForReviewSubmissionAsync_ShouldThrowKeyNotFoundException_WhenExamDoesNotExist()
@@ -753,8 +753,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_QES_16
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o GetQuestionsByExamIdForReviewSubmissionAsync nÃ©m unauthorized khi student chÆ°a enroll.
+        // [Mục đích]:
+        // Đảm bảo GetQuestionsByExamIdForReviewSubmissionAsync ném unauthorized khi student chưa enroll.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetQuestionsByExamIdForReviewSubmissionAsync_ShouldThrowUnauthorizedAccessException_WhenStudentIsNotEnrolled()
@@ -809,8 +809,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_QES_17
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o GetQuestionsByExamIdForReviewSubmissionAsync tráº£ dá»¯ liá»‡u Ä‘Ãºng khi exam public.
+        // [Mục đích]:
+        // Đảm bảo GetQuestionsByExamIdForReviewSubmissionAsync trả dữ liệu đúng khi exam public.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetQuestionsByExamIdForReviewSubmissionAsync_ShouldReturnQuestionsWithChoices_WhenExamIsPublic()
@@ -867,8 +867,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_QES_18
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o GetQuestionInExamForDoingExamAsync map dá»¯ liá»‡u Ä‘Ãºng khi question tá»“n táº¡i.
+        // [Mục đích]:
+        // Đảm bảo GetQuestionInExamForDoingExamAsync map dữ liệu đúng khi question tồn tại.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetQuestionInExamForDoingExamAsync_ShouldReturnQuestionWithChoices_WhenQuestionExists()
@@ -919,8 +919,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_QES_19
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o GetQuestionInExamForReviewSubmissionAsync nÃ©m lá»—i khi question khÃ´ng tá»“n táº¡i.
+        // [Mục đích]:
+        // Đảm bảo GetQuestionInExamForReviewSubmissionAsync ném lỗi khi question không tồn tại.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetQuestionInExamForReviewSubmissionAsync_ShouldThrowKeyNotFoundException_WhenQuestionDoesNotExist()
@@ -952,8 +952,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_QES_20
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o DeleteQuestionExamAsync nÃ©m lá»—i khi exam khÃ´ng tá»“n táº¡i.
+        // [Mục đích]:
+        // Đảm bảo DeleteQuestionExamAsync ném lỗi khi exam không tồn tại.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task DeleteQuestionExamAsync_ShouldThrowKeyNotFoundException_WhenExamDoesNotExist()
@@ -987,9 +987,9 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_QES_21
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o GetQuestionsByExamIdForDoingExamAsync nÃ©m lá»—i khi exam dÃ¹ng CourseContent
-        // nhÆ°ng CourseContent tráº£ vá» null.
+        // [Mục đích]:
+        // Đảm bảo GetQuestionsByExamIdForDoingExamAsync ném lỗi khi exam dùng CourseContent
+        // nhưng CourseContent trả về null.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetQuestionsByExamIdForDoingExamAsync_ShouldThrowKeyNotFoundException_WhenCourseContentMissingForCourseBasedExam()
@@ -1047,8 +1047,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_QES_22
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o GetQuestionsByExamIdForDoingExamAsync nÃ©m lá»—i khi exam dÃ¹ng Lesson nhÆ°ng Lesson khÃ´ng tá»“n táº¡i.
+        // [Mục đích]:
+        // Đảm bảo GetQuestionsByExamIdForDoingExamAsync ném lỗi khi exam dùng Lesson nhưng Lesson không tồn tại.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetQuestionsByExamIdForDoingExamAsync_ShouldThrowKeyNotFoundException_WhenLessonIsMissing()
@@ -1106,9 +1106,9 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_QES_23
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o GetQuestionsByExamIdForReviewSubmissionAsync nÃ©m lá»—i khi exam dÃ¹ng Lesson
-        // nhÆ°ng khÃ´ng resolve Ä‘Æ°á»£c CourseContent.
+        // [Mục đích]:
+        // Đảm bảo GetQuestionsByExamIdForReviewSubmissionAsync ném lỗi khi exam dùng Lesson
+        // nhưng không resolve được CourseContent.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetQuestionsByExamIdForReviewSubmissionAsync_ShouldThrowKeyNotFoundException_WhenLessonBasedExamCannotResolveCourse()
@@ -1163,8 +1163,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_QES_24
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o GetQuestionsByExamIdForReviewSubmissionAsync tráº£ dá»¯ liá»‡u Ä‘Ãºng cho nhÃ¡nh Lesson + enrolled.
+        // [Mục đích]:
+        // Đảm bảo GetQuestionsByExamIdForReviewSubmissionAsync trả dữ liệu đúng cho nhánh Lesson + enrolled.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetQuestionsByExamIdForReviewSubmissionAsync_ShouldReturnQuestions_WhenLessonBasedExamAndStudentEnrolled()
@@ -1238,6 +1238,132 @@ namespace project.Tests.Modules.Exams
             result.Should().ContainSingle();
             result.Single().Id.Should().Be(questionId);
             result.Single().Choices.Should().ContainSingle(c => c.Id == "c1" && c.IsCorrect);
+        }
+
+        // --------------------------------------------------------------------------------------------
+        // [Test Case ID]: SERV_QES_25
+        // [Mục đích]:
+        // Đảm bảo ExistQuestionAsync trả về đúng kết quả từ repository.
+        // --------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task ExistQuestionAsync_ShouldReturnRepositoryResult()
+        {
+            // Arrange
+            var questionId = Guid.NewGuid().ToString();
+            var questionRepositoryMock = new Mock<IQuestionExamRepository>();
+            questionRepositoryMock.Setup(r => r.ExistQuestionAsync(questionId))
+                .ReturnsAsync(true);
+
+            var questionExamService = new QuestionExamService(
+                questionRepositoryMock.Object,
+                Mock.Of<IExamRepository>(),
+                Mock.Of<IChoiceService>(),
+                Mock.Of<IChoiceRepository>(),
+                Mock.Of<IEnrollmentCourseRepository>(),
+                Mock.Of<ICourseContentRepository>(),
+                Mock.Of<ILessonRepository>(),
+                Mock.Of<IExamAttempRepository>(),
+                Mock.Of<IUnitOfWork>());
+
+            // Act
+            var result = await questionExamService.ExistQuestionAsync(questionId);
+
+            // Assert
+            result.Should().BeTrue();
+        }
+
+        // --------------------------------------------------------------------------------------------
+        // [Test Case ID]: SERV_QES_26
+        // [Mục đích]:
+        // Đảm bảo GetQuestionsByExamIdForDoingExamAsync trả dữ liệu khi exam thuộc CourseContent
+        // và student đã enroll.
+        // --------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task GetQuestionsByExamIdForDoingExamAsync_ShouldReturnQuestions_WhenCourseBasedExamAndStudentEnrolled()
+        {
+            // Arrange
+            var studentId = Guid.NewGuid().ToString();
+            var examId = Guid.NewGuid().ToString();
+            var courseContentId = Guid.NewGuid().ToString();
+            var courseId = Guid.NewGuid().ToString();
+            var questionId = Guid.NewGuid().ToString();
+
+            var examRepositoryMock = new Mock<IExamRepository>();
+            examRepositoryMock.Setup(r => r.GetExamByIdAsync(examId))
+                .ReturnsAsync(new Exam
+                {
+                    Id = examId,
+                    Title = "Course Exam",
+                    DurationMinutes = 30,
+                    CourseContentId = courseContentId
+                });
+
+            var examAttemptRepositoryMock = new Mock<IExamAttempRepository>();
+            examAttemptRepositoryMock.Setup(r => r.GetActiveAttemptAsync(studentId, examId, It.IsAny<DateTime>()))
+                .ReturnsAsync(new ExamAttemp
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    StudentId = studentId,
+                    ExamId = examId,
+                    StartTime = DateTime.UtcNow.AddMinutes(-5),
+                    EndTime = DateTime.UtcNow.AddMinutes(25),
+                    AttemptedAt = DateTime.UtcNow.AddMinutes(-5),
+                    IsSubmitted = false
+                });
+
+            var courseContentRepositoryMock = new Mock<ICourseContentRepository>();
+            courseContentRepositoryMock.Setup(r => r.GetCourseContentByIdAsync(courseContentId))
+                .ReturnsAsync(new project.Models.CourseContent
+                {
+                    Id = courseContentId,
+                    CourseId = courseId,
+                    Title = "Content A"
+                });
+
+            var enrollmentRepositoryMock = new Mock<IEnrollmentCourseRepository>();
+            enrollmentRepositoryMock.Setup(r => r.IsEnrollmentExistAsync(studentId, courseId))
+                .ReturnsAsync(true);
+
+            var questionRepositoryMock = new Mock<IQuestionExamRepository>();
+            questionRepositoryMock.Setup(r => r.GetQuestionsByExamIdAsync(examId))
+                .ReturnsAsync(
+                [
+                    new QuestionExam
+                    {
+                        Id = questionId,
+                        ExamId = examId,
+                        Content = "Q1",
+                        Type = "SingleChoice",
+                        Exaplanation = "E1",
+                        Score = 1.0,
+                        IsRequired = true,
+                        Order = 1,
+                        IsNewest = true
+                    }
+                ]);
+
+            var choiceServiceMock = new Mock<IChoiceService>();
+            choiceServiceMock.Setup(s => s.GetChoicesForExamByQuestionExamIdAsync(questionId))
+                .ReturnsAsync([new ChoiceForExamDTO { Id = "c1", QuestionExamId = questionId, Content = "A" }]);
+
+            var questionExamService = new QuestionExamService(
+                questionRepositoryMock.Object,
+                examRepositoryMock.Object,
+                choiceServiceMock.Object,
+                Mock.Of<IChoiceRepository>(),
+                enrollmentRepositoryMock.Object,
+                courseContentRepositoryMock.Object,
+                Mock.Of<ILessonRepository>(),
+                examAttemptRepositoryMock.Object,
+                Mock.Of<IUnitOfWork>());
+
+            // Act
+            var result = (await questionExamService.GetQuestionsByExamIdForDoingExamAsync(studentId, examId)).ToList();
+
+            // Assert
+            result.Should().ContainSingle();
+            result.Single().Id.Should().Be(questionId);
+            result.Single().Choices.Should().ContainSingle(c => c.Id == "c1");
         }
     }
 }

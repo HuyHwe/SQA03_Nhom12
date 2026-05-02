@@ -1,6 +1,27 @@
 .DS_Store
 ChiaViec.md
-backend/project/bin/
-backend/project/obj/
-node_modules/
 .env
+
+# Node dependencies
+node_modules/
+frontend/node_modules/
+
+# .NET build outputs
+bin/
+obj/
+**/bin/
+**/obj/
+
+# Test and coverage outputs
+TestResults/
+**/TestResults/
+CoverageReport/
+**/CoverageReport/
+coverage/
+**/coverage/
+
+# Temporary local files
+tmp/
+temp/
+tmp_account_query/
+*.tmp

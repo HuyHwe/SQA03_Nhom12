@@ -7,8 +7,8 @@ namespace project.Tests.Modules.Exams
     {
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_CS_01
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o AddChoiceAsync nÃ©m lá»—i khi questionExamId khÃ´ng tá»“n táº¡i.
+        // [Mục đích]:
+        // Đảm bảo AddChoiceAsync ném lỗi khi questionExamId không tồn tại.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task AddChoiceAsync_ShouldThrowArgumentException_WhenQuestionDoesNotExist()
@@ -39,10 +39,10 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_CS_02
-        // [Má»¥c Ä‘Ã­ch]:
-        // Kiá»ƒm tra nhÃ¡nh happy path AddChoiceAsync:
-        // - [CheckDB] Choice Ä‘Æ°á»£c lÆ°u Ä‘Ãºng dá»¯ liá»‡u.
-        // - [Rollback] Dá»n DB vá» tráº¡ng thÃ¡i trÆ°á»›c test.
+        // [Mục đích]:
+        // Kiểm tra nhánh happy path AddChoiceAsync:
+        // - [CheckDB] Choice được lưu đúng dữ liệu.
+        // - [Rollback] Dọn DB về trạng thái trước test.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task AddChoiceAsync_ShouldInsertChoiceIntoDatabase_WhenQuestionExists()
@@ -86,8 +86,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_CS_03
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o UpdateChoiceAsync nÃ©m lá»—i khi exam Ä‘ang opened.
+        // [Mục đích]:
+        // Đảm bảo UpdateChoiceAsync ném lỗi khi exam đang opened.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task UpdateChoiceAsync_ShouldThrowInvalidOperationException_WhenExamIsOpened()
@@ -141,10 +141,10 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_CS_04
-        // [Má»¥c Ä‘Ã­ch]:
-        // Kiá»ƒm tra DeleteChoiceByIdAsync xÃ³a báº£n ghi choice Ä‘Ãºng DB:
-        // - [CheckDB] Choice pháº£i biáº¿n máº¥t sau khi gá»i service.
-        // - [Rollback] Dá»n DB vá» tráº¡ng thÃ¡i trÆ°á»›c test.
+        // [Mục đích]:
+        // Kiểm tra DeleteChoiceByIdAsync xóa bản ghi choice đúng DB:
+        // - [CheckDB] Choice phải biến mất sau khi gọi service.
+        // - [Rollback] Dọn DB về trạng thái trước test.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task DeleteChoiceByIdAsync_ShouldDeleteChoiceFromDatabase_WhenChoiceExists()
@@ -184,9 +184,9 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_CS_05
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o GetChoicesForReviewByQuestionExamIdAsync map IsCorrect Ä‘Ãºng:
-        // - null tá»« DB pháº£i Ä‘Æ°á»£c chuáº©n hÃ³a thÃ nh false á»Ÿ DTO.
+        // [Mục đích]:
+        // Đảm bảo GetChoicesForReviewByQuestionExamIdAsync map IsCorrect đúng:
+        // - null từ DB phải được chuẩn hóa thành false ở DTO.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetChoicesForReviewByQuestionExamIdAsync_ShouldMapNullIsCorrectToFalse()
@@ -217,8 +217,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_CS_06
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o AddChoiceAsync wrap exception thÃ nh ApplicationException khi repository lá»—i.
+        // [Mục đích]:
+        // Đảm bảo AddChoiceAsync wrap exception thành ApplicationException khi repository lỗi.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task AddChoiceAsync_ShouldThrowApplicationException_WhenRepositoryThrowsException()
@@ -251,8 +251,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_CS_07
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o GetChoicesForExamByQuestionExamIdAsync map dá»¯ liá»‡u Ä‘Ãºng cho doing-exam flow.
+        // [Mục đích]:
+        // Đảm bảo GetChoicesForExamByQuestionExamIdAsync map dữ liệu đúng cho doing-exam flow.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task GetChoicesForExamByQuestionExamIdAsync_ShouldMapChoiceDtos_WhenRepositoryReturnsChoices()
@@ -283,8 +283,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_CS_08
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o UpdateChoiceAsync nÃ©m KeyNotFoundException khi choice khÃ´ng tá»“n táº¡i.
+        // [Mục đích]:
+        // Đảm bảo UpdateChoiceAsync ném KeyNotFoundException khi choice không tồn tại.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task UpdateChoiceAsync_ShouldThrowKeyNotFoundException_WhenChoiceDoesNotExist()
@@ -309,8 +309,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_CS_09
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o UpdateChoiceAsync nÃ©m KeyNotFoundException khi exam cá»§a choice khÃ´ng tá»“n táº¡i.
+        // [Mục đích]:
+        // Đảm bảo UpdateChoiceAsync ném KeyNotFoundException khi exam của choice không tồn tại.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task UpdateChoiceAsync_ShouldThrowKeyNotFoundException_WhenExamDoesNotExist()
@@ -355,8 +355,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_CS_10
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o UpdateChoiceAsync cáº­p nháº­t content thÃ nh cÃ´ng khi exam chÆ°a má»Ÿ.
+        // [Mục đích]:
+        // Đảm bảo UpdateChoiceAsync cập nhật content thành công khi exam chưa mở.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task UpdateChoiceAsync_ShouldUpdateChoice_WhenExamIsClosed()
@@ -408,8 +408,8 @@ namespace project.Tests.Modules.Exams
 
         // --------------------------------------------------------------------------------------------
         // [Test Case ID]: SERV_CS_11
-        // [Má»¥c Ä‘Ã­ch]:
-        // Äáº£m báº£o UpdateChoiceAsync wrap exception khi repository update lá»—i.
+        // [Mục đích]:
+        // Đảm bảo UpdateChoiceAsync wrap exception khi repository update lỗi.
         // --------------------------------------------------------------------------------------------
         [Fact]
         public async Task UpdateChoiceAsync_ShouldThrowException_WhenRepositoryUpdateFails()
@@ -458,6 +458,87 @@ namespace project.Tests.Modules.Exams
             // Assert
             await act.Should().ThrowAsync<Exception>()
                 .WithMessage("An error occurred while update choice.");
+        }
+
+        // --------------------------------------------------------------------------------------------
+        // [Test Case ID]: SERV_CS_12
+        // [Mục đích]:
+        // Đảm bảo DeleteChoiceByIdAsync wrap exception khi repository delete lỗi.
+        // --------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task DeleteChoiceByIdAsync_ShouldThrowApplicationException_WhenRepositoryThrowsException()
+        {
+            // Arrange
+            var choiceId = Guid.NewGuid().ToString();
+            var choiceRepositoryMock = new Mock<IChoiceRepository>();
+            choiceRepositoryMock.Setup(r => r.DeleteChoiceByIdAsync(choiceId))
+                .ThrowsAsync(new Exception("Delete failed"));
+
+            var choiceService = new ChoiceService(
+                choiceRepositoryMock.Object,
+                Mock.Of<IQuestionExamRepository>(),
+                Mock.Of<IExamRepository>());
+
+            // Act
+            Func<Task> act = () => choiceService.DeleteChoiceByIdAsync(Guid.NewGuid().ToString(), choiceId);
+
+            // Assert
+            await act.Should().ThrowAsync<ApplicationException>()
+                .WithMessage("An error occurred while deleting the choice.");
+        }
+
+        // --------------------------------------------------------------------------------------------
+        // [Test Case ID]: SERV_CS_13
+        // [Mục đích]:
+        // Đảm bảo GetChoicesForExamByQuestionExamIdAsync wrap exception khi repository lỗi.
+        // --------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task GetChoicesForExamByQuestionExamIdAsync_ShouldThrowApplicationException_WhenRepositoryThrowsException()
+        {
+            // Arrange
+            var questionId = Guid.NewGuid().ToString();
+            var choiceRepositoryMock = new Mock<IChoiceRepository>();
+            choiceRepositoryMock.Setup(r => r.GetChoicesByQuestionExamIdAsync(questionId))
+                .ThrowsAsync(new Exception("Read failed"));
+
+            var choiceService = new ChoiceService(
+                choiceRepositoryMock.Object,
+                Mock.Of<IQuestionExamRepository>(),
+                Mock.Of<IExamRepository>());
+
+            // Act
+            Func<Task> act = async () => await choiceService.GetChoicesForExamByQuestionExamIdAsync(questionId);
+
+            // Assert
+            await act.Should().ThrowAsync<ApplicationException>()
+                .WithMessage("An error occurred while retrieving choices.");
+        }
+
+        // --------------------------------------------------------------------------------------------
+        // [Test Case ID]: SERV_CS_14
+        // [Mục đích]:
+        // Đảm bảo GetChoicesForReviewByQuestionExamIdAsync wrap exception khi repository lỗi.
+        // --------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task GetChoicesForReviewByQuestionExamIdAsync_ShouldThrowApplicationException_WhenRepositoryThrowsException()
+        {
+            // Arrange
+            var questionId = Guid.NewGuid().ToString();
+            var choiceRepositoryMock = new Mock<IChoiceRepository>();
+            choiceRepositoryMock.Setup(r => r.GetChoicesByQuestionExamIdAsync(questionId))
+                .ThrowsAsync(new Exception("Read failed"));
+
+            var choiceService = new ChoiceService(
+                choiceRepositoryMock.Object,
+                Mock.Of<IQuestionExamRepository>(),
+                Mock.Of<IExamRepository>());
+
+            // Act
+            Func<Task> act = async () => await choiceService.GetChoicesForReviewByQuestionExamIdAsync(questionId);
+
+            // Assert
+            await act.Should().ThrowAsync<ApplicationException>()
+                .WithMessage("An error occurred while retrieving choices for review.");
         }
     }
 }

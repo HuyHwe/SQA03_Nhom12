@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace project.Tests.Modules.Exams
 {
@@ -13,6 +14,7 @@ namespace project.Tests.Modules.Exams
         {
             var options = new DbContextOptionsBuilder<DBContext>()
                 .UseInMemoryDatabase(databaseName ?? Guid.NewGuid().ToString("N"))
+                .ConfigureWarnings(warnings => warnings.Ignore(InMemoryEventId.TransactionIgnoredWarning))
                 .Options;
 
             return new DBContext(options);

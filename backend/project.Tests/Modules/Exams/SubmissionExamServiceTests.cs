@@ -441,6 +441,456 @@ namespace project.Tests.Modules.Exams
             await act.Should().ThrowAsync<UnauthorizedAccessException>()
                 .WithMessage("You are not authorized to access this submission exam.");
         }
+
+        // --------------------------------------------------------------------------------------------
+        // [Test Case ID]: SERV_SES_08
+        // [Mục đích]:
+        // Đảm bảo CreateSubmissionExamAsync ném lỗi khi lưu attempt thất bại.
+        // --------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task CreateSubmissionExamAsync_ShouldThrowInvalidOperationException_WhenSavingAttemptFails()
+        {
+            // Arrange
+            var studentId = Guid.NewGuid().ToString();
+            var attemptId = Guid.NewGuid().ToString();
+            var examId = Guid.NewGuid().ToString();
+
+            var examAttemptRepositoryMock = new Mock<IExamAttempRepository>();
+            examAttemptRepositoryMock.Setup(r => r.GetExamAttempByIdAsync(attemptId))
+                .ReturnsAsync(new ExamAttemp
+                {
+                    Id = attemptId,
+                    StudentId = studentId,
+                    ExamId = examId,
+                    StartTime = DateTime.UtcNow.AddMinutes(-5),
+                    EndTime = DateTime.UtcNow.AddMinutes(30),
+                    AttemptedAt = DateTime.UtcNow.AddMinutes(-5),
+                    IsSubmitted = false
+                });
+            examAttemptRepositoryMock.Setup(r => r.SaveExamAttempAsync(It.IsAny<ExamAttemp>()))
+                .ReturnsAsync(false);
+
+            var submissionExamService = new SubmissionExamService(
+                Mock.Of<ISubmissionExamRepository>(),
+                Mock.Of<ISubmissionAnswerRepository>(),
+                Mock.Of<IExamRepository>(),
+                Mock.Of<IStudentRepository>(),
+                Mock.Of<IQuestionExamService>(),
+                examAttemptRepositoryMock.Object,
+                Mock.Of<IQuestionExamRepository>());
+
+            // Act
+            Func<Task> act = () => submissionExamService.CreateSubmissionExamAsync(studentId, attemptId, "[]");
+
+            // Assert
+            await act.Should().ThrowAsync<InvalidOperationException>()
+                .WithMessage("Failed to save exam attempt with last answers.");
+        }
+
+        // --------------------------------------------------------------------------------------------
+        // [Test Case ID]: SERV_SES_09
+        // [Mục đích]:
+        // Đảm bảo CreateSubmissionExamAsync ném lỗi khi exam không tồn tại.
+        // --------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task CreateSubmissionExamAsync_ShouldThrowKeyNotFoundException_WhenExamDoesNotExist()
+        {
+            // Arrange
+            var studentId = Guid.NewGuid().ToString();
+            var attemptId = Guid.NewGuid().ToString();
+            var examId = Guid.NewGuid().ToString();
+
+            var examAttemptRepositoryMock = CreateValidAttemptRepository(studentId, attemptId, examId);
+
+            var examRepositoryMock = new Mock<IExamRepository>();
+            examRepositoryMock.Setup(r => r.GetExamStatusAsync(examId))
+                .ReturnsAsync((false, false));
+
+            var submissionExamService = new SubmissionExamService(
+                Mock.Of<ISubmissionExamRepository>(),
+                Mock.Of<ISubmissionAnswerRepository>(),
+                examRepositoryMock.Object,
+                Mock.Of<IStudentRepository>(),
+                Mock.Of<IQuestionExamService>(),
+                examAttemptRepositoryMock.Object,
+                Mock.Of<IQuestionExamRepository>());
+
+            // Act
+            Func<Task> act = () => submissionExamService.CreateSubmissionExamAsync(studentId, attemptId, "[]");
+
+            // Assert
+            await act.Should().ThrowAsync<KeyNotFoundException>()
+                .WithMessage($"Exam with ID '{examId}' does not exist.");
+        }
+
+        // --------------------------------------------------------------------------------------------
+        // [Test Case ID]: SERV_SES_10
+        // [Mục đích]:
+        // Đảm bảo CreateSubmissionExamAsync ném lỗi khi student không tồn tại.
+        // --------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task CreateSubmissionExamAsync_ShouldThrowKeyNotFoundException_WhenStudentDoesNotExist()
+        {
+            // Arrange
+            var studentId = Guid.NewGuid().ToString();
+            var attemptId = Guid.NewGuid().ToString();
+            var examId = Guid.NewGuid().ToString();
+
+            var examAttemptRepositoryMock = CreateValidAttemptRepository(studentId, attemptId, examId);
+
+            var examRepositoryMock = new Mock<IExamRepository>();
+            examRepositoryMock.Setup(r => r.GetExamStatusAsync(examId))
+                .ReturnsAsync((true, true));
+
+            var studentRepositoryMock = new Mock<IStudentRepository>();
+            studentRepositoryMock.Setup(r => r.IsStudentExistAsync(studentId))
+                .ReturnsAsync(false);
+
+            var submissionExamService = new SubmissionExamService(
+                Mock.Of<ISubmissionExamRepository>(),
+                Mock.Of<ISubmissionAnswerRepository>(),
+                examRepositoryMock.Object,
+                studentRepositoryMock.Object,
+                Mock.Of<IQuestionExamService>(),
+                examAttemptRepositoryMock.Object,
+                Mock.Of<IQuestionExamRepository>());
+
+            // Act
+            Func<Task> act = () => submissionExamService.CreateSubmissionExamAsync(studentId, attemptId, "[]");
+
+            // Assert
+            await act.Should().ThrowAsync<KeyNotFoundException>()
+                .WithMessage($"Student with ID '{studentId}' does not exist.");
+        }
+
+        // --------------------------------------------------------------------------------------------
+        // [Test Case ID]: SERV_SES_11
+        // [Mục đích]:
+        // Đảm bảo CreateSubmissionExamAsync xử lý lastAnswers rỗng như một tập đáp án rỗng.
+        // --------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task CreateSubmissionExamAsync_ShouldPersistZeroScore_WhenLastAnswersIsEmpty()
+        {
+            // Arrange
+            var studentId = Guid.NewGuid().ToString();
+            var attemptId = Guid.NewGuid().ToString();
+            var examId = Guid.NewGuid().ToString();
+            var questionId = Guid.NewGuid().ToString();
+            var correctChoiceId = Guid.NewGuid().ToString();
+
+            var examAttemptRepositoryMock = CreateValidAttemptRepository(studentId, attemptId, examId);
+            var examRepositoryMock = CreateExistingExamRepository(examId);
+            var studentRepositoryMock = CreateExistingStudentRepository(studentId);
+
+            var questionServiceMock = new Mock<IQuestionExamService>();
+            questionServiceMock.Setup(s => s.GetQuestionsByExamIdForReviewSubmissionAsync(studentId, examId))
+                .ReturnsAsync(
+                [
+                    new QuestionExamForReviewSubmissionDTO
+                    {
+                        Id = questionId,
+                        ExamId = examId,
+                        Content = "Q1",
+                        Type = "SingleChoice",
+                        Explanation = "E1",
+                        Score = 2.0,
+                        Choices = [new ChoiceForReviewDTO { Id = correctChoiceId, QuestionExamId = questionId, Content = "A", IsCorrect = true }]
+                    }
+                ]);
+
+            var submissionExamRepositoryMock = new Mock<ISubmissionExamRepository>();
+            SubmissionExam? updatedSubmission = null;
+            submissionExamRepositoryMock.Setup(r => r.CreateSubmissionExamAsync(It.IsAny<SubmissionExam>()))
+                .Returns(Task.CompletedTask);
+            submissionExamRepositoryMock.Setup(r => r.UpdateSubmissionExamAsync(It.IsAny<SubmissionExam>()))
+                .Callback<SubmissionExam>(submission => updatedSubmission = submission)
+                .Returns(Task.CompletedTask);
+
+            var submissionAnswerRepositoryMock = new Mock<ISubmissionAnswerRepository>();
+
+            var submissionExamService = new SubmissionExamService(
+                submissionExamRepositoryMock.Object,
+                submissionAnswerRepositoryMock.Object,
+                examRepositoryMock.Object,
+                studentRepositoryMock.Object,
+                questionServiceMock.Object,
+                examAttemptRepositoryMock.Object,
+                Mock.Of<IQuestionExamRepository>());
+
+            // Act
+            await submissionExamService.CreateSubmissionExamAsync(studentId, attemptId, " ");
+
+            // Assert
+            updatedSubmission.Should().NotBeNull();
+            updatedSubmission!.TotalCorrect.Should().Be(0);
+            updatedSubmission.Score.Should().Be(0.0);
+            submissionAnswerRepositoryMock.Verify(r => r.CreateSubmissionAnswerAsync(It.IsAny<SubmissionAnswer>()), Times.Never);
+        }
+
+        // --------------------------------------------------------------------------------------------
+        // [Test Case ID]: SERV_SES_12
+        // [Mục đích]:
+        // Đảm bảo CreateSubmissionExamAsync wrap JSON không hợp lệ thành InvalidOperationException.
+        // --------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task CreateSubmissionExamAsync_ShouldThrowInvalidOperationException_WhenLastAnswersJsonIsInvalid()
+        {
+            // Arrange
+            var studentId = Guid.NewGuid().ToString();
+            var attemptId = Guid.NewGuid().ToString();
+            var examId = Guid.NewGuid().ToString();
+
+            var submissionExamService = new SubmissionExamService(
+                Mock.Of<ISubmissionExamRepository>(),
+                Mock.Of<ISubmissionAnswerRepository>(),
+                CreateExistingExamRepository(examId).Object,
+                CreateExistingStudentRepository(studentId).Object,
+                Mock.Of<IQuestionExamService>(),
+                CreateValidAttemptRepository(studentId, attemptId, examId).Object,
+                Mock.Of<IQuestionExamRepository>());
+
+            // Act
+            Func<Task> act = () => submissionExamService.CreateSubmissionExamAsync(studentId, attemptId, "[");
+
+            // Assert
+            await act.Should().ThrowAsync<InvalidOperationException>()
+                .WithMessage("Invalid JSON format for lastAnswers.");
+        }
+
+        // --------------------------------------------------------------------------------------------
+        // [Test Case ID]: SERV_SES_13
+        // [Mục đích]:
+        // Đảm bảo GetSubmissionHistoryByStudentAndExamAsync map đúng dữ liệu từ repository.
+        // --------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task GetSubmissionHistoryByStudentAndExamAsync_ShouldReturnMappedSubmissions()
+        {
+            // Arrange
+            var studentId = Guid.NewGuid().ToString();
+            var examId = Guid.NewGuid().ToString();
+            var attemptId = Guid.NewGuid().ToString();
+            var submissionId = Guid.NewGuid().ToString();
+            var submittedAt = DateTime.UtcNow.AddMinutes(-3);
+
+            var submissionExamRepositoryMock = new Mock<ISubmissionExamRepository>();
+            submissionExamRepositoryMock.Setup(r => r.GetSubmissionHistoryByStudentAndExamAsync(studentId, examId))
+                .ReturnsAsync(
+                [
+                    new SubmissionExam
+                    {
+                        Id = submissionId,
+                        StudentId = studentId,
+                        ExamId = examId,
+                        ExamAttemptId = attemptId,
+                        SubmittedAt = submittedAt,
+                        TotalCorrect = 3,
+                        Score = 4.5
+                    }
+                ]);
+
+            var submissionExamService = new SubmissionExamService(
+                submissionExamRepositoryMock.Object,
+                Mock.Of<ISubmissionAnswerRepository>(),
+                Mock.Of<IExamRepository>(),
+                Mock.Of<IStudentRepository>(),
+                Mock.Of<IQuestionExamService>(),
+                Mock.Of<IExamAttempRepository>(),
+                Mock.Of<IQuestionExamRepository>());
+
+            // Act
+            var result = (await submissionExamService.GetSubmissionHistoryByStudentAndExamAsync(studentId, examId)).ToList();
+
+            // Assert
+            result.Should().ContainSingle();
+            result.Single().SubmissionExamId.Should().Be(submissionId);
+            result.Single().StudentId.Should().Be(studentId);
+            result.Single().ExamId.Should().Be(examId);
+            result.Single().ExamAttemptId.Should().Be(attemptId);
+            result.Single().SubmittedAt.Should().Be(submittedAt);
+            result.Single().TotalCorrect.Should().Be(3);
+            result.Single().Score.Should().Be(4.5);
+        }
+
+        // --------------------------------------------------------------------------------------------
+        // [Test Case ID]: SERV_SES_14
+        // [Mục đích]:
+        // Đảm bảo GetSubmissionExamDetailDTOAsync chặn truy cập attempt của student khác.
+        // --------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task GetSubmissionExamDetailDTOAsync_ShouldThrowUnauthorizedAccessException_WhenAttemptBelongsToAnotherStudent()
+        {
+            // Arrange
+            var studentId = Guid.NewGuid().ToString();
+            var otherStudentId = Guid.NewGuid().ToString();
+            var attemptId = Guid.NewGuid().ToString();
+
+            var examAttemptRepositoryMock = new Mock<IExamAttempRepository>();
+            examAttemptRepositoryMock.Setup(r => r.GetExamAttempByIdAsync(attemptId))
+                .ReturnsAsync(new ExamAttemp
+                {
+                    Id = attemptId,
+                    StudentId = otherStudentId,
+                    ExamId = Guid.NewGuid().ToString(),
+                    AttemptedAt = DateTime.UtcNow.AddMinutes(-10),
+                    SubmittedAt = DateTime.UtcNow,
+                    StartTime = DateTime.UtcNow.AddMinutes(-10),
+                    EndTime = DateTime.UtcNow.AddMinutes(20),
+                    IsSubmitted = true
+                });
+
+            var submissionExamService = new SubmissionExamService(
+                Mock.Of<ISubmissionExamRepository>(),
+                Mock.Of<ISubmissionAnswerRepository>(),
+                Mock.Of<IExamRepository>(),
+                Mock.Of<IStudentRepository>(),
+                Mock.Of<IQuestionExamService>(),
+                examAttemptRepositoryMock.Object,
+                Mock.Of<IQuestionExamRepository>());
+
+            // Act
+            Func<Task> act = () => submissionExamService.GetSubmissionExamDetailDTOAsync(studentId, attemptId);
+
+            // Assert
+            await act.Should().ThrowAsync<UnauthorizedAccessException>()
+                .WithMessage("You are not authorized to access this exam attempt.");
+        }
+
+        // --------------------------------------------------------------------------------------------
+        // [Test Case ID]: SERV_SES_15
+        // [Mục đích]:
+        // Đảm bảo GetUserSubmissionResultAsync ném lỗi khi không tìm thấy attempt.
+        // --------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task GetUserSubmissionResultAsync_ShouldThrowKeyNotFoundException_WhenExamAttemptDoesNotExist()
+        {
+            // Arrange
+            var studentId = Guid.NewGuid().ToString();
+            var submissionExamId = Guid.NewGuid().ToString();
+            var attemptId = Guid.NewGuid().ToString();
+
+            var submissionExamRepositoryMock = new Mock<ISubmissionExamRepository>();
+            submissionExamRepositoryMock.Setup(r => r.GetSubmissionExamByIdAsync(submissionExamId))
+                .ReturnsAsync(new SubmissionExam
+                {
+                    Id = submissionExamId,
+                    StudentId = studentId,
+                    ExamAttemptId = attemptId,
+                    ExamId = Guid.NewGuid().ToString()
+                });
+
+            var examAttemptRepositoryMock = new Mock<IExamAttempRepository>();
+            examAttemptRepositoryMock.Setup(r => r.GetExamAttempByIdAsync(attemptId))
+                .ReturnsAsync((ExamAttemp?)null);
+
+            var submissionExamService = new SubmissionExamService(
+                submissionExamRepositoryMock.Object,
+                Mock.Of<ISubmissionAnswerRepository>(),
+                Mock.Of<IExamRepository>(),
+                Mock.Of<IStudentRepository>(),
+                Mock.Of<IQuestionExamService>(),
+                examAttemptRepositoryMock.Object,
+                Mock.Of<IQuestionExamRepository>());
+
+            // Act
+            Func<Task> act = () => submissionExamService.GetUserSubmissionResultAsync(studentId, submissionExamId);
+
+            // Assert
+            await act.Should().ThrowAsync<KeyNotFoundException>()
+                .WithMessage($"Submission answers for exam attempt id {attemptId} not found.");
+        }
+
+        // --------------------------------------------------------------------------------------------
+        // [Test Case ID]: SERV_SES_16
+        // [Mục đích]:
+        // Đảm bảo GetUserSubmissionResultAsync trả về đáp án đã lưu cho student sở hữu attempt.
+        // --------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task GetUserSubmissionResultAsync_ShouldReturnSavedAnswers_WhenSubmissionBelongsToStudent()
+        {
+            // Arrange
+            var studentId = Guid.NewGuid().ToString();
+            var submissionExamId = Guid.NewGuid().ToString();
+            var attemptId = Guid.NewGuid().ToString();
+            var savedAnswers = "[{\"questionId\":\"q1\"}]";
+
+            var submissionExamRepositoryMock = new Mock<ISubmissionExamRepository>();
+            submissionExamRepositoryMock.Setup(r => r.GetSubmissionExamByIdAsync(submissionExamId))
+                .ReturnsAsync(new SubmissionExam
+                {
+                    Id = submissionExamId,
+                    StudentId = studentId,
+                    ExamAttemptId = attemptId,
+                    ExamId = Guid.NewGuid().ToString()
+                });
+
+            var examAttemptRepositoryMock = new Mock<IExamAttempRepository>();
+            examAttemptRepositoryMock.Setup(r => r.GetExamAttempByIdAsync(attemptId))
+                .ReturnsAsync(new ExamAttemp
+                {
+                    Id = attemptId,
+                    StudentId = studentId,
+                    ExamId = Guid.NewGuid().ToString(),
+                    StartTime = DateTime.UtcNow.AddMinutes(-10),
+                    EndTime = DateTime.UtcNow.AddMinutes(20),
+                    AttemptedAt = DateTime.UtcNow.AddMinutes(-10),
+                    SubmittedAt = DateTime.UtcNow,
+                    IsSubmitted = true,
+                    SavedAnswers = savedAnswers
+                });
+
+            var submissionExamService = new SubmissionExamService(
+                submissionExamRepositoryMock.Object,
+                Mock.Of<ISubmissionAnswerRepository>(),
+                Mock.Of<IExamRepository>(),
+                Mock.Of<IStudentRepository>(),
+                Mock.Of<IQuestionExamService>(),
+                examAttemptRepositoryMock.Object,
+                Mock.Of<IQuestionExamRepository>());
+
+            // Act
+            var result = await submissionExamService.GetUserSubmissionResultAsync(studentId, submissionExamId);
+
+            // Assert
+            result.Should().Be(savedAnswers);
+        }
+
+        private static Mock<IExamAttempRepository> CreateValidAttemptRepository(string studentId, string attemptId, string examId)
+        {
+            var examAttemptRepositoryMock = new Mock<IExamAttempRepository>();
+            examAttemptRepositoryMock.Setup(r => r.GetExamAttempByIdAsync(attemptId))
+                .ReturnsAsync(new ExamAttemp
+                {
+                    Id = attemptId,
+                    StudentId = studentId,
+                    ExamId = examId,
+                    StartTime = DateTime.UtcNow.AddMinutes(-5),
+                    EndTime = DateTime.UtcNow.AddMinutes(30),
+                    AttemptedAt = DateTime.UtcNow.AddMinutes(-5),
+                    IsSubmitted = false
+                });
+            examAttemptRepositoryMock.Setup(r => r.SaveExamAttempAsync(It.IsAny<ExamAttemp>()))
+                .ReturnsAsync(true);
+
+            return examAttemptRepositoryMock;
+        }
+
+        private static Mock<IExamRepository> CreateExistingExamRepository(string examId)
+        {
+            var examRepositoryMock = new Mock<IExamRepository>();
+            examRepositoryMock.Setup(r => r.GetExamStatusAsync(examId))
+                .ReturnsAsync((true, true));
+
+            return examRepositoryMock;
+        }
+
+        private static Mock<IStudentRepository> CreateExistingStudentRepository(string studentId)
+        {
+            var studentRepositoryMock = new Mock<IStudentRepository>();
+            studentRepositoryMock.Setup(r => r.IsStudentExistAsync(studentId))
+                .ReturnsAsync(true);
+
+            return studentRepositoryMock;
+        }
     }
 }
 
