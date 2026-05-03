@@ -738,5 +738,37 @@ namespace project.Tests.Modules.Payments
             result.Amount.Should().Be(100000);
             result.QrCode.Should().StartWith("data:image/png;base64,");
         }
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_PS_22]
+        // [Mục đích: HandleSepayWebhookAsync định dạng lại GUID 32 ký tự lấy từ Code fallback]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task HandleSepayWebhookAsync_ShouldFormat32CharGuid_WhenExtractedFromCode()
+        {
+            var dbContext = GetDatabaseContext();
+            var paymentRepo = new PaymentRepository(dbContext);
+            var service = new PaymentService(paymentRepo, dbContext, _mockConfig.Object);
+
+            var data = await InsertDummyOrderAsync(dbContext, "paid", 100000); 
+
+            try
+            {
+                var orderIdNoDashes = data.OrderId.Replace("-", "");
+                var dto = new SepayWebhookDto
+                {
+                    TransferType = "in",
+                    TransferAmount = 100000,
+                    Content = "INVALID_NO_ORDERID", // Ép logic chuyển sang dùng Code fallback
+                    Code = $"ELN{orderIdNoDashes}"  // Code không có dấu gạch ngang (32 chars)
+                };
+
+                var result = await service.HandleSepayWebhookAsync(dto);
+                result.Should().BeTrue();
+            }
+            finally
+            {
+                await CleanupDummyOrderAsync(dbContext, data.StudentId, data.UserId);
+            }
+        }
     }
 }

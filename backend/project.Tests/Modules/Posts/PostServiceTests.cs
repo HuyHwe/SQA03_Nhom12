@@ -579,8 +579,7 @@ namespace project.Tests.Modules.Posts
         [Fact]
         public async Task UpdatePostAsync_WhitespaceTitle_ShouldFail()
         {
-            // [FAIL_EXPECTED]: PostService.UpdatePostAsync lacks validation for empty/whitespace titles.
-            // Arrange
+            
             var post = new Post { Id = "p-1", AuthorId = "a-1", Title = "Original", IsDeleted = false };
             _mockPostRepo.Setup(r => r.GetPostByIdAsync("p-1")).ReturnsAsync(post);
             _mockPostRepo.Setup(r => r.UpdateAsync(It.IsAny<Post>())).Returns(Task.CompletedTask);
