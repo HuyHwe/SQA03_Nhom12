@@ -225,5 +225,55 @@ namespace project.Tests.Modules.Payments
                 await dbContext.SaveChangesAsync();
             }
         }
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_OS_06]
+        // [Mục đích: CreateOrderAsync ném lỗi nếu OrderDetails là null]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task CreateOrderAsync_ShouldThrowException_WhenOrderDetailsIsNull2()
+        {
+            var dbContext = GetDatabaseContext();
+            var service = new OrderService(_mockOrderRepo.Object, _mockCourseRepo.Object, _mockPaymentRepo.Object, dbContext);
+
+            var dto = new OrderCreateDto { OrderDetails = null };
+
+            Func<Task> act = async () => await service.CreateOrderAsync(dto, "student-1");
+
+            await act.Should().ThrowAsync<Exception>().WithMessage("Order must have at least one course.");
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_OS_07]
+        // [Mục đích: CreateOrderAsync ném lỗi nếu OrderDetails rỗng]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task CreateOrderAsync_ShouldThrowException_WhenOrderDetailsIsEmpty()
+        {
+            var dbContext = GetDatabaseContext();
+            var service = new OrderService(_mockOrderRepo.Object, _mockCourseRepo.Object, _mockPaymentRepo.Object, dbContext);
+
+            var dto = new OrderCreateDto { OrderDetails = new List<OrderDetailCreateDto>() };
+
+            Func<Task> act = async () => await service.CreateOrderAsync(dto, "student-1");
+
+            await act.Should().ThrowAsync<Exception>().WithMessage("Order must have at least one course.");
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_OS_08]
+        // [Mục đích: GetOrderByIdAsync trả về null nếu Order không tồn tại]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task GetOrderByIdAsync_ShouldReturnNull_WhenOrderNotFound()
+        {
+            var dbContext = GetDatabaseContext();
+            var service = new OrderService(_mockOrderRepo.Object, _mockCourseRepo.Object, _mockPaymentRepo.Object, dbContext);
+
+            _mockOrderRepo.Setup(r => r.GetByIdAsync("fake")).ReturnsAsync((Orders)null);
+
+            var result = await service.GetOrderByIdAsync("fake", "student-1");
+
+            result.Should().BeNull();
+        }
     }
 }

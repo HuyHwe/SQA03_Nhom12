@@ -307,5 +307,92 @@ namespace project.Tests.Modules.Posts
             // This assertion will FAIL because the code doesn't throw.
             await act.Should().ThrowAsync<Exception>().WithMessage("Content không được để trống.");
         }
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_DIS_09]
+        // [Mục đích: CreateAsync ném lỗi nếu Content là null hoặc khoảng trắng]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task CreateAsync_ShouldThrowException_WhenContentIsNullOrWhitespace()
+        {
+            var service = new DiscussionService(_mockDiscussionRepo.Object, _mockStudentRepo.Object);
+
+            Func<Task> act1 = async () => await service.CreateAsync("stu-1", null, "Course", "c-1");
+            await act1.Should().ThrowAsync<Exception>().WithMessage("Content không được để trống.");
+
+            Func<Task> act2 = async () => await service.CreateAsync("stu-1", "   ", "Course", "c-1");
+            await act2.Should().ThrowAsync<Exception>().WithMessage("Content không được để trống.");
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_DIS_10]
+        // [Mục đích: CreateAsync ném lỗi nếu ParentDiscussionId không tồn tại (null trong DB)]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task CreateAsync_ShouldThrowException_WhenParentDiscussionNotFound()
+        {
+            var service = new DiscussionService(_mockDiscussionRepo.Object, _mockStudentRepo.Object);
+            _mockDiscussionRepo.Setup(r => r.IsValidTargetAsync("Course", "c-1")).ReturnsAsync(true);
+            _mockDiscussionRepo.Setup(r => r.GetByIdAsync("invalid-parent")).ReturnsAsync((Discussion)null);
+
+            Func<Task> act = async () => await service.CreateAsync("stu-1", "Valid content", "Course", "c-1", "invalid-parent");
+
+            await act.Should().ThrowAsync<Exception>().WithMessage("ParentDiscussionId không tồn tại.");
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_DIS_11]
+        // [Mục đích: UpdateAsync ném lỗi nếu Discussion không tồn tại]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task UpdateAsync_ShouldThrowException_WhenDiscussionNotFound()
+        {
+            var service = new DiscussionService(_mockDiscussionRepo.Object, _mockStudentRepo.Object);
+            _mockDiscussionRepo.Setup(r => r.GetByIdAsync("invalid-disc")).ReturnsAsync((Discussion)null);
+
+            Func<Task> act = async () => await service.UpdateAsync("stu-1", "invalid-disc", new UpdateDiscussionRequest { Content = "New content" });
+
+            await act.Should().ThrowAsync<Exception>().WithMessage("Discussion không tồn tại.");
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_DIS_12]
+        // [Mục đích: DeleteAsync ném lỗi nếu Discussion không tồn tại]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task DeleteAsync_ShouldThrowException_WhenDiscussionNotFound()
+        {
+            var service = new DiscussionService(_mockDiscussionRepo.Object, _mockStudentRepo.Object);
+            _mockDiscussionRepo.Setup(r => r.GetByIdAsync("invalid-disc")).ReturnsAsync((Discussion)null);
+
+            Func<Task> act = async () => await service.DeleteAsync("stu-1", "invalid-disc");
+
+            await act.Should().ThrowAsync<Exception>().WithMessage("Discussion không tồn tại.");
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_DIS_13]
+        // [Mục đích: MapToDto fallback về Ẩn danh khi Student.User là null]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task GetAllCommentsAsync_ShouldFallbackToAnonymous_WhenUserIsNull()
+        {
+            var service = new DiscussionService(_mockDiscussionRepo.Object, _mockStudentRepo.Object);
+            var discussions = new List<Discussion>
+            {
+                new Discussion 
+                { 
+                    Id = "d-1", 
+                    Content = "Content 1", 
+                    Student = new Student { User = null } // User null => fallback (Ẩn danh)
+                }
+            };
+            _mockDiscussionRepo.Setup(r => r.GetAllCommentsAsync()).ReturnsAsync(discussions);
+
+            var result = await service.GetAllCommentsAsync();
+
+            result.Should().HaveCount(1);
+            result.First().StudentName.Should().Be("(Ẩn danh)");
+            result.First().AvatarUrl.Should().BeNull();
+        }
     }
 }

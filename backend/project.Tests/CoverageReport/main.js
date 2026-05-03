@@ -292,13 +292,13 @@ var assemblies = [
     "classes": [
       { "name": "AddChoiceDTO", "rp": "project_AddChoiceDTO.html", "cl": 0, "ucl": 2, "cal": 2, "tl": 9, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "AdminActionLog", "rp": "project_AdminActionLog.html", "cl": 0, "ucl": 10, "cal": 10, "tl": 13, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "AdminController", "rp": "project_AdminController.html", "cl": 0, "ucl": 113, "cal": 113, "tl": 197, "cb": 0, "tb": 14, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "AdminController", "rp": "project_AdminController.html", "cl": 0, "ucl": 149, "cal": 149, "tl": 196, "cb": 0, "tb": 28, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "AdminRepository", "rp": "project_AdminRepository.html", "cl": 0, "ucl": 109, "cal": 109, "tl": 153, "cb": 0, "tb": 8, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "AdminReviewCourse", "rp": "project_AdminReviewCourse.html", "cl": 0, "ucl": 10, "cal": 10, "tl": 26, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "AdminReviewLesson", "rp": "project_AdminReviewLesson.html", "cl": 0, "ucl": 8, "cal": 8, "tl": 22, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "AdminService", "rp": "project_AdminService.html", "cl": 0, "ucl": 203, "cal": 203, "tl": 274, "cb": 0, "tb": 76, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "APIResponse", "rp": "project_APIResponse.html", "cl": 0, "ucl": 9, "cal": 9, "tl": 13, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "AuthAdminResponseDTO", "rp": "project_AuthAdminResponseDTO.html", "cl": 0, "ucl": 5, "cal": 5, "tl": 9, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "AuthAdminResponseDTO", "rp": "project_AuthAdminResponseDTO.html", "cl": 0, "ucl": 9, "cal": 9, "tl": 13, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "AuthController", "rp": "project_AuthController.html", "cl": 0, "ucl": 76, "cal": 76, "tl": 144, "cb": 0, "tb": 4, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "Category", "rp": "project_Category.html", "cl": 3, "ucl": 1, "cal": 4, "tl": 18, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "CategoryController", "rp": "project_CategoryController.html", "cl": 0, "ucl": 24, "cal": 24, "tl": 50, "cb": 0, "tb": 4, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
@@ -339,7 +339,7 @@ var assemblies = [
       { "name": "CreateFullQuestionExamDTO", "rp": "project_CreateFullQuestionExamDTO.html", "cl": 0, "ucl": 8, "cal": 8, "tl": 19, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "CreateQuestionExamDTO", "rp": "project_CreateQuestionExamDTO.html", "cl": 0, "ucl": 6, "cal": 6, "tl": 9, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "DBContext", "rp": "project_DBContext.html", "cl": 296, "ucl": 0, "cal": 296, "tl": 420, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "DBSeeder", "rp": "project_DBSeeder.html", "cl": 0, "ucl": 523, "cal": 523, "tl": 662, "cb": 0, "tb": 118, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "DBSeeder", "rp": "project_DBSeeder.html", "cl": 0, "ucl": 716, "cal": 716, "tl": 784, "cb": 0, "tb": 240, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "EnrollmentController", "rp": "project_EnrollmentController.html", "cl": 0, "ucl": 88, "cal": 88, "tl": 153, "cb": 0, "tb": 18, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "EnrollmentCourseRepository", "rp": "project_EnrollmentCourseRepository.html", "cl": 0, "ucl": 40, "cal": 40, "tl": 66, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "EnrollmentCourseService", "rp": "project_EnrollmentCourseService.html", "cl": 0, "ucl": 256, "cal": 256, "tl": 368, "cb": 0, "tb": 140, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
@@ -377,13 +377,13 @@ var assemblies = [
       { "name": "LessonUpdateDTO", "rp": "project_LessonUpdateDTO.html", "cl": 0, "ucl": 6, "cal": 6, "tl": 14, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "LoginAdminDTO", "rp": "project_LoginAdminDTO.html", "cl": 0, "ucl": 2, "cal": 2, "tl": 11, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "LoginDto", "rp": "project_LoginDto.html", "cl": 0, "ucl": 2, "cal": 2, "tl": 11, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "OrderService", "rp": "project_OrderService.html", "cl": 73, "ucl": 2, "cal": 75, "tl": 119, "cb": 18, "tb": 22, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "OrderService", "rp": "project_OrderService.html", "cl": 74, "ucl": 1, "cal": 75, "tl": 119, "cb": 19, "tb": 22, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "PageResultCourseEnrollmentDTO", "rp": "project_PageResultCourseEnrollmentDTO.html", "cl": 0, "ucl": 5, "cal": 5, "tl": 8, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "PageResultCoursesDTO", "rp": "project_PageResultCoursesDTO.html", "cl": 0, "ucl": 5, "cal": 5, "tl": 8, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "PageResultExamTeacherDTO", "rp": "project_PageResultExamTeacherDTO.html", "cl": 0, "ucl": 5, "cal": 5, "tl": 8, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "PageResultInstructorCoursesDTO", "rp": "project_PageResultInstructorCoursesDTO.html", "cl": 0, "ucl": 6, "cal": 6, "tl": 9, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "PaymentRepository", "rp": "project_PaymentRepository.html", "cl": 18, "ucl": 5, "cal": 23, "tl": 42, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "Program", "rp": "project_Program.html", "cl": 0, "ucl": 174, "cal": 174, "tl": 229, "cb": 0, "tb": 12, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "Program", "rp": "project_Program.html", "cl": 0, "ucl": 208, "cal": 208, "tl": 243, "cb": 0, "tb": 22, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "project.Controllers.WeatherForecastController", "rp": "project_WeatherForecastController.html", "cl": 0, "ucl": 17, "cal": 17, "tl": 32, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "project.Data.PostSeeder", "rp": "project_PostSeeder.html", "cl": 0, "ucl": 194, "cal": 194, "tl": 242, "cb": 0, "tb": 36, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "project.Migrations.DBContextModelSnapshot", "rp": "project_DBContextModelSnapshot.html", "cl": 0, "ucl": 1921, "cal": 1921, "tl": 2030, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
@@ -418,10 +418,10 @@ var assemblies = [
       { "name": "project.Modules.Payments.Controller.PaymentController", "rp": "project_PaymentController.html", "cl": 0, "ucl": 48, "cal": 48, "tl": 144, "cb": 0, "tb": 8, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "project.Modules.Payments.DTOs.BankInfoDto", "rp": "project_BankInfoDto.html", "cl": 7, "ucl": 0, "cal": 7, "tl": 15, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "project.Modules.Payments.DTOs.PaymentConfirmDto", "rp": "project_PaymentConfirmDto.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 9, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "project.Modules.Payments.DTOs.PaymentQrDto", "rp": "project_PaymentQrDto.html", "cl": 0, "ucl": 7, "cal": 7, "tl": 14, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "project.Modules.Payments.DTOs.PaymentQrDto", "rp": "project_PaymentQrDto.html", "cl": 7, "ucl": 0, "cal": 7, "tl": 14, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "project.Modules.Payments.DTOs.PaymentWebhookDto", "rp": "project_PaymentWebhookDto.html", "cl": 2, "ucl": 1, "cal": 3, "tl": 10, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "project.Modules.Payments.DTOs.SepayWebhookDto", "rp": "project_SepayWebhookDto.html", "cl": 9, "ucl": 3, "cal": 12, "tl": 46, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "project.Modules.Payments.Service.Implements.PaymentService", "rp": "project_PaymentService.html", "cl": 155, "ucl": 27, "cal": 182, "tl": 292, "cb": 53, "tb": 62, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "project.Modules.Payments.Service.Implements.PaymentService", "rp": "project_PaymentService.html", "cl": 178, "ucl": 4, "cal": 182, "tl": 292, "cb": 60, "tb": 62, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "project.Modules.Posts.Controller.DiscussionController", "rp": "project_DiscussionController.html", "cl": 0, "ucl": 51, "cal": 51, "tl": 120, "cb": 0, "tb": 12, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "project.Modules.Posts.Controller.ForumQuestionController", "rp": "project_ForumQuestionController.html", "cl": 0, "ucl": 88, "cal": 88, "tl": 196, "cb": 0, "tb": 38, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "project.Modules.Posts.Controller.LikesController", "rp": "project_LikesController.html", "cl": 0, "ucl": 26, "cal": 26, "tl": 64, "cb": 0, "tb": 2, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
@@ -454,17 +454,17 @@ var assemblies = [
       { "name": "project.Modules.Posts.Repositories.Implements.ReportRepository", "rp": "project_ReportRepository.html", "cl": 18, "ucl": 5, "cal": 23, "tl": 45, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "project.Modules.Posts.Repositories.Implements.StudentStatsRepository", "rp": "project_StudentStatsRepository.html", "cl": 0, "ucl": 134, "cal": 134, "tl": 166, "cb": 0, "tb": 6, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "project.Modules.Posts.Repositories.Interfaces.PostRepository", "rp": "project_PostRepository.html", "cl": 33, "ucl": 60, "cal": 93, "tl": 155, "cb": 0, "tb": 8, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "project.Modules.Posts.Services.Implements.DiscussionService", "rp": "project_DiscussionService.html", "cl": 67, "ucl": 3, "cal": 70, "tl": 119, "cb": 25, "tb": 32, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "project.Modules.Posts.Services.Implements.ForumQuestionService", "rp": "project_ForumQuestionService.html", "cl": 137, "ucl": 20, "cal": 157, "tl": 225, "cb": 33, "tb": 56, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "project.Modules.Posts.Services.Implements.DiscussionService", "rp": "project_DiscussionService.html", "cl": 70, "ucl": 0, "cal": 70, "tl": 119, "cb": 30, "tb": 32, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "project.Modules.Posts.Services.Implements.ForumQuestionService", "rp": "project_ForumQuestionService.html", "cl": 157, "ucl": 0, "cal": 157, "tl": 225, "cb": 44, "tb": 56, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "project.Modules.Posts.Services.Implements.LikesService", "rp": "project_LikesService.html", "cl": 107, "ucl": 0, "cal": 107, "tl": 163, "cb": 14, "tb": 14, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "project.Modules.Posts.Services.Implements.PostService", "rp": "project_PostService.html", "cl": 173, "ucl": 7, "cal": 180, "tl": 269, "cb": 52, "tb": 78, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "project.Modules.Posts.Services.Implements.ReportService", "rp": "project_ReportService.html", "cl": 49, "ucl": 0, "cal": 49, "tl": 77, "cb": 4, "tb": 6, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "project.Modules.Posts.Services.Implements.PostService", "rp": "project_PostService.html", "cl": 180, "ucl": 0, "cal": 180, "tl": 269, "cb": 63, "tb": 78, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "project.Modules.Posts.Services.Implements.ReportService", "rp": "project_ReportService.html", "cl": 49, "ucl": 0, "cal": 49, "tl": 77, "cb": 6, "tb": 6, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "project.Modules.Posts.Services.Implements.StudentStatsService", "rp": "project_StudentStatsService.html", "cl": 13, "ucl": 0, "cal": 13, "tl": 31, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "project.Modules.UserManagement.DTOs.AdminRegisterDTO", "rp": "project_AdminRegisterDTO.html", "cl": 0, "ucl": 3, "cal": 3, "tl": 17, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "project.Modules.UserManagement.DTOs.AuthResponseDto", "rp": "project_AuthResponseDto.html", "cl": 0, "ucl": 6, "cal": 6, "tl": 15, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "project.Modules.UserManagement.DTOs.AuthResponseDto", "rp": "project_AuthResponseDto.html", "cl": 0, "ucl": 10, "cal": 10, "tl": 17, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "project.Modules.UserManagement.DTOs.RefreshTokenDto", "rp": "project_RefreshTokenDto.html", "cl": 0, "ucl": 1, "cal": 1, "tl": 9, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "project.Modules.UserManagement.DTOs.TeacherRegisterDto", "rp": "project_TeacherRegisterDto.html", "cl": 0, "ucl": 2, "cal": 2, "tl": 10, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "project.Modules.UserManagement.Services.AuthService", "rp": "project_AuthService.html", "cl": 0, "ucl": 249, "cal": 249, "tl": 373, "cb": 0, "tb": 58, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "project.Modules.UserManagement.Services.AuthService", "rp": "project_AuthService.html", "cl": 0, "ucl": 319, "cal": 319, "tl": 380, "cb": 0, "tb": 122, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "project.WeatherForecast", "rp": "project_WeatherForecast.html", "cl": 0, "ucl": 4, "cal": 4, "tl": 12, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "QuestionExam", "rp": "project_QuestionExam.html", "cl": 0, "ucl": 14, "cal": 14, "tl": 30, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "QuestionExamController", "rp": "project_QuestionExamController.html", "cl": 0, "ucl": 68, "cal": 68, "tl": 134, "cb": 0, "tb": 10, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
@@ -521,6 +521,12 @@ var riskHotspotMetrics = [
 ];
 
 var riskHotspots = [
+  {
+    "assembly": "project", "class": "DBSeeder", "reportPath": "project_DBSeeder.html", "methodName": "Seed(DBContext)", "methodShortName": "Seed(...)", "fileIndex": 0, "line": 12,
+    "metrics": [
+      { "value": 17030, "exceeded": true },
+      { "value": 130, "exceeded": true },
+    ]},
   {
     "assembly": "project", "class": "DBSeeder", "reportPath": "project_DBSeeder.html", "methodName": "Seed(DBContext)", "methodShortName": "Seed(...)", "fileIndex": 0, "line": 10,
     "metrics": [
@@ -648,6 +654,18 @@ var riskHotspots = [
       { "value": 16, "exceeded": true },
     ]},
   {
+    "assembly": "project", "class": "project.Modules.UserManagement.Services.AuthService", "reportPath": "project_AuthService.html", "methodName": "LoginAsync()", "methodShortName": "LoginAsync()", "fileIndex": 0, "line": 94,
+    "metrics": [
+      { "value": 272, "exceeded": true },
+      { "value": 16, "exceeded": true },
+    ]},
+  {
+    "assembly": "project", "class": "project.Modules.UserManagement.Services.AuthService", "reportPath": "project_AuthService.html", "methodName": "RefreshTokenAsync()", "methodShortName": "RefreshTokenAsync()", "fileIndex": 0, "line": 291,
+    "metrics": [
+      { "value": 210, "exceeded": true },
+      { "value": 14, "exceeded": false },
+    ]},
+  {
     "assembly": "project", "class": "CourseContentService", "reportPath": "project_CourseContentService.html", "methodName": "UpdateCourseContentAsync()", "methodShortName": "UpdateCourseContentAsync()", "fileIndex": 0, "line": 49,
     "metrics": [
       { "value": 156, "exceeded": true },
@@ -672,6 +690,12 @@ var riskHotspots = [
       { "value": 12, "exceeded": false },
     ]},
   {
+    "assembly": "project", "class": "Program", "reportPath": "project_Program.html", "methodName": "<Main>$()", "methodShortName": "<Main>$()", "fileIndex": 0, "line": 25,
+    "metrics": [
+      { "value": 156, "exceeded": true },
+      { "value": 12, "exceeded": false },
+    ]},
+  {
     "assembly": "project", "class": "project.Modules.UserManagement.Services.AuthService", "reportPath": "project_AuthService.html", "methodName": "LoginAsync()", "methodShortName": "LoginAsync()", "fileIndex": 0, "line": 92,
     "metrics": [
       { "value": 156, "exceeded": true },
@@ -685,6 +709,12 @@ var riskHotspots = [
     ]},
   {
     "assembly": "project", "class": "project.Modules.UserManagement.Services.AuthService", "reportPath": "project_AuthService.html", "methodName": "RegisterTeacherAsync()", "methodShortName": "RegisterTeacherAsync()", "fileIndex": 0, "line": 126,
+    "metrics": [
+      { "value": 156, "exceeded": true },
+      { "value": 12, "exceeded": false },
+    ]},
+  {
+    "assembly": "project", "class": "project.Modules.UserManagement.Services.AuthService", "reportPath": "project_AuthService.html", "methodName": "RegisterTeacherAsync()", "methodShortName": "RegisterTeacherAsync()", "fileIndex": 0, "line": 129,
     "metrics": [
       { "value": 156, "exceeded": true },
       { "value": 12, "exceeded": false },
@@ -925,6 +955,18 @@ var riskHotspots = [
     ]},
   {
     "assembly": "project", "class": "project.Modules.UserManagement.Services.AuthService", "reportPath": "project_AuthService.html", "methodName": "RegisterAsync()", "methodShortName": "RegisterAsync()", "fileIndex": 0, "line": 31,
+    "metrics": [
+      { "value": 42, "exceeded": true },
+      { "value": 6, "exceeded": false },
+    ]},
+  {
+    "assembly": "project", "class": "project.Modules.UserManagement.Services.AuthService", "reportPath": "project_AuthService.html", "methodName": "AdminLoginAsync()", "methodShortName": "AdminLoginAsync()", "fileIndex": 0, "line": 199,
+    "metrics": [
+      { "value": 42, "exceeded": true },
+      { "value": 6, "exceeded": false },
+    ]},
+  {
+    "assembly": "project", "class": "project.Modules.UserManagement.Services.AuthService", "reportPath": "project_AuthService.html", "methodName": "GenerateJwtToken()", "methodShortName": "GenerateJwtToken()", "fileIndex": 0, "line": 329,
     "metrics": [
       { "value": 42, "exceeded": true },
       { "value": 6, "exceeded": false },
