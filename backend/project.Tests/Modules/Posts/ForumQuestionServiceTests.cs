@@ -340,8 +340,147 @@ namespace project.Tests.Modules.Posts
             _mockRepo.Verify(r => r.UpdateAsync(It.Is<ForumQuestion>(q => q.IsDeleted == false)), Times.Once);
         }
 
-        
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_FQS_11]
+        // [Mục đích: UpdateAsync trả về false nếu câu hỏi không tồn tại]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task UpdateAsync_ShouldReturnFalse_WhenQuestionNotFound()
+        {
+            var service = new ForumQuestionService(_mockRepo.Object);
+            _mockRepo.Setup(r => r.GetByIdAsync("fake")).ReturnsAsync((ForumQuestion)null);
+            var result = await service.UpdateAsync("fake", "stu-1", new ForumQuestionUpdateDto());
+            result.Should().BeFalse();
+        }
 
-        
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_FQS_12]
+        // [Mục đích: SoftDeleteAsync trả về false nếu câu hỏi không tồn tại]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task SoftDeleteAsync_ShouldReturnFalse_WhenQuestionNotFound()
+        {
+            var service = new ForumQuestionService(_mockRepo.Object);
+            _mockRepo.Setup(r => r.GetByIdAllowDeletedAsync("fake")).ReturnsAsync((ForumQuestion)null);
+            var result = await service.SoftDeleteAsync("fake", "stu-1");
+            result.Should().BeFalse();
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_FQS_13]
+        // [Mục đích: SoftDeleteAsync ném lỗi UnauthorizedAccessException nếu không phải chủ sở hữu]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task SoftDeleteAsync_ShouldThrowUnauthorized_WhenNotOwner()
+        {
+            var service = new ForumQuestionService(_mockRepo.Object);
+            var question = new ForumQuestion { Id = "q-1", StudentId = "owner" };
+            _mockRepo.Setup(r => r.GetByIdAllowDeletedAsync("q-1")).ReturnsAsync(question);
+            Func<Task> act = async () => await service.SoftDeleteAsync("q-1", "hacker");
+            await act.Should().ThrowAsync<UnauthorizedAccessException>();
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_FQS_14]
+        // [Mục đích: RestoreAsync trả về false nếu câu hỏi không tồn tại]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task RestoreAsync_ShouldReturnFalse_WhenQuestionNotFound()
+        {
+            var service = new ForumQuestionService(_mockRepo.Object);
+            _mockRepo.Setup(r => r.GetByIdAllowDeletedAsync("fake")).ReturnsAsync((ForumQuestion)null);
+            var result = await service.RestoreAsync("fake", "stu-1");
+            result.Should().BeFalse();
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_FQS_15]
+        // [Mục đích: RestoreAsync ném lỗi UnauthorizedAccessException nếu không phải chủ sở hữu]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task RestoreAsync_ShouldThrowUnauthorized_WhenNotOwner()
+        {
+            var service = new ForumQuestionService(_mockRepo.Object);
+            var question = new ForumQuestion { Id = "q-1", StudentId = "owner" };
+            _mockRepo.Setup(r => r.GetByIdAllowDeletedAsync("q-1")).ReturnsAsync(question);
+            Func<Task> act = async () => await service.RestoreAsync("q-1", "hacker");
+            await act.Should().ThrowAsync<UnauthorizedAccessException>();
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_FQS_16]
+        // [Mục đích: HardDeleteAsync trả về false nếu câu hỏi không tồn tại]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task HardDeleteAsync_ShouldReturnFalse_WhenQuestionNotFound()
+        {
+            var service = new ForumQuestionService(_mockRepo.Object);
+            _mockRepo.Setup(r => r.GetByIdAllowDeletedAsync("fake")).ReturnsAsync((ForumQuestion)null);
+            var result = await service.HardDeleteAsync("fake", "stu-1");
+            result.Should().BeFalse();
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_FQS_17]
+        // [Mục đích: HardDeleteAsync ném lỗi UnauthorizedAccessException nếu không phải chủ sở hữu và không phải admin]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task HardDeleteAsync_ShouldThrowUnauthorized_WhenNotOwnerAndNotAdmin()
+        {
+            var service = new ForumQuestionService(_mockRepo.Object);
+            var question = new ForumQuestion { Id = "q-1", StudentId = "owner" };
+            _mockRepo.Setup(r => r.GetByIdAllowDeletedAsync("q-1")).ReturnsAsync(question);
+            Func<Task> act = async () => await service.HardDeleteAsync("q-1", "hacker");
+            await act.Should().ThrowAsync<UnauthorizedAccessException>();
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_FQS_18]
+        // [Mục đích: HardDeleteAsync thành công nếu là Admin nhưng không phải chủ sở hữu]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task HardDeleteAsync_ShouldSucceed_WhenIsAdmin()
+        {
+            var service = new ForumQuestionService(_mockRepo.Object);
+            var question = new ForumQuestion { Id = "q-1", StudentId = "owner" };
+            _mockRepo.Setup(r => r.GetByIdAllowDeletedAsync("q-1")).ReturnsAsync(question);
+            var result = await service.HardDeleteAsync("q-1", "admin", isAdmin: true);
+            result.Should().BeTrue();
+            _mockRepo.Verify(r => r.Delete(question), Times.Once);
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_FQS_19]
+        // [Mục đích: IncreaseViewCountAsync trả về false nếu câu hỏi không tồn tại]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task IncreaseViewCountAsync_ShouldReturnFalse_WhenQuestionNotFound()
+        {
+            var service = new ForumQuestionService(_mockRepo.Object);
+            _mockRepo.Setup(r => r.GetByIdAsync("fake")).ReturnsAsync((ForumQuestion)null);
+            var result = await service.IncreaseViewCountAsync("fake");
+            result.Should().BeFalse();
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_FQS_20]
+        // [Mục đích: GetDeletedQuestionsAsync trả về danh sách được map đúng DTO bao gồm fallback title và null student user]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task GetDeletedQuestionsAsync_ShouldReturnMappedDtos_WithNullChecks()
+        {
+            var service = new ForumQuestionService(_mockRepo.Object);
+            var questions = new List<ForumQuestion>
+            {
+                new ForumQuestion { Id = "q-1", Title = null, Student = new Student { User = null } }
+            };
+            _mockRepo.Setup(r => r.GetDeletedByStudentAsync("stu-1")).ReturnsAsync(questions);
+
+            var result = await service.GetDeletedQuestionsAsync("stu-1");
+
+            result.Should().HaveCount(1);
+            result.First().Title.Should().Be(string.Empty);
+            result.First().StudentName.Should().Be("Ẩn danh");
+        }
     }
 }

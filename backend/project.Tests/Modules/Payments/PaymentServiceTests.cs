@@ -590,7 +590,180 @@ namespace project.Tests.Modules.Payments
 
                 var payment = await dbContext.Payments.FindAsync(data.PaymentId);
                 payment.Should().NotBeNull();
-                // We could check UpdatedAt, but enough to know it succeeded
+            }
+            finally
+            {
+                await CleanupDummyOrderAsync(dbContext, data.StudentId, data.UserId);
+            }
+        }
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_PS_17]
+        // [Mục đích: GetBankInfoForOrderAsync sử dụng giá trị cấu hình mặc định khi không có cấu hình]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task GetBankInfoForOrderAsync_ShouldUseDefaultConfig_WhenConfigIsMissing()
+        {
+            var dbContext = GetDatabaseContext();
+            var paymentRepo = new PaymentRepository(dbContext);
+            
+            // Mock config returns null
+            _mockConfig.Setup(c => c["Sepay:BankAccount"]).Returns((string)null);
+            _mockConfig.Setup(c => c["Sepay:BankName"]).Returns((string)null);
+            _mockConfig.Setup(c => c["Sepay:AccountHolder"]).Returns((string)null);
+
+            var service = new PaymentService(paymentRepo, dbContext, _mockConfig.Object);
+
+            var data = await InsertDummyOrderAsync(dbContext, "pending", 500000);
+
+            try
+            {
+                var result = await service.GetBankInfoForOrderAsync(data.OrderId, data.StudentId);
+                result.BankAccount.Should().Be("0972229142");
+                result.BankName.Should().Be("MB");
+                result.AccountHolder.Should().Be("NGUYEN VAN A");
+            }
+            finally
+            {
+                await CleanupDummyOrderAsync(dbContext, data.StudentId, data.UserId);
+            }
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_PS_18]
+        // [Mục đích: HandleSepayWebhookAsync sử dụng Code fallback khi Content không hợp lệ]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task HandleSepayWebhookAsync_ShouldUseCodeFallback_WhenContentIsInvalid()
+        {
+            var dbContext = GetDatabaseContext();
+            var paymentRepo = new PaymentRepository(dbContext);
+            var service = new PaymentService(paymentRepo, dbContext, _mockConfig.Object);
+
+            var data = await InsertDummyOrderAsync(dbContext, "paid", 100000); 
+
+            try
+            {
+                var dto = new SepayWebhookDto
+                {
+                    TransferType = "in",
+                    TransferAmount = 100000,
+                    Content = "INVALID CONTENT", 
+                    Code = $"ELN{data.OrderId}" 
+                };
+
+                var result = await service.HandleSepayWebhookAsync(dto);
+                result.Should().BeTrue(); 
+            }
+            finally
+            {
+                await CleanupDummyOrderAsync(dbContext, data.StudentId, data.UserId);
+            }
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_PS_19]
+        // [Mục đích: HandleSepayWebhookAsync định dạng lại GUID 32 ký tự không dấu gạch ngang]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task HandleSepayWebhookAsync_ShouldFormat32CharGuid_WhenCodeHasNoDashes()
+        {
+            var dbContext = GetDatabaseContext();
+            var paymentRepo = new PaymentRepository(dbContext);
+            var service = new PaymentService(paymentRepo, dbContext, _mockConfig.Object);
+
+            var data = await InsertDummyOrderAsync(dbContext, "paid", 100000); 
+
+            try
+            {
+                var orderIdNoDashes = data.OrderId.Replace("-", "");
+                var dto = new SepayWebhookDto
+                {
+                    TransferType = "in",
+                    TransferAmount = 100000,
+                    Content = $"ELN{orderIdNoDashes}"
+                };
+
+                var result = await service.HandleSepayWebhookAsync(dto);
+                result.Should().BeTrue();
+            }
+            finally
+            {
+                await CleanupDummyOrderAsync(dbContext, data.StudentId, data.UserId);
+            }
+        }
+
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_PS_20]
+        // [Mục đích: HandleSepayWebhookAsync ném lỗi khi cả Content và Code đều null]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task HandleSepayWebhookAsync_ShouldThrowException_WhenContentAndCodeAreNull()
+        {
+            var dbContext = GetDatabaseContext();
+            var paymentRepo = new PaymentRepository(dbContext);
+            var service = new PaymentService(paymentRepo, dbContext, _mockConfig.Object);
+
+            var dto = new SepayWebhookDto
+            {
+                TransferType = "in",
+                TransferAmount = 100000,
+                Content = null,
+                Code = null
+            };
+
+            Func<Task> act = async () => await service.HandleSepayWebhookAsync(dto);
+            await act.Should().ThrowAsync<Exception>().WithMessage("Cannot extract OrderId from transaction. Format: ELN<orderId>");
+        }
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_PS_21]
+        // [Mục đích: GeneratePaymentQrAsync trả về PaymentQrDto khi dữ liệu hợp lệ]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task GeneratePaymentQrAsync_ShouldReturnDto_WhenValid()
+        {
+            var dbContext = GetDatabaseContext();
+            var paymentRepo = new PaymentRepository(dbContext);
+            var service = new PaymentService(_mockPaymentRepo.Object, dbContext, _mockConfig.Object);
+
+            var order = new Orders { Id = "order-1", StudentId = "student-1", Status = "pending" };
+            var payment = new Payment { Id = "pay-1", OrderId = order.Id, Order = order, TransactionId = "txn-1", Amount = 100000 };
+
+            _mockPaymentRepo.Setup(r => r.GetByIdAsync("pay-1")).ReturnsAsync(payment);
+
+            var result = await service.GeneratePaymentQrAsync("pay-1", "student-1");
+
+            result.Should().NotBeNull();
+            result.PaymentId.Should().Be("pay-1");
+            result.TransactionId.Should().Be("txn-1");
+            result.Amount.Should().Be(100000);
+            result.QrCode.Should().StartWith("data:image/png;base64,");
+        }
+        // ------------------------------------------------------------------------------------------------
+        // [ID: SERV_PS_22]
+        // [Mục đích: HandleSepayWebhookAsync định dạng lại GUID 32 ký tự lấy từ Code fallback]
+        // ------------------------------------------------------------------------------------------------
+        [Fact]
+        public async Task HandleSepayWebhookAsync_ShouldFormat32CharGuid_WhenExtractedFromCode()
+        {
+            var dbContext = GetDatabaseContext();
+            var paymentRepo = new PaymentRepository(dbContext);
+            var service = new PaymentService(paymentRepo, dbContext, _mockConfig.Object);
+
+            var data = await InsertDummyOrderAsync(dbContext, "paid", 100000); 
+
+            try
+            {
+                var orderIdNoDashes = data.OrderId.Replace("-", "");
+                var dto = new SepayWebhookDto
+                {
+                    TransferType = "in",
+                    TransferAmount = 100000,
+                    Content = "INVALID_NO_ORDERID", // Ép logic chuyển sang dùng Code fallback
+                    Code = $"ELN{orderIdNoDashes}"  // Code không có dấu gạch ngang (32 chars)
+                };
+
+                var result = await service.HandleSepayWebhookAsync(dto);
+                result.Should().BeTrue();
             }
             finally
             {
